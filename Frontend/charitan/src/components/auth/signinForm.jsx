@@ -5,10 +5,6 @@ import {
   TextField,
   Button,
   Link,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
   useTheme
 } from "@mui/material";
 
@@ -103,8 +99,8 @@ const SigninForm = () => {
         color="primary"
         fullWidth
         sx={{
-          backgroundColor: "#f06292", // unhovered color
-          "&:hover": { backgroundColor: theme.palette.colors.pink },
+          backgroundColor: theme.palette.colors.pink,
+          "&:hover": { backgroundColor: "#f06292" },
           mb: 2,
         }}
       >
