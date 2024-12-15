@@ -6,7 +6,14 @@ import WelcomeBox from './welcomeBox';
 
 const NavigationBar = () => {
     return (
-      <AppBar position="static" sx={{ backgroundColor: 'white' }}>
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: 'white',
+          border: '1px solid grey', // Black border surrounding the navigation bar
+          boxShadow: 'none', // Removes default AppBar shadow, adjust as needed
+        }}
+      >
         <Toolbar>
           <Grid container alignItems="center" direction="row" justifyContent="space-between">
               <Grid item sx={{ ml: 8, mr: 2 }}>
