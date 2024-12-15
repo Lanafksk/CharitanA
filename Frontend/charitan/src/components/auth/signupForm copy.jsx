@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import {
   Box,
   Typography,
+  TextField,
   Button,
   Link,
+  Grid,
   FormControl,
   Select,
   MenuItem,
@@ -13,95 +15,25 @@ import {
   useTheme,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import DonorForm from "./donorForm";
-import CharityForm from "./charityForm";
 
-const SignupForm = () => {
+const SignupForm1 = () => {
   const theme = useTheme();
 
-  const [formData, setFormData] = useState({
-    type: "Donor",
-    country: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-    password: "",
-    passwordConfirm: "",
-    charityName: "",
-    taxCode: "",
-    charityType: "",
-    img: "",
-  });
-
-  const handleInputChange = (field, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
+  // Country Selector sample code
+  const [country, setCountry] = useState("Vietnam");
+  const handleCountryChange = (event) => {
+    setCountry(event.target.value);
   };
 
-  // Role Selector with initializing
-  const handleTypeChange = (event) => {
-    const newType = event.target.value;
-
-    setFormData({
-      type: newType,
-      country: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      address: "",
-      password: "",
-      passwordConfirm: "",
-      charityName: "",
-      taxCode: "",
-      charityType: "",
-      img: "",
-    });
+  // Role Selector sample code
+  const [role, setRole] = React.useState("Donor");
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
   };
 
   const handleAvatarClick = () => {
     // adding picture funtions will be implemented here
     console.log("Avatar clicked!");
-  };
-
-  const handleSubmit = () => {
-    let filteredData;
-
-    if (formData.type === "Donor") {
-      filteredData = {
-        type: formData.type,
-        country: formData.country,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phoneNumber: formData.phoneNumber,
-        address: formData.address,
-        password: formData.password,
-        passwordConfirm: formData.passwordConfirm,
-        img: formData.img,
-      };
-    } else {
-      filteredData = {
-        type: formData.type,
-        country: formData.country,
-        charityName: formData.charityName,
-        taxCode: formData.taxCode,
-        email: formData.email,
-        phoneNumber: formData.phoneNumber,
-        address: formData.address,
-        charityType: formData.charityType,
-        password: formData.password,
-        passwordConfirm: formData.passwordConfirm,
-        img: formData.img,
-      };
-    }
-
-    console.log("Submitted Data:", filteredData);
-    alert(`Submitted Data: ${JSON.stringify(filteredData, null, 2)}`);
   };
 
   return (
@@ -110,13 +42,13 @@ const SignupForm = () => {
         maxWidth: 500,
         margin: "auto",
         marginTop: 10, // 상단 여백
-        padding: 4,
+        padding: 4, // 내부 여백
         borderRadius: 3,
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         backgroundColor: "white",
       }}
     >
-      {/*             Header           */}
+      {/* Header */}
       <Box display="flex" alignItems="center" flexDirection="column" mb={2}>
         <Typography fontWeight="bold" fontSize={30}>
           Create your account
@@ -125,7 +57,7 @@ const SignupForm = () => {
           Join our community and start making a difference
         </Typography>
       </Box>
-
+      
       {/* Role Selector */}
       <Box sx={{ mb: 1, display: "flex", flexDirection: "row" }}>
         <Typography fontSize={16} sx={{ mt: 1 }}>
@@ -133,8 +65,8 @@ const SignupForm = () => {
         </Typography>
         <select
           id="role"
-          value={formData.type}
-          onChange={handleTypeChange}
+          value={role}
+          onChange={handleRoleChange}
           style={{
             width: "27%",
             height: "40px",
@@ -168,29 +100,17 @@ const SignupForm = () => {
             backgroundColor: "#f4f4f4",
             cursor: "pointer", // 클릭 가능한 상태로 표시
           }}
-          onClick={handleAvatarClick} // onClick 이벤트 핸들러 연결
+        onClick={handleAvatarClick} // onClick 이벤트 핸들러 연결
         >
           <AddPhotoAlternateIcon fontSize="large" sx={{ color: "#ccc" }} />
         </Avatar>
       </Box>
 
       {/* Country Selector */}
-      <FormControl fullWidth sx={{ marginBottom: "12px" }}>
-        <Typography
-          fontSize={15}
-          sx={{
-            mt: 1,
-            textAlign: "left",
-            fontWeight: "bold",
-            pl: "4px",
-            pb: "4px",
-          }}
-        >
-          Country
-        </Typography>
-        <Select
-          value={formData.country}
-          onChange={(e) => handleInputChange("country", e.target.value)}
+      <FormControl fullWidth sx={{ marginBottom: 1 }}>
+        <Select 
+          value={country}  
+          onChange={handleCountryChange}
           sx={{
             height: "40px", // 높이 조절
             padding: "5px", // 내부 패딩 조절
@@ -204,14 +124,60 @@ const SignupForm = () => {
         </Select>
       </FormControl>
 
-      {/*             Body               */}
-      {formData.type === "Donor" ? (
-        <DonorForm formData={formData} handleInputChange={handleInputChange} />
-      ) : (
-        <CharityForm formData={formData} handleInputChange={handleInputChange} />
-      )}
+      {/* Name Fields */}
+      <Grid
+        container
+        spacing={2}
+        sx={{ marginBottom: 1}}
+      >
+        <Grid item xs={6}>
+          <TextField label="First Name" fullWidth variant="outlined" />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField label="Last Name" fullWidth variant="outlined" />
+        </Grid>
+      </Grid>
 
-      {/*            Footer         */}
+      {/* Email Field */}
+      <TextField
+        label="Email Address"
+        fullWidth
+        variant="outlined"
+        sx={{ marginBottom: (theme) => theme.spacing(4) }}
+      />
+
+      {/* Phone Number Field */}
+      <TextField
+        label="Phone Number"
+        fullWidth
+        variant="outlined"
+        sx={{ marginBottom: (theme) => theme.spacing(4) }}
+      />
+
+      {/* Password Fields */}
+      <TextField
+        label="Password"
+        type="password"
+        fullWidth
+        variant="outlined"
+        sx={{ marginBottom: (theme) => theme.spacing(4) }}
+      />
+      <TextField
+        label="Password Confirmation"
+        type="password"
+        fullWidth
+        variant="outlined"
+        sx={{ marginBottom: (theme) => theme.spacing(4) }}
+      />
+
+      {/* Address Field */}
+      <TextField
+        label="Address"
+        fullWidth
+        variant="outlined"
+        sx={{ marginBottom: (theme) => theme.spacing(4) }}
+      />
+
       {/* Terms and Conditions */}
       <FormControlLabel
         control={<Checkbox />}
@@ -235,7 +201,6 @@ const SignupForm = () => {
         variant="contained"
         color="primary"
         fullWidth
-        onClick={handleSubmit}
         sx={{
           backgroundColor: theme.palette.colors.pink,
           "&:hover": { backgroundColor: "#e91e63" },
@@ -256,4 +221,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default SignupForm1;

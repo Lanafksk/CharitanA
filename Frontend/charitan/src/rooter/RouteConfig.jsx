@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import SamplePage from '../pages/SamplePage';
 import SigninPage from '../pages/SigninPage';
+import SignupPage from '../pages/SignupPage';
 import ForgetPage from '../pages/ForgetPage';
 import RecoveryPage from '../pages/RecoveryPage';
 
@@ -14,7 +15,7 @@ const RouteConfig = () => {
                 <Route path="/" element={< SamplePage />} />
                 <Route path="/home" element={< SamplePage />} />
                 <Route path="/signin" element={<SigninPage />} />
-                <Route path="/signup" element={<SigninPage />} />
+                <Route path="/signup" element={<SignupPage />} />
                 <Route path="/forget" element={<ForgetPage />} />
                 <Route path="/recovery" element={<RecoveryPage />} />
             </Routes>

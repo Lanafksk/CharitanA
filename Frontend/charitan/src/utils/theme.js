@@ -1,4 +1,3 @@
-import { pink } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 import '@fontsource/inter';
 
@@ -22,10 +21,11 @@ const theme = createTheme({
       pink: '#fb1465', // fontcolor.pink color
       successgreen: '#00FF26', // fontcolor.successgreen color
     },
-    typography: {
-      fontFamily: 'Inter, Arial, sans-serif', // set default Inter font
-    },
   },
+  typography: {
+    fontFamily: 'Inter, Arial, sans-serif', // set default Inter font
+  },
+  spacing: 8, // set default spacing
 });
 
 export default theme;
