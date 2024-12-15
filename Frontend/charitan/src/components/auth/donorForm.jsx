@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, Grid} from "@mui/material";
 import CustomTextfield from "./customTextfield";
 
-const DonorForm = ({ formData, handleInputChange }) => {
+const DonorForm = ({ formData, handleInputChange, errors }) => {
   return (
     <Box>
       {/* Name Fields */}
@@ -12,6 +12,7 @@ const DonorForm = ({ formData, handleInputChange }) => {
           <CustomTextfield
             value={formData.firstName}
             onChange={(e) => handleInputChange("firstName", e.target.value)}
+            error={errors.firstName} // error props 
           />
         </Grid>
         <Grid item xs={6}>
@@ -19,6 +20,7 @@ const DonorForm = ({ formData, handleInputChange }) => {
           <CustomTextfield
             value={formData.lastName}
             onChange={(e) => handleInputChange("lastName", e.target.value)}
+            error={errors.lastName} // error props 
           />
         </Grid>
       </Grid>
@@ -29,6 +31,7 @@ const DonorForm = ({ formData, handleInputChange }) => {
             value={formData.email}
             type="email"
             onChange={(e) => handleInputChange("email", e.target.value)}
+            error={errors.email} // error props
           />
 
       {/* Phone Number Field */}
@@ -36,6 +39,7 @@ const DonorForm = ({ formData, handleInputChange }) => {
       <CustomTextfield
             value={formData.phoneNumber}
             onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
+            error={errors.phoneNumber} // error props
           />
 
       {/* Address Field */}
@@ -43,6 +47,7 @@ const DonorForm = ({ formData, handleInputChange }) => {
       <CustomTextfield
             value={formData.address}
             onChange={(e) => handleInputChange("address", e.target.value)}
+            error={errors.address} // error props
           />
 
       {/* Password Field */}
@@ -51,6 +56,7 @@ const DonorForm = ({ formData, handleInputChange }) => {
             value={formData.password}
             type="password"
             onChange={(e) => handleInputChange("password", e.target.value)}
+            error={errors.password} // error props
           />
 
       {/* Password confirmation Field */}
@@ -59,6 +65,8 @@ const DonorForm = ({ formData, handleInputChange }) => {
             value={formData.passwordConfirm}
             type="password"
             onChange={(e) => handleInputChange("passwordConfirm", e.target.value)}
+            error={errors.passwordConfirm} // error props
+            helperText={errors.passwordConfirm} // error message
           />
     </Box>
   );

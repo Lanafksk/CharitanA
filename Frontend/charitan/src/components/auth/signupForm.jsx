@@ -19,6 +19,7 @@ const SignupForm = () => {
   const theme = useTheme();
 
   const [isChecked, setIsChecked] = useState(false); // checkbox
+  const [errors, setErrors] = useState({}); // error state
   const [formData, setFormData] = useState({
     type: "Donor",
     country: "",
@@ -40,9 +41,54 @@ const SignupForm = () => {
       ...prevData,
       [field]: value,
     }));
+
+    // erase error
+    if (value.trim() !== "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field]: false,
+      }));
+    }
   };
 
-  // Role Selector with initializing
+  const validateForm = () => {
+    const newErrors = {};
+
+    // if the field is empty, set error to true
+    // if the type is not seperated, special fields for another type will be set to true
+    // as it is not able to be filled
+    if (formData.type === "Donor") {
+      if (!formData.country.trim()) newErrors.country = true;
+      if (!formData.firstName.trim()) newErrors.firstName = true;
+      if (!formData.lastName.trim()) newErrors.lastName = true;
+      if (!formData.email.trim()) newErrors.email = true;
+      if (!formData.phoneNumber.trim()) newErrors.phoneNumber = true;
+      if (!formData.address.trim()) newErrors.address = true;
+      if (!formData.password.trim()) newErrors.password = true;
+      if (!formData.passwordConfirm.trim()) newErrors.passwordConfirm = true;
+    } else if (formData.type === "Charity") {
+      if (!formData.country.trim()) newErrors.country = true;
+      if (!formData.charityName.trim()) newErrors.charityName = true;
+      if (!formData.taxCode.trim()) newErrors.taxCode = true;
+      if (!formData.email.trim()) newErrors.email = true;
+      if (!formData.phoneNumber.trim()) newErrors.phoneNumber = true;
+      if (!formData.address.trim()) newErrors.address = true;
+      if (!formData.charityType.trim()) newErrors.charityType = true;
+      if (!formData.password.trim()) newErrors.password = true;
+      if (!formData.passwordConfirm.trim()) newErrors.passwordConfirm = true;
+    }
+    if (formData.password !== formData.passwordConfirm) {
+      newErrors.passwordConfirm = "Check the password again !!!";
+    }
+
+
+    // set errors
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // no error return true
+  };
+
+
+  // Initialize the form data when the user changes the role
   const handleTypeChange = (event) => {
     const newType = event.target.value;
     setIsChecked(false);
@@ -71,6 +117,13 @@ const SignupForm = () => {
   const handleSubmit = () => {
     let filteredData;
 
+    // form validate check 
+    if (!validateForm()) {
+      alert("All the fields are required. Please check the form carefully.");
+      return;
+    }
+
+    // filter data based on the role
     if (formData.type === "Donor") {
       filteredData = {
         type: formData.type,
@@ -109,7 +162,7 @@ const SignupForm = () => {
       sx={{
         maxWidth: 500,
         margin: "auto",
-        marginTop: 10, // 상단 여백
+        marginTop: 10,
         padding: 4,
         borderRadius: 3,
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
@@ -166,9 +219,9 @@ const SignupForm = () => {
             width: 100,
             height: 100,
             backgroundColor: "#f4f4f4",
-            cursor: "pointer", // 클릭 가능한 상태로 표시
+            cursor: "pointer", // for hover effect
           }}
-          onClick={handleAvatarClick} // onClick 이벤트 핸들러 연결
+          onClick={handleAvatarClick} 
         >
           <AddPhotoAlternateIcon fontSize="large" sx={{ color: "#ccc" }} />
         </Avatar>
@@ -191,10 +244,11 @@ const SignupForm = () => {
         <Select
           value={formData.country}
           onChange={(e) => handleInputChange("country", e.target.value)}
+          error={errors.country}
           sx={{
-            height: "40px", // 높이 조절
-            padding: "5px", // 내부 패딩 조절
-            textAlign: "left", // 텍스트 왼쪽 정렬
+            height: "40px", 
+            padding: "5px", 
+            textAlign: "left", 
           }}
         >
           <MenuItem value="Vietnam">🇻🇳 Vietnam</MenuItem>
@@ -203,18 +257,16 @@ const SignupForm = () => {
         </Select>
       </FormControl>
 
+      {/* Form Fields */}
+      {/* Change the form up to user type */}
       {formData.type === "Donor" ? (
-        <DonorForm formData={formData} handleInputChange={handleInputChange} />
+        <DonorForm formData={formData} handleInputChange={handleInputChange} errors={errors} />
       ) : (
-        <CharityForm
-          formData={formData}
-          handleInputChange={handleInputChange}
-        />
+        <CharityForm formData={formData} handleInputChange={handleInputChange} errors={errors} />
       )}
 
-      {/*            Footer         */}
       {/* Terms and Conditions */}
-      <Box sx={{ mb: 1, display: "flex", flexDirection: "row" }}>
+      <Box sx={{ mt: 1, mb: 1, display: "flex", flexDirection: "row" }}>
         <Checkbox 
         checked={isChecked}
         onChange={(e) => setIsChecked(e.target.checked)}
@@ -240,7 +292,7 @@ const SignupForm = () => {
       <Button
         variant="contained"
         color="primary"
-        disabled={!isChecked} // disable when checkbox is not checked
+        disabled={!isChecked} // disable button when checkbox is not checked
         fullWidth
         onClick={handleSubmit}
         sx={{

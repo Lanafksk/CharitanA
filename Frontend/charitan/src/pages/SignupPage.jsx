@@ -15,15 +15,12 @@ const SigninPage = () => {
             position: "relative",
             minHeight: "100vh", 
             backgroundImage: `url(${charityImage})`,
-            backgroundSize: "cover", // 화면 전체를 채우되 비율 유지
+            backgroundSize: "cover", // fill screen but keep ratio
             backgroundPosition: "center",
-            backgroundRepeat: "no-repeat", // 배경 이미지 반복 방지
-            //display: "flex", // 자식 요소 정렬
-            //flexDirection: "column", // 상단 버튼과 폼을 세로 정렬
-            //justifyContent: "space-between", // 위와 아래 콘텐츠 간 거리 확보
+            backgroundRepeat: "no-repeat", // restrict background image repeatation
         }}
         >
-            {/* 상단의 뒤로가기 버튼 */}
+            {/* backbutton */}
             <IconButton
                 sx={{
                 position: "absolute",
@@ -37,13 +34,13 @@ const SigninPage = () => {
                 <TiArrowBackOutline size={40} color={theme.palette.colors.white} />
             </IconButton>
 
-            {/* 중앙의 Signup Form */}
+            {/* Signup Form */}
             <Box
                 sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                flexGrow: 1, // 자식 요소가 남은 공간 차지
+                flexGrow: 1, // child component takes space of parent
                 }}
             >
                 <Box
