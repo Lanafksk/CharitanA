@@ -8,7 +8,6 @@ import {
   Select,
   MenuItem,
   Checkbox,
-  FormControlLabel,
   Avatar,
   useTheme,
 } from "@mui/material";
@@ -19,6 +18,7 @@ import CharityForm from "./charityForm";
 const SignupForm = () => {
   const theme = useTheme();
 
+  const [isChecked, setIsChecked] = useState(false); // checkbox
   const [formData, setFormData] = useState({
     type: "Donor",
     country: "",
@@ -45,7 +45,7 @@ const SignupForm = () => {
   // Role Selector with initializing
   const handleTypeChange = (event) => {
     const newType = event.target.value;
-
+    setIsChecked(false);
     setFormData({
       type: newType,
       country: "",
@@ -116,7 +116,6 @@ const SignupForm = () => {
         backgroundColor: "white",
       }}
     >
-      {/*             Header           */}
       <Box display="flex" alignItems="center" flexDirection="column" mb={2}>
         <Typography fontWeight="bold" fontSize={30}>
           Create your account
@@ -144,6 +143,7 @@ const SignupForm = () => {
             borderRadius: "4px",
             backgroundColor: "white",
             textAlign: "left",
+            fontWeight: "bold",
             fontFamily: theme.typography.fontFamily,
           }}
         >
@@ -158,7 +158,7 @@ const SignupForm = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: 3, // 8px * 3 = 24 px
+          marginBottom: 1, 
         }}
       >
         <Avatar
@@ -195,7 +195,6 @@ const SignupForm = () => {
             height: "40px", // 높이 조절
             padding: "5px", // 내부 패딩 조절
             textAlign: "left", // 텍스트 왼쪽 정렬
-            borderRadius: "8px",
           }}
         >
           <MenuItem value="Vietnam">🇻🇳 Vietnam</MenuItem>
@@ -204,42 +203,51 @@ const SignupForm = () => {
         </Select>
       </FormControl>
 
-      {/*             Body               */}
       {formData.type === "Donor" ? (
         <DonorForm formData={formData} handleInputChange={handleInputChange} />
       ) : (
-        <CharityForm formData={formData} handleInputChange={handleInputChange} />
+        <CharityForm
+          formData={formData}
+          handleInputChange={handleInputChange}
+        />
       )}
 
       {/*            Footer         */}
       {/* Terms and Conditions */}
-      <FormControlLabel
-        control={<Checkbox />}
-        label={
-          <Typography variant="body2">
-            I agree to the{" "}
-            <Link href="#" color="primary">
-              Terms of Service
-            </Link>{" "}
-            and{" "}
-            <Link href="#" color="primary">
-              Privacy Policy
-            </Link>
-          </Typography>
-        }
-        sx={{ marginBottom: (theme) => theme.spacing(4) }}
-      />
+      <Box sx={{ mb: 1, display: "flex", flexDirection: "row" }}>
+        <Checkbox 
+        checked={isChecked}
+        onChange={(e) => setIsChecked(e.target.checked)}
+        sx={{
+          color: "#e91e63", // unchecked color
+          "&.Mui-checked": {
+            color: "#fb1465", // checked color
+          },
+        }}/>
+        <Typography fontSize={13} color="textSecondary" sx={{ mt: "11px" }}>
+          I agree to the{" "}
+          <Link href="#" color="#fb1465">
+            Charitan Terms
+          </Link>{" "}
+          and{" "}
+          <Link href="#" color="#fb1465">
+            Conditions
+          </Link>
+        </Typography>
+      </Box>
 
       {/* Submit Button */}
       <Button
         variant="contained"
         color="primary"
+        disabled={!isChecked} // disable when checkbox is not checked
         fullWidth
         onClick={handleSubmit}
         sx={{
           backgroundColor: theme.palette.colors.pink,
           "&:hover": { backgroundColor: "#e91e63" },
-          marginBottom: (theme) => theme.spacing(4),
+          "&:disabled": { backgroundColor: "#f06292" },
+          marginBottom: "12px",
         }}
       >
         Create account
@@ -248,7 +256,7 @@ const SignupForm = () => {
       {/* Sign in Link */}
       <Typography variant="body2" textAlign="center" color="textSecondary">
         Already have an account?{" "}
-        <Link href="/signin" color="primary">
+        <Link href="/signin" color="#fb1465" fontWeight="bold">
           Sign in.
         </Link>
       </Typography>
