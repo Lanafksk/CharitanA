@@ -11,7 +11,7 @@ const NavigationBar = ({ currentPage }) => {
         sx={{
           backgroundColor: 'white',
           border: '1px solid grey',
-          boxShadow: 'none',
+          boxShadow: 'none'
         }}
       >
         <Toolbar>
