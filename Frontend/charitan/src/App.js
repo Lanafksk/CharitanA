@@ -1,8 +1,8 @@
 import "./App.css";
-import DonationBanner from "./components/donationBanner";
+import Footer from "./components/footer";
 import RouteConfig from "./rooter/RouteConfig";
 import { BrowserRouter } from "react-router-dom";
-import charityImage from './assets/charity.png'; 
+
 
 
 function App() {
@@ -13,6 +13,7 @@ function App() {
           <RouteConfig />
         </main>
       </BrowserRouter>
+      <Footer />
     </div>
   );
 }
