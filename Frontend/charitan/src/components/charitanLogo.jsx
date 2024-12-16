@@ -6,9 +6,9 @@ const CharitanLogo = ({ color = 'black' }) => {
   return (
     <Box display="flex" alignItems="center">
       {/* Heart Icon */}
-      <FavoriteBorder sx={{ color: '#fb1465', fontSize: '54px' }} />
+      <FavoriteBorder sx={{ color: '#FB1465', fontSize: '50px' }} />
       {/* Text */}
-      <Typography variant="h4" sx={{ marginLeft: '4px', fontWeight: 600, color }}>
+      <Typography variant="h4" sx={{ marginLeft: '4px', fontWeight: 600, color}}>
         Charitan
       </Typography>
     </Box>
