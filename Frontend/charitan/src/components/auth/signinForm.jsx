@@ -88,7 +88,7 @@ const SigninForm = () => {
 
       {/* Forgot Password */}
       <Box sx={{ textAlign: "right", mb: 2 }}>
-        <Link href="/recovery" variant="body2" color={theme.palette.colors.pink} fontFamily={theme.typography.fontFamily}>
+        <Link href="/forget" variant="body2" color={theme.palette.colors.pink} fontFamily={theme.typography.fontFamily}>
           Forgot your password?
         </Link>
       </Box>
