@@ -1,0 +1,12 @@
+{
+  "to": {
+    "email": "yourmail@example.com",
+    "name": "Sarah Jones"
+  },
+  "donorData": {
+    "donor": {
+      "first_name": "Sarah"
+    },
+    "donor_dashboard_url": "https://charitan.org/donor/dashboard"
+  }
+}

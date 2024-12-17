@@ -1,0 +1,12 @@
+{
+  "to": {
+    "email": "info@savetheoceans.org",
+    "name": "Save the Oceans Foundation"
+  },
+  "charityData": {
+    "charity": {
+      "name": "Save the Oceans Foundation"
+    },
+    "charity_dashboard_url": "https://charitan.org/charity/dashboard"
+  }
+}

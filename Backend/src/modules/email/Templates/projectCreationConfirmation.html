@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Created</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f8f8;
+        color: #333;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .logo {
+        max-width: 150px;
+        height: auto;
+      }
+      .content {
+        margin-bottom: 30px;
+        line-height: 1.7;
+      }
+      .highlight {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      .button {
+        display: inline-block;
+        padding: 15px 30px;
+        background-color: #e74c3c;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      }
+      .button:hover {
+        background-color: #333;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+      }
+      .project-details {
+        background-color: #fafafa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+      .project-details ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .project-details li {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .project-details li:last-child {
+        border-bottom: none;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 30px;
+        color: #666;
+        font-size: 14px;
+      }
+      .footer a {
+        color: #e74c3c;
+        text-decoration: none;
+      }
+      .project-image {
+        width: 100%;
+        max-width: 560px;
+        height: auto;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+      @media (max-width: 480px) {
+        .container {
+          padding: 20px;
+        }
+        .button {
+          padding: 12px 20px;
+        }
+        .project-image {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img
+          src="{{{ inbox_preview }}}"
+          alt="Charitan Logo"
+          style="display: none; max-height: 0px; overflow: hidden"
+        />
+        <img
+          src="https://via.placeholder.com/150x50?text=Charitan+Logo"
+          alt="Charitan Logo"
+          class="logo"
+        />
+        <h1>Project Created Successfully!</h1>
+      </div>
+      <div class="content">
+        <p>Dear {{charity.name}},</p>
+        <p>
+          Congratulations! Your project,
+          <span class="highlight">{{project.title}}</span>, is now live on
+          Charitan.
+        </p>
+
+        <div class="project-details">
+          <ul>
+            <li><strong>Project ID:</strong> {{project.project_id}}</li>
+            <li><strong>Category:</strong> {{project.category.name}}</li>
+            <li><strong>Start Date:</strong> {{project.start_date}}</li>
+            <li><strong>End Date:</strong> {{project.end_date}}</li>
+          </ul>
+        </div>
+
+        <p>Here is a preview of your project image:</p>
+        <img
+          src="{{project.image_url}}"
+          alt="Project Image"
+          class="project-image"
+        />
+
+        <p>
+          You are now ready to start receiving donations. We are excited to see
+          the positive impact you will make!
+        </p>
+
+        <a href="{{project_url}}" class="button">View Your Project</a>
+      </div>
+      <div class="footer">
+        <p>
+          If you have any questions or need assistance, please don't hesitate to
+          contact us at
+          <a href="mailto:support@charitan.org">support@charitan.org</a>.
+        </p>
+        <p>© {{ current_year }} Charitan. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>
