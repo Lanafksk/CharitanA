@@ -1,4 +1,4 @@
-const categoryRepository = require('../repositories/categoryRepository');
+const categoryRepository = require('./categoryRepository');
 
 // Create a new category
 exports.createCategory = async (categoryData) => {

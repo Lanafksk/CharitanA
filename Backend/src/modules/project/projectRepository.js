@@ -1,4 +1,4 @@
-const Project = require('../models/projectModel');
+const Project = require('./projectModel');
 
 // Create a new project
 exports.createProject = async (projectData) => {
@@ -32,7 +32,7 @@ exports.getProjectsByCategory = async (categoryId) => {
 };
 
 // Get all projects by charity
-exports.getProjectsByCharity = async (charityId) => {
+exports.getProjectsByCharityId = async (charityId) => {
     return await Project.find({ charity_id: charityId });
 };
 
@@ -94,4 +94,9 @@ exports.getProjectsByCountry = async (country) => {
 // Get projects by region
 exports.getProjectsByRegion = async (region) => {
     return await Project.find({ region: region });
+}
+
+// Get projects by charity name
+exports.getProjectsByTitle = async (title) => {
+    return await Project.find({ title: { $regex: title, $options: 'i' } });
 }

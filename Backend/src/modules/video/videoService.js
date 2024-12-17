@@ -1,5 +1,5 @@
-const videoRepository = require('../repositories/videoRepository');
-const projectRepository = require('../repositories/projectRepository');
+const videoRepository = require('./videoRepository');
+const projectRepository = require('../project/projectRepository');
 
 // Validate if the project exists
 exports.validateProject = async (projectId) => {

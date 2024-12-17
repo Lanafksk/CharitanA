@@ -3,10 +3,10 @@ const router = express.Router();
 
 // Import module routes
 // Project Module
-const projectRoutes = require('../modules/project/routes/projectRoutes');
-const categoryRoutes = require('../modules/project/routes/categoryRoutes');
-const imageRoutes = require('../modules/project/routes/imageRoutes');
-const videoRoutes = require('../modules/project/routes/videoRoutes');
+const projectRoutes = require('../modules/project/projectRoutes');
+const categoryRoutes = require('../modules/category/categoryRoutes');
+const imageRoutes = require('../modules/image/imageRoutes');
+const videoRoutes = require('../modules/video/videoRoutes');
 // email Module
 const emailRoutes = require('../modules/email/routes/emailRoutes');
 

@@ -1,5 +1,5 @@
-const videoService = require('../services/videoService');
-const projectService = require('../services/projectService');
+const videoService = require('./videoService');
+const projectService = require('../project/projectService');
 
 // Create a new video
 exports.createVideo = async (req, res) => {

@@ -1,4 +1,4 @@
-const Video = require('../models/videoModel');
+const Video = require('./videoModel');
 
 // Create a new video
 exports.createVideo = async (videoData) => {

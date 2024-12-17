@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./database/connection');
-const routes = require('./routes'); // Centralized routes
+const routes = require('./routes/index'); // Centralized routes
 
 
 dotenv.config();

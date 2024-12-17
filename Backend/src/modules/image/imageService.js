@@ -1,5 +1,5 @@
-const imageRepository = require('../repositories/imageRepository');
-const projectRepository = require('../repositories/projectRepository');
+const imageRepository = require('./imageRepository');
+const projectRepository = require('../project/projectRepository');
 
 // Validate if the project exists
 exports.validateProject = async (projectId) => {

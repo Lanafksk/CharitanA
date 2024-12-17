@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const videoController = require('../controllers/videoController');
+const videoController = require('./videoController');
 
 // Create a new video
 router.post('/', videoController.createVideo);

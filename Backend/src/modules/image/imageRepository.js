@@ -1,4 +1,4 @@
-const Image = require('../models/imageModel');
+const Image = require('./imageModel');
 
 // Create a new image
 exports.createImage = async (imageData) => {

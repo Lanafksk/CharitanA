@@ -1,5 +1,5 @@
-const imageService = require('../services/imageService');
-const projectService = require('../services/projectService');
+const imageService = require('./imageService');
+const projectService = require('../project/projectService');
 
 // Create a new image
 exports.createImage = async (req, res) => {
