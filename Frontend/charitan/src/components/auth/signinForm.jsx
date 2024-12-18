@@ -7,15 +7,11 @@ import {
   Link,
   useTheme
 } from "@mui/material";
+import RoleSelector from "./roleSelector";
 
 const SigninForm = () => {
   const theme = useTheme();
-  
-  // Role Selector sample code
-  const [role, setRole] = React.useState("Donor");
-  const handleChange = (event) => {
-    setRole(event.target.value);
-  };
+    const [role, setRole] = React.useState("Donor");
 
   return (
     <Box
@@ -39,32 +35,8 @@ const SigninForm = () => {
           Welcome back! Please enter your details.
         </Typography>
       </Box>
-
-      {/* Role Selector */}
-      <Box sx={{ mb: 1, display: "flex", flexDirection: "row" }}>
-        <Typography fontSize={16} sx={{ mt: 1 }}>
-          Role: 
-        </Typography>
-        <select
-          id="role"
-          value={role}
-          onChange={handleChange}
-          style={{
-            width: "27%",
-            height: "40px",
-            padding: "0 5px",
-            fontSize: "16px",
-            border: "0px solid #ccc",
-            borderRadius: "4px",
-            backgroundColor: "white",
-            textAlign: "left",
-            fontFamily: theme.typography.fontFamily,
-          }}
-        >
-          <option value="Donor">Donor</option>
-          <option value="Charity">Charity</option>
-        </select>
-      </Box>
+      
+      <RoleSelector selectedRole={role} onSelectRole={setRole} />
       
       {/* input field */}
       <Box>
