@@ -8,14 +8,19 @@ class MailerSendService {
         this.mailersend = new MailerSend({
             apiKey: process.env.MAILERSEND_API_KEY,
         });
+        this.templateCache = {};
     }
 
-    // Helper function to read and compile template
     readAndCompileTemplate(templateName, data) {
-        const templatePath = path.join(__dirname, '..', 'templates', templateName);
-        const source = fs.readFileSync(templatePath, 'utf8');
-        const template = Handlebars.compile(source);
-        return template(data);
+        if (!this.templateCache[templateName]) {
+            const templatePath = path.join(__dirname, '..', 'templates', templateName);
+            if (!fs.existsSync(templatePath)) {
+                throw new Error(`Template ${templateName} not found`);
+            }
+            const source = fs.readFileSync(templatePath, 'utf8');
+            this.templateCache[templateName] = Handlebars.compile(source);
+        }
+        return this.templateCache[templateName](data);
     }
 
     async sendEmailWithTemplate(from, to, subject, templateName, data) {
