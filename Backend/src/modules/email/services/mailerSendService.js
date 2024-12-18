@@ -6,6 +6,7 @@ const path = require('path');
 const Handlebars = require('handlebars');
 const logger = require('../utils/logger'); // Import the logger
 const sanitizeHtml = require('sanitize-html'); // For sanitizing email data
+const { formatDate, formatCurrency } = require('../utils/emailHelpers'); // Import helper functions
 
 class MailerSendService {
     constructor() {
@@ -13,6 +14,15 @@ class MailerSendService {
             apiKey: process.env.MAILERSEND_API_KEY,
         });
         this.templateCache = {}; // Initialize template cache
+
+        // Register Handlebars helpers
+        Handlebars.registerHelper('formatDate', function (date) {
+            return formatDate(date);
+        });
+
+        Handlebars.registerHelper('formatCurrency', function (amount) {
+            return formatCurrency(amount);
+        });
     }
 
     /**

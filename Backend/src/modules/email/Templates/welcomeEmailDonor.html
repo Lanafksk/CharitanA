@@ -1,123 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to Charitan</title>
-    <style>
-      body {
-        font-family: "Helvetica Neue", Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f8f8f8;
-        color: #333;
-        -webkit-text-size-adjust: 100%;
-        -ms-text-size-adjust: 100%;
-      }
-      .container {
-        max-width: 600px;
-        margin: 20px auto;
-        padding: 30px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      }
-      .header {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-      .logo {
-        max-width: 150px;
-        height: auto;
-      }
-      .content {
-        margin-bottom: 30px;
-        line-height: 1.7;
-      }
-      .highlight {
-        color: #e74c3c;
-        font-weight: bold;
-      }
-      .button {
-        display: inline-block;
-        padding: 15px 30px;
-        background-color: #e74c3c;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 25px;
-        font-weight: bold;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-      }
-      .button:hover {
-        background-color: #333;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transform: translateY(-2px);
-      }
-      .footer {
-        text-align: center;
-        margin-top: 30px;
-        color: #666;
-        font-size: 14px;
-      }
-      .footer a {
-        color: #e74c3c;
-        text-decoration: none;
-      }
-      @media (max-width: 480px) {
-        .container {
-          padding: 20px;
-        }
-        .button {
-          padding: 12px 20px;
-        }
-      }
-    </style>
+    <title>Welcome to Charitan!</title>
   </head>
   <body>
-    <div class="container">
-      <div class="header">
-        <img
-          src="{{{ inbox_preview }}}"
-          alt="Charitan Logo"
-          style="display: none; max-height: 0px; overflow: hidden"
-        />
-        <img
-          src="https://via.placeholder.com/150x50?text=Charitan+Logo"
-          alt="Charitan Logo"
-          class="logo"
-        />
-        <h1>Welcome to Charitan, {{donor.first_name}}!</h1>
-      </div>
-      <div class="content">
-        <p>
-          Thank you for joining our community of compassionate donors. Your
-          support makes a real difference in the lives of those in need.
-        </p>
-        <p>
-          At Charitan, you can discover and contribute to a wide range of
-          projects that align with your values. Every donation, big or small,
-          helps create positive change in the world.
-        </p>
-        <p>Here are some things you can do to get started:</p>
-        <ul>
-          <li>Explore featured projects on our homepage.</li>
-          <li>Search for projects by category or location.</li>
-          <li>Set up recurring donations to your favorite causes.</li>
-          <li>Track your donation history and impact in your dashboard.</li>
-        </ul>
-        <a href="{{donor_dashboard_url}}" class="button"
-          >Visit Your Dashboard</a
-        >
-      </div>
-      <div class="footer">
-        <p>
-          If you have any questions or need assistance, please don't hesitate to
-          contact us at
-          <a href="mailto:support@charitan.org">support@charitan.org</a>.
-        </p>
-        <p>© {{ current_year }} Charitan. All rights reserved.</p>
-      </div>
-    </div>
+    <h1>Welcome to Charitan, {{donorName}}!</h1>
+    <p>We're thrilled to have you as part of our community.</p>
+    <p>Start browsing projects and make a difference today.</p>
+    <p>Best regards,<br />Charitan Team</p>
   </body>
 </html>
