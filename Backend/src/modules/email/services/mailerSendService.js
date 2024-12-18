@@ -1,7 +1,21 @@
 const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
+const { createLogger, format, transports } = require('winston');
+
 const fs = require('fs');
 const path = require('path');
 const Handlebars = require('handlebars');
+
+const logger = createLogger({
+    level: 'info',
+    format: format.combine(
+        format.timestamp(),
+        format.json()
+    ),
+    transports: [
+        new transports.Console(),
+        new transports.File({ filename: 'error.log', level: 'error' }),
+    ],
+});
 
 class MailerSendService {
     constructor() {
@@ -37,10 +51,10 @@ class MailerSendService {
 
         try {
             const response = await this.mailersend.email.send(emailParams);
-            console.log("Email sent successfully:", response.headers);
+            logger.info("Email sent successfully", { headers: response.headers });
             return { success: true, messageId: response.headers['x-message-id'] };
         } catch (error) {
-            console.error("Error sending email:", error.body);
+            logger.error("Error sending email", { error: error.body });
             return { success: false, error: error.body };
         }
     }

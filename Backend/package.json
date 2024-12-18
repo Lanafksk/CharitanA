@@ -23,7 +23,8 @@
     "mailersend": "^2.3.0",
     "moment": "^2.30.1",
     "mongoose": "^8.8.4",
-    "uuid": "^11.0.3"
+    "uuid": "^11.0.3",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
