@@ -1,12 +1,14 @@
 {
   "to": {
-    "email": "yourmail@example.com",
-    "name": "Sarah Jones"
+    "email": "vinhhuu02@gmail.com",
+    "name": "Jane Doe"
   },
   "donorData": {
-    "donor": {
-      "first_name": "Sarah"
-    },
-    "donor_dashboard_url": "https://charitan.org/donor/dashboard"
+    "welcomeMessage": "Thank you for joining Charitan!",
+    "charityName": "Charitan",
+    "donorBenefits": [
+      "Exclusive updates on charity work",
+      "Tax receipts for donations"
+    ]
   }
 }

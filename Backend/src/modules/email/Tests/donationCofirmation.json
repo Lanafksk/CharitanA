@@ -1,25 +1,12 @@
 {
   "to": {
-    "email": "yourmail@example.com",
-    "name": "Tiger"
+    "email": "vinhhuu02@gmail.com",
+    "name": "John Doe"
   },
   "donationData": {
-    "donor": {
-      "first_name": "John"
-    },
-    "donation": {
-      "amount": "50.00",
-      "donation_id": "D1234567",
-      "date": "2023-10-28",
-      "payment_method": "Credit Card",
-      "message": "Happy to contribute to this great cause!"
-    },
-    "project": {
-      "title": "Support Education in Africa",
-      "charity": {
-        "name": "Education for All"
-      }
-    },
-    "donor_dashboard_url": "https://charitan.org/donor/dashboard"
+    "donationAmount": 50,
+    "donationDate": "2024-01-01",
+    "charityName": "Save the Earth Foundation",
+    "receiptNumber": "12345ABC"
   }
 }

@@ -18,3 +18,13 @@
 {"error":"Cannot read properties of undefined (reading 'email')","level":"error","message":"Internal server error in sendWelcomeEmailDonor","timestamp":"2024-12-18 22:44:52"}
 {"error":"Cannot read properties of undefined (reading 'email')","level":"error","message":"Internal server error in sendWelcomeEmailDonor","timestamp":"2024-12-18 22:44:53"}
 {"error":"Cannot read properties of undefined (reading 'email')","level":"error","message":"Internal server error in sendWelcomeEmailDonor","timestamp":"2024-12-18 22:44:53"}
+{"error":"Cannot read properties of undefined (reading 'email')","level":"error","message":"Internal server error in sendDonationConfirmation","timestamp":"2024-12-18 22:57:20"}
+{"error":"Cannot read properties of undefined (reading 'email')","level":"error","message":"Internal server error in sendDonationConfirmation","timestamp":"2024-12-18 22:58:40"}
+{"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-18 23:00:58"}
+{"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-18 23:00:58"}
+{"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-18 23:01:29"}
+{"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-18 23:01:29"}
+{"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-18 23:01:37"}
+{"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-18 23:01:37"}
+{"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-18 23:04:24"}
+{"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-18 23:04:24"}

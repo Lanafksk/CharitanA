@@ -1,64 +1,65 @@
 const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
-const fs = require('fs');
-const path = require('path');
-const Handlebars = require('handlebars');
-const logger = require('../utils/logger'); // Import the logger
-const sanitizeHtml = require('sanitize-html'); // For sanitizing email data
-const { formatDate, formatCurrency } = require('../utils/emailHelpers'); // Import helper functions
+const fs = require("fs");
+const path = require("path");
+const Handlebars = require("handlebars");
+const sanitizeHtml = require("sanitize-html"); // For sanitizing email data
+const logger = require("../utils/logger"); // Import the logger
+const { formatDate, formatCurrency } = require("../utils/emailHelpers"); // Helper functions
 
 class MailerSendService {
     constructor() {
         this.mailersend = new MailerSend({
             apiKey: process.env.MAILERSEND_API_KEY,
         });
-        this.templateCache = {}; // Initialize template cache
+
+        this.templateCache = {}; // Cache for compiled templates
 
         // Register Handlebars helpers
-        Handlebars.registerHelper('formatDate', function (date) {
-            return formatDate(date);
-        });
-
-        Handlebars.registerHelper('formatCurrency', function (amount) {
-            return formatCurrency(amount);
-        });
+        Handlebars.registerHelper("formatDate", (date) => formatDate(date));
+        Handlebars.registerHelper("formatCurrency", (amount) => formatCurrency(amount));
     }
 
     /**
-     * Reads and compiles an email template using Handlebars.
+     * Reads and compiles an email template with Handlebars.
      * Implements caching to improve performance.
      * @param {string} templateName - The filename of the template.
      * @param {object} data - The data to inject into the template.
      * @returns {string} - The compiled HTML content.
      */
     readAndCompileTemplate(templateName, data) {
-        // Check if the template is already cached
-        if (!this.templateCache[templateName]) {
-            const templatePath = path.join(__dirname, '..', 'templates', templateName);
+        try {
+            // Check if the template is cached
+            if (!this.templateCache[templateName]) {
+                const templatePath = path.join(__dirname, "..", "templates", templateName);
 
-            // Check if the template file exists
-            if (!fs.existsSync(templatePath)) {
-                logger.error(`Template ${templateName} not found at path: ${templatePath}`);
-                throw new Error(`Template ${templateName} not found`);
+                // Validate template existence
+                if (!fs.existsSync(templatePath)) {
+                    logger.error(`Template not found: ${templateName}`);
+                    throw new Error(`Template "${templateName}" not found`);
+                }
+
+                // Read and compile the template
+                const source = fs.readFileSync(templatePath, "utf8");
+                this.templateCache[templateName] = Handlebars.compile(source);
+                logger.info(`Template "${templateName}" compiled and cached`);
             }
 
-            // Read and compile the template
-            const source = fs.readFileSync(templatePath, 'utf8');
-            this.templateCache[templateName] = Handlebars.compile(source);
-            logger.info(`Template ${templateName} compiled and cached`);
-        }
-
-        // Sanitize the data to prevent injection attacks
-        const sanitizedData = {};
-        for (const key in data) {
-            if (typeof data[key] === 'string') {
-                sanitizedData[key] = sanitizeHtml(data[key]);
-            } else {
-                sanitizedData[key] = data[key];
+            // Sanitize the data to prevent injection attacks
+            const sanitizedData = {};
+            for (const key in data) {
+                if (typeof data[key] === "string") {
+                    sanitizedData[key] = sanitizeHtml(data[key]);
+                } else {
+                    sanitizedData[key] = data[key];
+                }
             }
-        }
 
-        // Return the compiled template with sanitized data
-        return this.templateCache[templateName](sanitizedData);
+            // Return compiled template
+            return this.templateCache[templateName](sanitizedData);
+        } catch (error) {
+            logger.error(`Error in template processing: ${error.message}`);
+            throw error;
+        }
     }
 
     /**
@@ -71,30 +72,35 @@ class MailerSendService {
      * @returns {object} - Result of the email sending operation.
      */
     async sendEmailWithTemplate(from, to, subject, templateName, data) {
-        const sentFrom = new Sender(from.email, from.name);
-        const recipients = [new Recipient(to.email, to.name)];
-
-        let htmlContent;
-        try {
-            htmlContent = this.readAndCompileTemplate(templateName, data);
-        } catch (templateError) {
-            logger.error(`Template compilation failed for ${templateName}: ${templateError.message}`);
-            return { success: false, error: templateError.message };
+        // Validate inputs
+        if (!to || !to.email || !to.name) {
+            const errorMsg = `"to" object with valid "email" and "name" is required`;
+            logger.error(errorMsg, { to });
+            return { success: false, error: errorMsg };
         }
 
-        const emailParams = new EmailParams()
-            .setFrom(sentFrom)
-            .setTo(recipients)
-            .setSubject(subject)
-            .setHtml(htmlContent);
-
         try {
+            // Compile the email template
+            const htmlContent = this.readAndCompileTemplate(templateName, data);
+
+            // Prepare email parameters
+            const sentFrom = new Sender(from.email, from.name);
+            const recipients = [new Recipient(to.email, to.name)];
+            const emailParams = new EmailParams()
+                .setFrom(sentFrom)
+                .setTo(recipients)
+                .setSubject(subject)
+                .setHtml(htmlContent);
+
+            // Send the email
             const response = await this.mailersend.email.send(emailParams);
-            logger.info(`Email sent successfully to ${to.email}`, { messageId: response.headers['x-message-id'] });
-            return { success: true, messageId: response.headers['x-message-id'] };
+            logger.info(`Email sent successfully to ${to.email}`, {
+                messageId: response.headers["x-message-id"],
+            });
+            return { success: true, messageId: response.headers["x-message-id"] };
         } catch (error) {
-            logger.error(`Error sending email to ${to.email}: ${error.body}`);
-            return { success: false, error: error.body };
+            logger.error(`Error sending email to ${to.email}: ${error.message}`, { error });
+            return { success: false, error: error.message };
         }
     }
 

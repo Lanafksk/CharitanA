@@ -26,6 +26,7 @@ class EmailController {
                 res.status(200).json({ message: "Donation confirmation email sent!", messageId: result.messageId });
             } else {
                 logger.error('Failed to send donation confirmation email', { error: result.error, to });
+                logger.info('Incoming request for sendDonationConfirmation', { requestBody: req.body });
                 res.status(500).json({ error: "Failed to send donation confirmation email", details: result.error });
             }
         } catch (error) {

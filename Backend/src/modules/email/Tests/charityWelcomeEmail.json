@@ -1,12 +1,15 @@
 {
   "to": {
-    "email": "info@savetheoceans.org",
-    "name": "Save the Oceans Foundation"
+    "email": "vinhhuu02@gmail.com",
+    "name": "Helping Hands Organization"
   },
   "charityData": {
-    "charity": {
-      "name": "Save the Oceans Foundation"
-    },
-    "charity_dashboard_url": "https://charitan.org/charity/dashboard"
+    "welcomeMessage": "Welcome to Charitan's network!",
+    "supportContact": "support@charitan.org",
+    "nextSteps": [
+      "Set up your charity profile",
+      "Start posting projects",
+      "Connect with donors"
+    ]
   }
 }
