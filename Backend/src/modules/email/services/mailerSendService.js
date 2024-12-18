@@ -1,5 +1,3 @@
-// src/modules/email/services/mailerSendService.js
-
 const { MailerSend, EmailParams, Sender, Recipient } = require("mailersend");
 const fs = require('fs');
 const path = require('path');
