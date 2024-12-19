@@ -80,8 +80,11 @@ class MailerSendService {
         }
 
         try {
+            // Add recipient's name to the data object
+            const templateData = { ...data, name: to.name };
+
             // Compile the email template
-            const htmlContent = this.readAndCompileTemplate(templateName, data);
+            const htmlContent = this.readAndCompileTemplate(templateName, templateData);
 
             // Prepare email parameters
             const sentFrom = new Sender(from.email, from.name);
@@ -103,6 +106,8 @@ class MailerSendService {
             return { success: false, error: error.message };
         }
     }
+
+
 
     /**
      * Sends a donation confirmation email.

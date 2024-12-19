@@ -69,3 +69,29 @@
 {"level":"info","message":"Template \"donationConfirmation.html\" compiled and cached","timestamp":"2024-12-18 23:31:01"}
 {"level":"info","message":"Email sent successfully to vinhhuu02@gmail.com","messageId":"6762f8c68de035c07b9eb93a","timestamp":"2024-12-18 23:31:01"}
 {"level":"info","message":"Donation confirmation email sent successfully","messageId":"6762f8c68de035c07b9eb93a","timestamp":"2024-12-18 23:31:01","to":{"email":"vinhhuu02@gmail.com","name":"John Doe"}}
+{"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-19 10:34:43","to":"charity@example.com"}
+{"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-19 10:34:43","to":"charity@example.com"}
+{"level":"info","message":"Incoming request for sendDonationConfirmation","requestBody":{"projectData":{"category":"Health & Sanitation","country":"Kenya","currentAmount":0,"description":"Providing access to clean and safe drinking water to rural communities.","endDate":"2024-06-01","region":"Sub-Saharan Africa","startDate":"2024-01-01","status":"active","targetAmount":10000,"title":"Clean Water Initiative"},"to":"charity@example.com"},"timestamp":"2024-12-19 10:34:43"}
+{"level":"info","message":"Template \"donationConfirmation.html\" compiled and cached","timestamp":"2024-12-19 10:48:43"}
+{"level":"info","message":"Email sent successfully to vinhhuu02@gmail.com","messageId":"6763979cf0e6a62f62f74c1f","timestamp":"2024-12-19 10:48:43"}
+{"level":"info","message":"Donation confirmation email sent successfully","messageId":"6763979cf0e6a62f62f74c1f","timestamp":"2024-12-19 10:48:43","to":{"email":"vinhhuu02@gmail.com","name":"John Doe"}}
+{"level":"info","message":"Email sent successfully to vinhhuu02@gmail.com","messageId":"676397ddf0c0e8898738c4ed","timestamp":"2024-12-19 10:49:48"}
+{"level":"info","message":"Donation confirmation email sent successfully","messageId":"676397ddf0c0e8898738c4ed","timestamp":"2024-12-19 10:49:48","to":{"email":"vinhhuu02@gmail.com","name":"John Doe"}}
+{"level":"info","message":"Template \"donationConfirmation.html\" compiled and cached","timestamp":"2024-12-19 11:19:12"}
+{"level":"info","message":"Email sent successfully to vinhhuu02@gmail.co","messageId":"67639ec1733a41ae4da0d534","timestamp":"2024-12-19 11:19:12"}
+{"level":"info","message":"Donation confirmation email sent successfully","messageId":"67639ec1733a41ae4da0d534","timestamp":"2024-12-19 11:19:12","to":{"email":"vinhhuu02@gmail.co","name":"John Doe"}}
+{"level":"info","message":"Template \"projectCreationConfirmation.html\" compiled and cached","timestamp":"2024-12-19 11:19:12"}
+{"level":"info","message":"Email sent successfully to vinhhuu02@gmail.com","messageId":"67639ec24f3d15f41193e39f","timestamp":"2024-12-19 11:19:13"}
+{"level":"info","message":"Project creation confirmation email sent successfully","messageId":"67639ec24f3d15f41193e39f","timestamp":"2024-12-19 11:19:13","to":{"email":"vinhhuu02@gmail.com","name":"Hope Foundation"}}
+{"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-19 11:19:13"}
+{"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-19 11:19:13"}
+{"level":"info","message":"Incoming request for sendDonationConfirmation","requestBody":{"donationData":{"country":"Kenya","donationAmount":100,"donationDate":"2024-12-19","projectTitle":"Clean Water Initiative","region":"Sub-Saharan Africa"}},"timestamp":"2024-12-19 11:19:13"}
+{"level":"info","message":"Template \"donationConfirmation.html\" compiled and cached","timestamp":"2024-12-19 11:20:22"}
+{"level":"info","message":"Email sent successfully to donor@example.com","messageId":"67639f07554c5a0dddcdfedd","timestamp":"2024-12-19 11:20:22"}
+{"level":"info","message":"Donation confirmation email sent successfully","messageId":"67639f07554c5a0dddcdfedd","timestamp":"2024-12-19 11:20:22","to":{"email":"donor@example.com","name":"John Doe"}}
+{"level":"info","message":"Template \"projectCreationConfirmation.html\" compiled and cached","timestamp":"2024-12-19 11:20:22"}
+{"level":"info","message":"Email sent successfully to charity@example.com","messageId":"67639f07285c4a919f4dd149","timestamp":"2024-12-19 11:20:22"}
+{"level":"info","message":"Project creation confirmation email sent successfully","messageId":"67639f07285c4a919f4dd149","timestamp":"2024-12-19 11:20:22","to":{"email":"charity@example.com","name":"Hope Foundation"}}
+{"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-19 11:20:22"}
+{"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-19 11:20:22"}
+{"level":"info","message":"Incoming request for sendDonationConfirmation","requestBody":{"donationData":{"country":"Kenya","donationAmount":100,"donationDate":"2024-12-19","projectTitle":"Clean Water Initiative","region":"Sub-Saharan Africa"}},"timestamp":"2024-12-19 11:20:22"}

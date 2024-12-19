@@ -28,3 +28,9 @@
 {"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-18 23:01:37"}
 {"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-18 23:04:24"}
 {"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-18 23:04:24"}
+{"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-19 10:34:43","to":"charity@example.com"}
+{"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-19 10:34:43","to":"charity@example.com"}
+{"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-19 11:19:13"}
+{"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-19 11:19:13"}
+{"level":"error","message":"\"to\" object with valid \"email\" and \"name\" is required","timestamp":"2024-12-19 11:20:22"}
+{"error":"\"to\" object with valid \"email\" and \"name\" is required","level":"error","message":"Failed to send donation confirmation email","timestamp":"2024-12-19 11:20:22"}
