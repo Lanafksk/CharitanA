@@ -1,15 +1,9 @@
 {
   "to": {
     "email": "vinhhuu02@gmail.com",
-    "name": "Helping Hands Organization"
+    "name": "Hope Foundation"
   },
   "charityData": {
-    "welcomeMessage": "Welcome to Charitan's network!",
-    "supportContact": "support@charitan.org",
-    "nextSteps": [
-      "Set up your charity profile",
-      "Start posting projects",
-      "Connect with donors"
-    ]
+    "welcomeMessage": "Welcome to Charitan! We are excited to help you make an impact in the world."
   }
 }

@@ -4,9 +4,10 @@
     "name": "John Doe"
   },
   "donationData": {
-    "donationAmount": 50,
-    "donationDate": "2024-01-01",
-    "charityName": "Save the Earth Foundation",
-    "receiptNumber": "12345ABC"
+    "donationAmount": 100,
+    "projectTitle": "Clean Water Initiative",
+    "donationDate": "2024-12-19",
+    "region": "Sub-Saharan Africa",
+    "country": "Kenya"
   }
 }

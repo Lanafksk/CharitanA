@@ -1,12 +1,18 @@
 {
   "to": {
     "email": "vinhhuu02@gmail.com",
-    "name": "Green Charity"
+    "name": "Hope Foundation"
   },
   "projectData": {
-    "projectName": "Clean Water Initiative",
-    "projectStartDate": "2024-01-15",
-    "projectId": "CW-001",
-    "projectDescription": "Providing clean drinking water to rural areas."
+    "title": "Clean Water Initiative",
+    "targetAmount": 10000,
+    "currentAmount": 0,
+    "description": "Providing access to clean and safe drinking water to rural communities.",
+    "status": "active",
+    "startDate": "2024-01-01",
+    "endDate": "2024-06-01",
+    "region": "Sub-Saharan Africa",
+    "country": "Kenya",
+    "category": "Health & Sanitation"
   }
 }

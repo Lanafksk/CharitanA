@@ -1,14 +1,9 @@
 {
   "to": {
     "email": "vinhhuu02@gmail.com",
-    "name": "Jane Doe"
+    "name": "John Doe"
   },
   "donorData": {
-    "welcomeMessage": "Thank you for joining Charitan!",
-    "charityName": "Charitan",
-    "donorBenefits": [
-      "Exclusive updates on charity work",
-      "Tax receipts for donations"
-    ]
+    "welcomeMessage": "Thank you for joining Charitan! Together, we can make a difference."
   }
 }
