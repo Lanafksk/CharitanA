@@ -16,17 +16,33 @@ backend/
 │   │   ├── dtos/
 │   │   └── routes/
 │   ├── email/                   # Email Utility Module
-│   │   ├── services/            # Email sending logic
-│   │   └── routes/              # API routes for email
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── repositories/
+│   │   ├── models/
+│   │   ├── dtos/
+│   │   └── routes/
 │   ├── encryption/              # Encryption/Decryption Module
-│   │   ├── services/            # Encryption logic
-│   │   └── routes/              # API routes for encryption
+├── controllers/
+│   │   ├── services/
+│   │   ├── repositories/
+│   │   ├── models/
+│   │   ├── dtos/
+│   │   └── routes/
 │   ├── notification/            # Notification Module
-│   │   ├── services/            # Notification logic
-│   │   └── routes/              # API routes for notifications
+├── controllers/
+│   │   ├── services/
+│   │   ├── repositories/
+│   │   ├── models/
+│   │   ├── dtos/
+│   │   └── routes/
 │   └── leaderboard/             # Leaderboard Module
-│       ├── services/            # Leaderboard logic
-│       └── routes/              # API routes for leaderboard
+├── controllers/
+│   │   ├── services/
+│   │   ├── repositories/
+│   │   ├── models/
+│   │   ├── dtos/
+│   │   └── routes/
 ├── database/                    # Database connection and initialization
 │   ├── connection.js            # MongoDB connection logic
 │   └── seed.js                  # Script to seed initial data
