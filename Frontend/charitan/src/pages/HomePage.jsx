@@ -3,7 +3,6 @@ import { Grid, Container, Card, CardActionArea, Box, Typography } from '@mui/mat
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation for current route
 import charityImage from '../assets/charity.png';
 import NavigationBar from '../components/navigationBar';
-import Footer from '../components/footer';
 import DonationBanner from '../components/donationBanner';
 
 // Import MUI Icons

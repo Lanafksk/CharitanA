@@ -6,6 +6,7 @@ import SigninPage from '../pages/auth/SigninPage';
 import SignupPage from '../pages/auth/SignupPage';
 import ForgetPage from '../pages/auth/ForgetPage';
 import RecoveryPage from '../pages/auth/RecoveryPage';
+
 import HomePage from '../pages/HomePage';
 
 const RouteConfig = () => {
@@ -19,6 +20,7 @@ const RouteConfig = () => {
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/forget" element={<ForgetPage />} />
                 <Route path="/recovery" element={<RecoveryPage />} />
+                <Route path="/about-us" element={<AboutUsPage />} />
             </Routes>
         </Suspense>
     )
