@@ -2,16 +2,131 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Project Creation Confirmation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Created Successfully</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border: 1px solid #eaeaea;
+      }
+      .header {
+        background-color: #fb1465;
+        color: #fff;
+        text-align: center;
+        padding: 30px 20px;
+      }
+      .header img {
+        width: 80px;
+        margin-bottom: 10px;
+      }
+      .header h1 {
+        font-size: 26px;
+        margin: 0;
+        font-weight: bold;
+      }
+      .content {
+        padding: 25px 20px;
+        color: #333;
+      }
+      .content h2 {
+        font-size: 22px;
+        color: #fb1465;
+        margin-bottom: 15px;
+      }
+      .content p {
+        margin: 10px 0;
+        line-height: 1.6;
+      }
+      .details {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
+      .details p {
+        margin: 5px 0;
+      }
+      .button {
+        display: block;
+        width: fit-content;
+        margin: 20px auto;
+        text-align: center;
+        background-color: #fb1465;
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 25px;
+        font-size: 16px;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+      .divider {
+        margin: 30px auto;
+        border-bottom: 1px solid #eaeaea;
+        width: 80%;
+      }
+      .footer {
+        text-align: center;
+        background-color: #f9f9f9;
+        padding: 15px 20px;
+        font-size: 14px;
+        color: #666;
+      }
+      .footer a {
+        color: #fb1465;
+        text-decoration: none;
+      }
+    </style>
   </head>
   <body>
-    <h1>Your Project "{{projectTitle}}" Has Been Created!</h1>
-    <p>Dear {{charityName}},</p>
-    <p>
-      Your project "{{projectTitle}}" has been successfully created and is now
-      live on our platform.
-    </p>
-    <p>We wish you the best of luck in achieving your fundraising goals.</p>
-    <p>Best regards,<br />Charitan Team</p>
+    <div class="email-container">
+      <!-- Header Section -->
+      <div class="header">
+        <img
+          src="https://via.placeholder.com/80?text=Logo"
+          alt="Charitan Logo"
+        />
+        <h1>Project Created Successfully</h1>
+      </div>
+      <!-- Content Section -->
+      <div class="content">
+        <h2>Hi {{charityName}},</h2>
+        <p>
+          Congratulations! Your new project,
+          <strong>{{projectTitle}}</strong>, has been successfully created.
+        </p>
+        <div class="details">
+          <p><strong>Project Name:</strong> {{projectTitle}}</p>
+          <p><strong>Date Created:</strong> {{creationDate}}</p>
+          <p><strong>Category:</strong> {{projectCategory}}</p>
+        </div>
+        <p>
+          Your project is now live and ready to receive support from our global
+          donor community. Share your mission and make a difference today!
+        </p>
+        <a href="{{projectDashboardLink}}" class="button">View Your Project</a>
+        <div class="divider"></div>
+        <p>
+          Need assistance? Contact us anytime at
+          <a href="mailto:support@charitan.org">support@charitan.org</a>.
+        </p>
+      </div>
+      <!-- Footer Section -->
+      <div class="footer">
+        <p>&copy; {{year}} Charitan. All rights reserved.</p>
+        <p><a href="{{unsubscribeLink}}">Unsubscribe</a></p>
+      </div>
+    </div>
   </body>
 </html>
