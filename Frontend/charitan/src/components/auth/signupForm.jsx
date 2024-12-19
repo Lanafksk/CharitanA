@@ -14,6 +14,7 @@ import {
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DonorForm from "./donorForm";
 import CharityForm from "./charityForm";
+import RoleSelector from "./roleSelector"
 
 const SignupForm = () => {
   const theme = useTheme();
@@ -35,6 +36,26 @@ const SignupForm = () => {
     charityType: "",
     img: "",
   });
+
+  // role select function
+  const handleRoleSelect = (role) => {
+    setFormData({
+      ...formData,
+      type: role,
+      country: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      address: "",
+      password: "",
+      passwordConfirm: "",
+      charityName: "",
+      taxCode: "",
+      charityType: "",
+      img: "",
+    });
+  };
 
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({
@@ -81,32 +102,9 @@ const SignupForm = () => {
       newErrors.passwordConfirm = "Check the password again !!!";
     }
 
-
     // set errors
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // no error return true
-  };
-
-
-  // Initialize the form data when the user changes the role
-  const handleTypeChange = (event) => {
-    const newType = event.target.value;
-    setIsChecked(false);
-    setFormData({
-      type: newType,
-      country: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      address: "",
-      password: "",
-      passwordConfirm: "",
-      charityName: "",
-      taxCode: "",
-      charityType: "",
-      img: "",
-    });
   };
 
   const handleAvatarClick = () => {
@@ -178,32 +176,7 @@ const SignupForm = () => {
         </Typography>
       </Box>
 
-      {/* Role Selector */}
-      <Box sx={{ mb: 1, display: "flex", flexDirection: "row" }}>
-        <Typography fontSize={16} sx={{ mt: 1 }}>
-          Role:
-        </Typography>
-        <select
-          id="role"
-          value={formData.type}
-          onChange={handleTypeChange}
-          style={{
-            width: "27%",
-            height: "40px",
-            padding: "0 5px",
-            fontSize: "16px",
-            border: "0px solid #ccc",
-            borderRadius: "4px",
-            backgroundColor: "white",
-            textAlign: "left",
-            fontWeight: "bold",
-            fontFamily: theme.typography.fontFamily,
-          }}
-        >
-          <option value="Donor">Donor</option>
-          <option value="Charity">Charity</option>
-        </select>
-      </Box>
+      <RoleSelector selectedRole={formData.type} onSelectRole={handleRoleSelect} />
 
       {/* Profile Image */}
       <Box

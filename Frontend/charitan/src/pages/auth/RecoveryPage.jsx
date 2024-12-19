@@ -2,8 +2,8 @@ import React from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
 import { TiArrowBackOutline } from 'react-icons/ti'; // Typicons icon
 import { useNavigate } from 'react-router-dom';
-import RecoveryPWForm from "../components/auth/recoverypwForm";
-import charityImage from '../assets/charity.png'; 
+import RecoveryPWForm from "../../components/auth/recoverypwForm";
+import charityImage from '../../assets/charity.png'; 
 
 const RecoveryPage = () => {
     const theme = useTheme(); // theme hook

@@ -2,10 +2,10 @@ import React from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
 import { TiArrowBackOutline } from 'react-icons/ti'; // Typicons icon
 import { useNavigate } from 'react-router-dom';
-import ForgetPWForm from "../components/auth/forgetpwForm";
-import charityImage from '../assets/charity.png'; 
+import SigninForm from "../../components/auth/signinForm";
+import charityImage from '../../assets/charity.png'; 
 
-const ForgetPage = () => {
+const SigninPage = () => {
     const theme = useTheme(); // theme hook
     const navigate = useNavigate(); // useNavigate hook
 
@@ -43,10 +43,10 @@ const ForgetPage = () => {
                 width: '90%',
                 maxWidth: '400px',
             }}>
-            <ForgetPWForm />
+            <SigninForm />
             </Box>
         </Box>
     );
 };
 
-export default ForgetPage;
+export default SigninPage;

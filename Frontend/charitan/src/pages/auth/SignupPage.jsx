@@ -2,8 +2,8 @@ import React from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
 import { TiArrowBackOutline } from "react-icons/ti"; // Typicons icon
 import { useNavigate } from "react-router-dom";
-import SignupForm from "../components/auth/signupForm";
-import charityImage from "../assets/charity.png";
+import SignupForm from "../../components/auth/signupForm";
+import charityImage from "../../assets/charity.png";
 
 const SigninPage = () => {
     const theme = useTheme(); // theme hook
