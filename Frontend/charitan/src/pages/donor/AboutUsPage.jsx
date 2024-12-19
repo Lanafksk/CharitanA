@@ -27,7 +27,7 @@ const teamDataA = [
 ];
 
 const teamDataB = [
-    { id: 1, name: "Anh Nguyen Hoang", team: "Team B", image: Vally },
+    { id: 1, name: "Anh Nguyen Duc", team: "Team B", image: Vally },
     { id: 2, name: "Vinh Le Thanh", team: "Team B", image: Vinh },
     { id: 3, name: "Bao Luong Gia", team: "Team B", image: "/assets/teammates/studentB.jpg" },
     { id: 4, name: "Luan Vinh Dang", team: "Team B", image: Luan },
