@@ -12,7 +12,8 @@ const emailRoutes = require('../modules/email/routes/emailRoutes');
 
 // Team A will do these things later
 // // encryption Module
-// const encryptionRoutes = require('../modules/encryption/routes/encryptionRoutes');
+const keyRoutes = require('../modules/encryption/routes/keyRoutes');
+const jwsRoutes = require('../modules/encryption/routes/jwsRoutes');
 // // Donation Module
 // const donationRoutes = require('../modules/donation/routes/donationRoutes');
 // // Leaderboard Module
@@ -29,7 +30,8 @@ router.use('/videos', videoRoutes); // Routes for the Video module
 
 router.use('/emails', emailRoutes); // Routes for the Email module
 // router.use('/donations', donationRoutes); // Routes for the Donation module
-// router.use('/encryption', encryptionRoutes); // Routes for the Encryption module
+router.use('/keys', keyRoutes); // Routes for the Encryption module
+router.use('/jws', jwsRoutes); // Routes for the JWS module
 // router.use('/notifications', notificationRoutes); // Routes for the Notification module
 // router.use('/leaderboard', leaderboardRoutes); // Routes for the Leaderboard module
 
