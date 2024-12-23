@@ -1,13 +1,23 @@
 const PaymentKey = require('../models/paymentKeyModel');
 
-// Get specific entity
+/**
+ * Fetch an entity from the database.
+ * @param {String} entityId 
+ * @returns {Object} - The entity object
+ */
 exports.findEntity = async (entityId) => {
     return await PaymentKey
         .findOne({ entity_id: entityId })
         .lean();
 }
 
-// Create new entity and key pair
+/**
+ * Save a new key pair to the database.
+ * @param {String} entityId 
+ * @param {String} publicKey 
+ * @param {String} privateKey 
+ * @returns {Object} - The saved key pair object
+ */
 exports.saveKeys = async ( entityId, publicKey, privateKey) => {
     const key = new PaymentKey({
         entity_id: entityId,
@@ -17,8 +27,10 @@ exports.saveKeys = async ( entityId, publicKey, privateKey) => {
     return await key.save();
 }
 
-
-// Get the public key of a specific entity
+/**
+ * Generate a new key pair for a specific entity.
+ * @param {String} entityId 
+ */
 exports.getPublicKey = async (entityId) => {
     const key = await PaymentKey.findOne({ entity_id: entityId });
     if (key) {
@@ -29,7 +41,11 @@ exports.getPublicKey = async (entityId) => {
     }
 }
 
-// Get the private key of a specific entity
+/**
+ * Fetch the private key for a specific entity.
+ * @param {String} entityId 
+ * @returns {String} - The private key
+ */
 exports.getPrivateKey = async (entityId) => {
     const key = await PaymentKey.findOne({ entity_id: entityId });
     if (key) {
@@ -40,20 +56,23 @@ exports.getPrivateKey = async (entityId) => {
     }
 }
 
-// Update key pair in database
+/**
+ * Update a key pair in the database
+ * @param {String} entityId 
+ * @param {String} publicKey 
+ * @param {String} privateKey 
+ */
 exports.updateKeys = async (entityId, publicKey, privateKey) => {
-    const existingKey = await PaymentKey
-        .findOne({ entity_id : entityId })
-        .select('_id')
-        .lean();
-    if (existingKey) {
-        await PaymentKey.updateOne({ _id: existingKey._id }, { publicKey, privateKey });
-    } else {
-        await PaymentKey.create(entityId, publicKey, privateKey );
-    }
+    await PaymentKey.findOneAndUpdate({ entity_id: entityId }, {
+        public_key: publicKey,
+        private_key: privateKey
+    }, { new: true });
 }
 
-// Delete a key pair from the database
+/**
+ * Delete a key pair from the database
+ * @param {String} entityId 
+ */
 exports.deleteKeys = async (entityId) => {
     await PaymentKey
         .findOneAndDelete({ entity_id: entityId });

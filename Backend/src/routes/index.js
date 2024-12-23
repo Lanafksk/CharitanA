@@ -13,7 +13,7 @@ const emailRoutes = require('../modules/email/routes/emailRoutes');
 // Team A will do these things later
 // // encryption Module
 const keyRoutes = require('../modules/encryption/routes/keyRoutes');
-const jwsRoutes = require('../modules/encryption/routes/jwsRoutes');
+const jwsRoutes = require('../modules/encryption/routes/jweRoutes');
 // // Donation Module
 // const donationRoutes = require('../modules/donation/routes/donationRoutes');
 // // Leaderboard Module

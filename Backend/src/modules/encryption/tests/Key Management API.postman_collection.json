@@ -1,0 +1,272 @@
+{
+	"info": {
+		"_postman_id": "e3e009ba-8672-47cd-8b58-9ba6b7c7033a",
+		"name": "Key Management API",
+		"description": "API tests for encrypting and decrypting JWS tokens using default, PaymentKey, and AuthKey",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31375522"
+	},
+	"item": [
+		{
+			"name": "Create new key pair for entity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/keys/model/:model/entity/:entityId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"keys",
+						"model",
+						":model",
+						"entity",
+						":entityId"
+					],
+					"variable": [
+						{
+							"key": "model",
+							"value": "auth"
+						},
+						{
+							"key": "entityId",
+							"value": "account1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get public key for entity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/keys/model/:model/entity/:entityId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"keys",
+						"model",
+						":model",
+						"entity",
+						":entityId"
+					],
+					"variable": [
+						{
+							"key": "model",
+							"value": "auth"
+						},
+						{
+							"key": "entityId",
+							"value": "account1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get private key for entity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/keys/model/:model/entity/:entityId/private",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"keys",
+						"model",
+						":model",
+						"entity",
+						":entityId",
+						"private"
+					],
+					"variable": [
+						{
+							"key": "model",
+							"value": "auth"
+						},
+						{
+							"key": "entityId",
+							"value": "account1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update key pair",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/keys/model/:model/entity/:entityId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"keys",
+						"model",
+						":model",
+						"entity",
+						":entityId"
+					],
+					"variable": [
+						{
+							"key": "model",
+							"value": "auth"
+						},
+						{
+							"key": "entityId",
+							"value": "account1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete key pair",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"encryptedToken\": \"<PLACE_ENCRYPTED_TOKEN>\", \"entityId\": \"payment123\" }"
+				},
+				"url": {
+					"raw": "localhost:4000/api/keys/model/:model/entity/:entityId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"keys",
+						"model",
+						":model",
+						"entity",
+						":entityId"
+					],
+					"variable": [
+						{
+							"key": "model",
+							"value": "auth"
+						},
+						{
+							"key": "entityId",
+							"value": "account1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Encrypt data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"data\" : \"Data check, check, check, check, check data\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/api/keys/encrypt/model/:model/entity/:entityId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"keys",
+						"encrypt",
+						"model",
+						":model",
+						"entity",
+						":entityId"
+					],
+					"variable": [
+						{
+							"key": "model",
+							"value": "auth"
+						},
+						{
+							"key": "entityId",
+							"value": "1111"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Decrypt Auth JWE",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"encryptedData\": \"TzVFzQPeITAidl9uh0fzN74tcOeOJ4AJhk7NWF44Eyk2c0XKkmM0ueaa/1AKgdo3vM1bDX7c3DazlEIj73XbyB61EWQj7ECDDFYIRRNWzz+/lPyscZOiuMfsfxYWPV7cKrmkmqpmHtIqLCkO52gF0lf/GmvSoraOfB2SuyJvzyKsuMnbB9SusGl5UVgFEHkvYYycHiqbhVh+v1UhKZ029KmbN46OtUv0q+VhNo4VD2hd2oT8RAT/mbijmNgqbRHtiNVJPTDXafZSCAHBRRg6XQIxA60AHZPkep48C07ifxo3w3JrO22ZFEF+h2TOjjKnKWhlpwYqxfBrW0nfNFHqAA==\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/api/keys/decrypt/model/:model/entity/:entityId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"keys",
+						"decrypt",
+						"model",
+						":model",
+						"entity",
+						":entityId"
+					],
+					"variable": [
+						{
+							"key": "model",
+							"value": "auth"
+						},
+						{
+							"key": "entityId",
+							"value": "1111"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
