@@ -1,6 +1,5 @@
 const keyManagementService = require('../services/keyManagementService');
 const encryptionService = require('../services/encryptionService');
-const decryptionService = require('../services/decryptionService');
 
 exports.generateKeyPair = async (req, res) => {
     try {
@@ -47,6 +46,28 @@ exports.deleteKeyPair = async (req, res) => {
         const { model, entityId } = req.params;
         await keyManagementService.deleteKeys(model, entityId);
         res.json({ message: "Keys deleted successfully" });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+exports.encryptData = async (req, res) => {
+    try {
+        const { model, entityId } = req.params;
+        const { data } = req.body;
+        const encryptedData = await encryptionService.encryptData(model, data, entityId);
+        res.json({ encryptedData });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+exports.decryptData = async (req, res) => {
+    try {
+        const { model, entityId } = req.params;
+        const { encryptedData } = req.body;
+        const decryptedData = await encryptionService.decryptData(model, encryptedData, entityId);
+        res.json({ decryptedData });
     } catch (error) {
         console.error(error);
     }

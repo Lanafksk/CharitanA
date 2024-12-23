@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const connectDB = require('./database/connection');
 const routes = require('./routes/index'); // Centralized routes
 
 
@@ -13,9 +12,6 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-// Database connection
-connectDB();
 
 // Routes
 app.get('/', (req, res) => {

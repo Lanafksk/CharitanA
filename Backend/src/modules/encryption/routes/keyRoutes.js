@@ -17,4 +17,8 @@ router.put('/model/:model/entity/:entityId', keyController.updateKeyPair);
 // Delete key pair for a specific entity
 router.delete('/model/:model/entity/:entityId', keyController.deleteKeyPair);
 
+router.post('/encrypt/model/:model/entity/:entityId', keyController.encryptData);
+
+router.get('/decrypt/model/:model/entity/:entityId', keyController.decryptData);
+
 module.exports = router;
