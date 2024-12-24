@@ -1,6 +1,14 @@
-const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
+const connectDB = require('../../database/connection');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
+
+dotenv.config();
+const clusterURI = process.env.MONGO_URI;
+
+// Connect to respective Database
+const db = connectDB('charitan', clusterURI);
 const videoSchema = new mongoose.Schema(
     {
         video_id: { type: String, default: uuidv4, unique: true },
@@ -10,6 +18,9 @@ const videoSchema = new mongoose.Schema(
     },
     {
         timestamps: true
-    });
+    }
+);
 
-module.exports = mongoose.model('Video', videoSchema);
+const Video = db.model('Video', videoSchema);
+
+module.exports = Video;

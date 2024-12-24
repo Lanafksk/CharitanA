@@ -7,7 +7,7 @@ dotenv.config();
 const clusterURI = process.env.MONGO_URI;
 
 // Connect to respective Database
-const db = connectDB('key', clusterURI);
+const db = connectDB('charitan', clusterURI);
 
 // Define the AuthKey Schema
 const authKeySchema = new mongoose.Schema(

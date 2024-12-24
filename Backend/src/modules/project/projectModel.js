@@ -1,5 +1,14 @@
-const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
+const connectDB = require('../../database/connection');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+
+dotenv.config();
+const clusterURI = process.env.MONGO_URI;
+
+// Connect to respective Database
+const db = connectDB('charitan', clusterURI);
 
 const projectSchema = new mongoose.Schema(
     {
@@ -23,4 +32,5 @@ const projectSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('Project', projectSchema);
+const Project = db.model('Project', projectSchema);
+module.exports = Project;

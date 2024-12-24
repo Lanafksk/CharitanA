@@ -1,5 +1,14 @@
-const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
+const connectDB = require('../../database/connection');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+
+dotenv.config();
+const clusterURI = process.env.MONGO_URI;
+
+// Connect to respective Database
+const db = connectDB('charitan', clusterURI);
 
 const categorySchema = new mongoose.Schema(
     {
@@ -16,5 +25,6 @@ const categorySchema = new mongoose.Schema(
         timestamps: true
     }
 );
+const Category = db.model('Category', categorySchema);
 
-module.exports = mongoose.model('Category', categorySchema);
+module.exports = Category;
