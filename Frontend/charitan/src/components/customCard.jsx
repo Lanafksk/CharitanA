@@ -1,11 +1,12 @@
 import React from 'react';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 
-const CustomCard = ({ icon: Icon, title, description }) => {
+const CustomCard = ({ icon: Icon, title, description, width = 345, height = 200 }) => {
   return (
     <Card
       sx={{
-        maxWidth: 345,
+        maxWidth: width,
+        height: height,
         boxShadow: 2,
         borderRadius: 2,
         textAlign: 'center',
