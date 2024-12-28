@@ -33,7 +33,7 @@ exports.getDonorDonationHistory = async (donorId) => {
     try {
         return await Donation.find({ donor_id: donorId, status: "completed" }).sort({ createdAt: -1 });
     } catch (error) {
-        throw new Error(`Error fetching donation history: ${error.message}`);
+        throw new Error(`Error fetching donor donation history: ${error.message}`);
     }
 };
 
@@ -59,31 +59,31 @@ exports.getTotalProjectsParticipated = async (donorId) => {
 };
 
 // exports.getLeaderboard = async () => {
-//     try {
-//         return await Donation.aggregate([
-//             { $match: { status: "completed" } },
-//             { $group: { _id: "$donor_id", totalAmount: { $sum: "$amount" } } },
-//             { $sort: { totalAmount: -1 } }, // Sort by total donation amount in descending order
-//             { $limit: 10 }, // Top 10 donors
-//             {
-//                 $lookup: {
-//                     from: "donors", // Assuming donor details are stored in a "donors" collection
-//                     localField: "_id",
-//                     foreignField: "donor_id",
-//                     as: "donor_details",
-//                 },
-//             },
-//             { $unwind: "$donor_details" }, // Flatten donor details
-//             {
-//                 $project: {
-//                     donor_id: "$_id",
-//                     totalAmount: 1,
-//                     name: "$donor_details.name",
-//                     email: "$donor_details.email",
-//                 },
-//             },
-//         ]);
-//     } catch (error) {
-//         throw new Error(`Error fetching leaderboard: ${error.message}`);
-//     }
+//   try {
+//     return await Donation.aggregate([
+//       { $match: { status: "completed" } },
+//       { $group: { _id: "$donor_id", totalAmount: { $sum: "$amount" } } },
+//       { $sort: { totalAmount: -1 } }, // Sort by total donation amount in descending order
+//       { $limit: 10 }, // Top 10 donors
+//       {
+//         $lookup: {
+//           from: "donors", // Assuming donor details are stored in a "donors" collection
+//           localField: "_id",
+//           foreignField: "donor_id",
+//           as: "donor_details",
+//         },
+//       },
+//       { $unwind: "$donor_details" },
+//       {
+//         $project: {
+//           donor_id: "$_id",
+//           totalAmount: 1,
+//           name: "$donor_details.name",
+//           email: "$donor_details.email",
+//         },
+//       },
+//     ]);
+//   } catch (error) {
+//     throw new Error(`Error fetching leaderboard: ${error.message}`);
+//   }
 // };
