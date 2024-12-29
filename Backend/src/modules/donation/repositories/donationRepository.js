@@ -95,3 +95,14 @@ exports.getTotalProjectsParticipated = async (donorId) => {
         throw new Error(`Error calculating total projects participated: ${error.message}`);
     }
 };
+
+
+exports.findDonationByPlanId = async (planId) => {
+    try {
+        return await Donation.findOne({
+            "payment_gateway_response.plan_id": planId,
+        });
+    } catch (error) {
+        throw new Error(`Error finding donation by plan ID: ${error.message}`);
+    }
+};
