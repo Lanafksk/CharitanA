@@ -1,7 +1,7 @@
 const donationRepository = require("../repositories/donationRepository");
 const paypalService = require("./paypalService");
 const cardService = require("./cardService");
-const emailService = require("./emailService"); // Importing the existing email service
+const emailService = require("../../email/services/mailerSendService"); // Importing the existing email service
 
 /**
  * Creates a new donation and processes the payment.
