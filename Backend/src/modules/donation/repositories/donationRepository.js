@@ -1,4 +1,4 @@
-const Donation = require("./donationModel");
+const Donation = require("../models/donationModel");
 
 /**
  * Creates a new donation record in the database.

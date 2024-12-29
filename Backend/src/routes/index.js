@@ -7,13 +7,17 @@ const projectRoutes = require('../modules/project/projectRoutes');
 const categoryRoutes = require('../modules/category/categoryRoutes');
 const imageRoutes = require('../modules/image/imageRoutes');
 const videoRoutes = require('../modules/video/videoRoutes');
+
 // email Module
 const emailRoutes = require('../modules/email/routes/emailRoutes');
 
-// Team A will do these things later
+// Donation Module
+const donationRoutes = require('../modules/donation/routes/donationRoutes');
+
 // // encryption Module
 const keyRoutes = require('../modules/encryption/routes/keyRoutes');
 const jwsRoutes = require('../modules/encryption/routes/jweRoutes');
+
 // // Donation Module
 // const donationRoutes = require('../modules/donation/routes/donationRoutes');
 // // Leaderboard Module
@@ -34,5 +38,9 @@ router.use('/keys', keyRoutes); // Routes for the Encryption module
 router.use('/jws', jwsRoutes); // Routes for the JWS module
 // router.use('/notifications', notificationRoutes); // Routes for the Notification module
 // router.use('/leaderboard', leaderboardRoutes); // Routes for the Leaderboard module
+
+
+// Donations Module
+router.use('/donations', donationRoutes); // Routes for the Donation module
 
 module.exports = router;
