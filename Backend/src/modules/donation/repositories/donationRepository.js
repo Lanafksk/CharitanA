@@ -3,8 +3,8 @@ const Donation = require("./donationModel");
 /**
  * Creates a new donation record in the database.
  * 
- * @param {Object} donationData - The donation details.
- * @returns {Object} - The created donation document.
+ * @param {Object} donationData - The donation details to be saved.
+ * @returns {Object} - The saved donation record.
  */
 exports.createDonation = async (donationData) => {
     try {
@@ -16,12 +16,12 @@ exports.createDonation = async (donationData) => {
 };
 
 /**
- * Updates the status and payment response of a specific donation.
+ * Updates the status and payment response of a donation.
  * 
  * @param {String} donationId - The unique donation ID.
  * @param {String} status - The new status of the donation.
- * @param {Object} paymentResponse - The raw response from the payment gateway.
- * @returns {Object} - The updated donation document.
+ * @param {Object} paymentResponse - The raw payment response from the gateway.
+ * @returns {Object} - The updated donation record.
  */
 exports.updateDonationStatus = async (donationId, status, paymentResponse) => {
     try {
@@ -39,7 +39,7 @@ exports.updateDonationStatus = async (donationId, status, paymentResponse) => {
  * Fetches a donation record by its unique ID.
  * 
  * @param {String} donationId - The unique donation ID.
- * @returns {Object} - The donation document.
+ * @returns {Object} - The donation record.
  */
 exports.getDonationById = async (donationId) => {
     try {
@@ -52,8 +52,8 @@ exports.getDonationById = async (donationId) => {
 /**
  * Fetches the donation history of a specific donor.
  * 
- * @param {String} donorId - The unique donor ID.
- * @returns {Array} - A list of completed donations made by the donor.
+ * @param {String} donorId - The donor's unique ID.
+ * @returns {Array} - A list of donations made by the donor.
  */
 exports.getDonorDonationHistory = async (donorId) => {
     try {
@@ -66,7 +66,7 @@ exports.getDonorDonationHistory = async (donorId) => {
 /**
  * Calculates the total donation amount for a specific donor.
  * 
- * @param {String} donorId - The unique donor ID.
+ * @param {String} donorId - The donor's unique ID.
  * @returns {Number} - The total amount donated by the donor.
  */
 exports.getTotalDonationAmount = async (donorId) => {
@@ -82,10 +82,10 @@ exports.getTotalDonationAmount = async (donorId) => {
 };
 
 /**
- * Calculates the total number of unique projects a donor has contributed to.
+ * Calculates the total number of projects a donor has contributed to.
  * 
- * @param {String} donorId - The unique donor ID.
- * @returns {Number} - The total number of unique projects.
+ * @param {String} donorId - The donor's unique ID.
+ * @returns {Number} - The total number of unique projects supported by the donor.
  */
 exports.getTotalProjectsParticipated = async (donorId) => {
     try {
