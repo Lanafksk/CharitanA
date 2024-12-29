@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const routes = require('./routes/index'); // Centralized routes
 
+const PORT = process.env.PORT || 4000;
+const HOST = process.env.HOST || 'localhost';
 
 dotenv.config();
 
@@ -22,5 +24,6 @@ app.get('/', (req, res) => {
 app.use('/api', routes);
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Sever running in http://${HOST}:${PORT}`);
+});
