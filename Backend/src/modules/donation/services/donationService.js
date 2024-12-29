@@ -1,6 +1,6 @@
 const donationRepository = require("../repositories/donationRepository");
 const paypalService = require("./paypalService");
-const emailService = require("../../email/services/mailerSendService"); // Use your email service
+const emailService = require("../../email/services/mailerSendService");
 
 exports.createDonation = async (donationData) => {
     const {
@@ -20,7 +20,7 @@ exports.createDonation = async (donationData) => {
                 // Create a PayPal subscription (Plan)
                 const planId = await paypalService.createSubscriptionPlan(
                     amount,
-                    "MONTHLY", // You can make this configurable if needed
+                    "MONTHLY",
                     project_id
                 );
 
