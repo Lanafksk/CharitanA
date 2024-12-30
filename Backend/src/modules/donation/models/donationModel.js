@@ -46,7 +46,7 @@ const donationSchema = new mongoose.Schema(
         // Payment method (only "paypal" for now)
         payment_method: {
             type: String,
-            enum: ["paypal", "card"], // Restrict to "paypal" as it's the only supported method
+            enum: ["paypal", "card"],
             required: true,
         },
 

@@ -1,5 +1,3 @@
-// File: ./Team-A/Backend/src/modules/donation/controllers/donationController.js
-
 const donationService = require("../services/donationService");
 
 // Create a new donation
@@ -45,8 +43,6 @@ exports.handlePaypalWebhook = async (req, res) => {
             case "BILLING.SUBSCRIPTION.CREATED":
                 await donationService.handleSubscriptionCreated(req.body);
                 break;
-            // Handle other relevant events like PAYMENT.SALE.COMPLETED for recurring payments
-            // ...
             default:
                 console.log(`Unhandled event type: ${eventType}`);
         }
@@ -54,7 +50,7 @@ exports.handlePaypalWebhook = async (req, res) => {
         console.error("Error handling PayPal webhook:", error);
     }
 
-    res.status(200).send(); // Acknowledge receipt of the event (IMPORTANT)
+    res.status(200).send(); // Acknowledge receipt of the event
 };
 
 // Get a specific donation by ID
