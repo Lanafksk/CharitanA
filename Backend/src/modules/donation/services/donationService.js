@@ -2,7 +2,7 @@ const donationRepository = require("../repositories/donationRepository");
 const paypalService = require("./paypalService");
 const emailService = require("../../email/services/mailerSendService");
 const axios = require("axios");
-const projectRepository = require('../project/projectRepository');
+const projectRepository = require('../../project/projectRepository');
 
 const API_GATEWAY = "http://localhost:5000/admin-server";
 
