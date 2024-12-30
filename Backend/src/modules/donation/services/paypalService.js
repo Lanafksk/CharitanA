@@ -1,9 +1,14 @@
 const axios = require("axios");
 const { v4: uuidv4 } = require("uuid");
 
-const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PAYPAL_API_URL, HOST, TEAM_A_PORT } = process.env;
+const {
+    PAYPAL_CLIENT_ID,
+    PAYPAL_CLIENT_SECRET,
+    PAYPAL_API_URL,
+    TEAM_A_BASE_URL,
+} = process.env;
 const PAYPAL_API = PAYPAL_API_URL;
-const BASE_URL = `${HOST}:${TEAM_A_PORT}`; // Or your server's base URL
+const BASE_URL = TEAM_A_BASE_URL;
 
 // Cache the access token
 let accessToken = null;
@@ -14,9 +19,11 @@ async function getPayPalAccessToken() {
         return accessToken;
     }
 
-    const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`).toString("base64");
+    const auth = Buffer.from(
+        `${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`
+    ).toString("base64");
     const url = `${PAYPAL_API}/v1/oauth2/token`;
-
+    console.log(url);
     try {
         const response = await axios({
             method: "post",
@@ -29,17 +36,17 @@ async function getPayPalAccessToken() {
         });
 
         accessToken = response.data.access_token;
-        tokenExpiration = Date.now() + response.data.expires_in * 1000; // expires_in is in seconds
+        tokenExpiration = Date.now() + response.data.expires_in * 1000;
 
         return accessToken;
     } catch (error) {
         console.error("Error getting PayPal access token:", error);
-        throw new Error("Failed to get PayPal access token");
+        throw new Error(`Failed to get PayPal access token: ${error.message}`);
     }
 }
 
 // Create a new PayPal order (for one-time donations)
-exports.createPayPalOrder = async (amount, project_id) => {
+exports.createPayPalOrder = async (amount, project_id, charityPaypalEmail) => {
     const accessToken = await getPayPalAccessToken();
     const url = `${PAYPAL_API}/v2/checkout/orders`;
 
@@ -51,6 +58,9 @@ exports.createPayPalOrder = async (amount, project_id) => {
                 amount: {
                     currency_code: "USD", // Or your desired currency
                     value: amount,
+                },
+                payee: {
+                    email_address: charityPaypalEmail,
                 },
             },
         ],
@@ -97,7 +107,12 @@ exports.capturePayPalOrder = async (orderId) => {
     }
 };
 
-exports.createSubscriptionPlan = async (amount, interval, project_id) => {
+exports.createSubscriptionPlan = async (
+    amount,
+    interval,
+    project_id,
+    charityPaypalEmail
+) => {
     const planId = uuidv4(); // Generate a unique ID for the plan
 
     const requestBody = {
@@ -127,6 +142,9 @@ exports.createSubscriptionPlan = async (amount, interval, project_id) => {
             auto_bill_outstanding: true,
             setup_fee_failure_action: "CONTINUE",
             payment_failure_threshold: 3,
+            payee: {
+                email_address: charityPaypalEmail,
+            },
         },
     };
 
