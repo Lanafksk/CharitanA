@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require("uuid");
-const connectDB = require("../../../database/conneclcction"); // Import database connection function
+const connectDB = require("../../database/connection"); // Import database connection function
 
 // Get the MongoDB connection URI from environment variables
 const clusterURI = process.env.MONGO_URI;
@@ -64,26 +64,28 @@ const donationSchema = new mongoose.Schema(
                 "completed", // For one-time donations after successful capture
                 "failed", // If payment capture or subscription creation fails
                 "active-subscription", // For active subscriptions
+                // You can add more statuses as needed (e.g., "refunded", "suspended")
             ],
             default: "pending",
         },
 
+        // Indicates if the donation is recurring
         is_recurring: {
             type: Boolean,
             default: false,
         },
 
-        // Details for recurring donations
+        // Details for recurring donations (if applicable)
         recurring_details: {
             interval: {
                 type: String,
-                enum: ["MONTHLY"],
+                enum: ["MONTHLY"], // Initially, only monthly subscriptions are supported
                 default: null,
             },
             next_payment_date: {
                 type: Date,
                 default: null,
-            },
+            }, // You'll need to calculate and update this
         },
 
         // Store responses from the payment gateway (PayPal)
