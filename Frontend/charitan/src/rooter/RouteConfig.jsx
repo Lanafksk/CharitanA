@@ -1,16 +1,15 @@
 import { Suspense} from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
-import SamplePage from '../pages/SamplePage';
 import SigninPage from '../pages/auth/SigninPage';
 import SignupPage from '../pages/auth/SignupPage';
 import ForgetPage from '../pages/auth/ForgetPage';
 import RecoveryPage from '../pages/auth/RecoveryPage';
-
+import AboutUsPage from '../pages/donor/AboutUsPage';
 import HomePage from '../pages/HomePage';
 
-const RouteConfig = () => {
 
+const RouteConfig = () => {
     return (
         <Suspense fallback={<CircularProgress className="w-8 h-8" />}>
             <Routes>
