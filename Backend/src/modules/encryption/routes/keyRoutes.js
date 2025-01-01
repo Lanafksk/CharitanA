@@ -21,6 +21,6 @@ router.delete('/model/:model/entity/:entityId', keyController.deleteKeyPair);
 router.post('/encrypt/model/:model/entity/:entityId', keyController.encryptData);
 
 // Decrypt data for a specific entity
-router.get('/decrypt/model/:model/entity/:entityId', keyController.decryptData);
+router.post('/decrypt/model/:model/entity/:entityId', keyController.decryptData);
 
 module.exports = router;
