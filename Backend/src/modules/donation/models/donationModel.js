@@ -6,7 +6,7 @@ const connectDB = require('../../../database/connection'); // Import database co
 const clusterURI = process.env.MONGO_URI;
 
 // Connect to the "donationDB" database using the connectDB function
-const db = connectDB("donations", clusterURI);
+const db = connectDB("charitan", clusterURI);
 
 // Define the Donation Schema
 const donationSchema = new mongoose.Schema(
