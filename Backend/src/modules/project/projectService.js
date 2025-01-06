@@ -1,39 +1,40 @@
 const axios = require('axios');
+const isValidDate = require('../../utils/dateValidation').isValidDate;
 const projectRepository = require('./projectRepository');
-const categoryRepository = require('../category/categoryRepository');
-const videoRepository = require('../video/videoRepository');
-const imageRepository = require('../image/imageRepository');
 
 const API_GATEWAY = 'http://localhost:5000/admin-server';
-
-// Validate if the category exists
-exports.validateCategory = async (categoryId) => {
-    const category = await categoryRepository.getCategoryById(categoryId);
-    return !!category; // Return true if category exists, false otherwise
-};
-
-// Populate videos and images
-populateVideosAndImages = async (projects) => {
-    for (let project of projects) {
-        project.videos = await videoRepository.getVideosByProjectId(project.project_id);
-        project.images = await imageRepository.getImagesByProjectId(project.project_id);
-    }
-
-    return projects;
-};
+const INTERNAL_SERVER = 'http://localhost:4000/api';
 
 // Create a new project
 exports.createProject = async (projectData) => {
-    return await projectRepository.createProject(projectData);
+    // Validate all passed fields
+    const validation = await validateProjectData(projectData);
+    if (!validation) {
+        throw new Error(validation);
+    }
+
+    // Confirmation of data validation, and send email to donors
+    await projectRepository.createProject(projectData);
+
+    // Send email to donors
+    // const callEmailService = async () => {
+    //     try {
+    //         await axios.post(`/email`, {
+    //             email: '
 };
 
 // Get all projects
 exports.getAllProjects = async () => {
     const projects = await projectRepository.getAllProjects();
 
-    // Populate videos and images
-    return await populateVideosAndImages(projects);
+    // Convert the category_id to category_name
+    for (let project of projects) {
+        console.log(project.category);
+        const category = await axios.get(`${INTERNAL_SERVER}/categories/${project.category}`);
+        project.category = category.data.name;
+    }
 
+    return projects;
 };
 
 // Get a specific project by ID
@@ -41,11 +42,16 @@ exports.getProjectById = async (projectId) => {
     const project = await projectRepository.getProjectById(projectId);
 
     // Populate videos and images
-    return await populateVideosAndImages([project]);
+    return project;
 };
 
 // Update a project
 exports.updateProject = async (projectId, projectData) => {
+    const validation = validateProjectData(projectData);
+    if (!validation) {
+        throw new Error(validation);
+    }
+
     return await projectRepository.updateProject(projectId, projectData);
 };
 
@@ -144,5 +150,44 @@ exports.getProjectsByCharityName = async (name) => {
     }
     catch (err) {
         console.log(err);
+    }
+};
+
+async function validateProjectData(projectData) {
+    if (!projectData.title || !projectData.description || !projectData.target_amount || !projectData.current_amount || !projectData.start_date || !projectData.end_date || !projectData.country || !projectData.region || !projectData.category_id || !projectData.charity_id) {
+        throw new Error('All fields are required');
+    }
+
+    // Validate if the category exists
+    const categoryExists = await axios.get(`${INTERNAL_SERVER}/categories/${projectData.category_id}`);
+    if (!categoryExists) {
+        throw new Error('Category does not exist');
+    }
+
+    // Validate if status is valid
+    if (projectData.status !== 'active') {
+        throw new Error('Invalid status, newly created projects must be active');
+    }
+
+    // Validate if the charity exists
+    try {
+        const response = await axios.get(`${API_GATEWAY}/charity/${projectData.charity_id}`);
+        const charityData = response.data;
+        if (charityData == null) {
+            throw new Error('Charity does not exist');
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+    // Validate date
+    if (!isValidDate(projectData.start_date) || !isValidDate(projectData.end_date)) {
+        throw new Error('Invalid date');
+    }
+
+    // Validate target amount
+    if (projectData.target_amount < 0) {
+        throw new Error('Target amount must be greater than 0');
     }
 };
