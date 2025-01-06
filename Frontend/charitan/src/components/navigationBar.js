@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Box, Grid } from '@mui/material';
 import CharitanLogo from './charitanLogo';
 import NavLink from './navLink';
 import WelcomeBox from './welcomeBox';
+import CustomButton from './button';
 
 const NavigationBar = ({ currentPage }) => {
     return (
@@ -38,9 +39,11 @@ const NavigationBar = ({ currentPage }) => {
                       </NavLink>
                   </Box>
               </Grid>
-              <Grid item>
-                  <WelcomeBox userName="Nam" />
-              </Grid>
+            <Grid item>
+                {/* <WelcomeBox userName="Nam" /> */}
+                <CustomButton text="Sign In" backgroundColor="white" textColor="black" hoverColor="grey" disabledColor="#d3d3d3" />
+                <CustomButton text="Sign Up" backgroundColor="#FB1465" hoverColor="#d93b63" disabledColor="#d3d3d3" />
+            </Grid> 
           </Grid>
         </Toolbar>
       </AppBar>
