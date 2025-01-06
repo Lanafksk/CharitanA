@@ -1,13 +1,13 @@
 import React from "react";
 import RankingItem from "./rankingItem";
 
-const RankingList = ({ rankers }) => {
+const RankingList = ({ rankers, displayField }) => {
   return (
     <div>
       {rankers.map((ranker, index) => (
         <RankingItem
           key={ranker.id}
-          rank={index + 4} // 4위부터 시작
+          rank={index + 4} // start from 4th
           name={ranker.name}
           amount={ranker.amount}
           profileImage={ranker.profileImage}
