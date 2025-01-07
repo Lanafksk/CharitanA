@@ -12,7 +12,7 @@ const videoRoutes = require('../modules/video/videoRoutes');
 const emailRoutes = require('../modules/email/routes/emailRoutes');
 
 // Donation Module
-const donationRoutes = require('../modules/donation/routes/donationRoutes');
+const donationRoutes = require('../modules/donation/donationRoutes');
 
 // // encryption Module
 const keyRoutes = require('../modules/encryption/routes/keyRoutes');
