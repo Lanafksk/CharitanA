@@ -5,6 +5,7 @@ import ContactInfo from "./contactInfo";
 import PaymentForm from "./paymentForm";
 import MessageBox from "./messageBox";
 import DonationList from "./donationList";
+import DonationHeader from "./donatinoHeader";
 
 const DonationContainer = () => {
   
@@ -40,6 +41,7 @@ const DonationContainer = () => {
   return (
     <div style={{ padding: "50px 200px" }}>
       <CarouselSection images={projectData.images} />
+      <DonationHeader {...projectData}/>
       <div style={{ display: "flex", marginTop: "20px", gap: "20px" }}>
         {/* Left column for project info */}
         <div style={{ flex: 1 }}>
