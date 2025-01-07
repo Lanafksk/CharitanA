@@ -14,6 +14,8 @@ import LeaderboardPage from '../pages/LeaderboardPage';
 
 import HomePage from '../pages/HomePage';
 
+import CharityProjectPage from '../pages/charity/charityProjectPage';
+
 const RouteConfig = () => {
 
     return (
@@ -31,6 +33,8 @@ const RouteConfig = () => {
 
                 <Route path='/leaderboard' element={<LeaderboardPage/>} />
 
+
+                <Route path="/projects" element={<CharityProjectPage />} />
             </Routes>
         </Suspense>
     )

@@ -28,10 +28,10 @@ const ProjectCard = ({
   const progress = (raised / goal) * 100;
 
   return (
-    <Card sx={{ maxWidth: 345, borderRadius: 2, overflow: 'hidden' }}>
+    <Card sx={{ maxWidth: 400, borderRadius: 2, overflow: 'hidden' }}>
       <CardMedia
         component="img"
-        height="140"
+        height="160"
         image={image}
         alt={projectName}
       />
@@ -45,11 +45,11 @@ const ProjectCard = ({
           }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="h6" component="div" sx={{ textAlign: 'left', fontWeight: 'bold' , fontSize: '0.875rem'}}>
+          <Typography variant="h6" component="div" sx={{ textAlign: 'left', fontWeight: 'bold' , fontSize: '1.2rem'}}>
             {projectName}
-            </Typography>
+          </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+              <Typography variant="body2" color="black" sx={{ fontSize: '1.0rem' }}>
                 {charityName}
               </Typography>
               <Chip
@@ -57,10 +57,9 @@ const ProjectCard = ({
                 variant="outlined"
                 sx={{
                     fontSize: '0.75rem',
-                    borderColor: 'success.main', // Green border
-                    color: 'success.main',      // Green text
+                    borderColor: '#00ff26', // Green border
+                    color: '#00ff26',      // Green text
                     borderRadius: '16px',       // Pill-shaped
-                    fontWeight: 'bold',         // Bold text
                 }}
                 />
             </Box>
@@ -69,14 +68,13 @@ const ProjectCard = ({
             label={category}
             variant="outlined"
             sx={{
-              borderColor: 'error.main',
-              color: 'error.main',
+              borderColor: '#fb1465',
+              color: '#fb1465',
               borderRadius: '16px',
-              fontWeight: 'bold',
             }}
           />
         </Box>
-        <Typography variant="body2" color="text.secondary" paragraph>
+        <Typography variant="body2" color="text.secondary" paragraph align="left">
           {description}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
@@ -94,7 +92,7 @@ const ProjectCard = ({
             <Typography variant="body2" color="text.secondary">
                 {location} - {daysLeft} days left
             </Typography>
-            <Button size="small" color="error" sx={{ ml: 2 }}>
+            <Button size="small" sx={{ ml: 2, color: '#fb1465', textTransform: 'none' }}>
                 Reading more →
             </Button>
         </Box>
@@ -107,9 +105,9 @@ const ProjectCard = ({
           borderTop: '1px solid #f0f0f0',
         }}
       >
-        <EditIcon sx={{ cursor: 'pointer', mx: 1 }} />
-        <PauseIcon sx={{ cursor: 'pointer', mx: 1 }} />
-        <DeleteIcon sx={{ cursor: 'pointer', mx: 1 }} />
+        <EditIcon sx={{ cursor: 'pointer', mx: 1, ':active': { color: 'highlightColor' } }} />
+        <PauseIcon sx={{ cursor: 'pointer', mx: 1, ':active': { color: 'highlightColor' } }} />
+        <DeleteIcon sx={{ cursor: 'pointer', mx: 1, ':active': { color: 'highlightColor' } }} />
       </Box>
     </Card>
   );
