@@ -43,7 +43,7 @@ exports.getTotalProjectsParticipatedByDonor = async (req, res) => {
 // Get a list of donors with their total donation amounts (for leaderboard)
 exports.getLeaderboard = async (req, res) => {
     try {
-        const { timePeriod, sortBy, sortOrder } = req.query; // Add timePeriod to query params
+        const { timePeriod, sortBy, sortOrder } = req.query;
         const leaderboard = await donationService.getLeaderboard(
             timePeriod,
             sortBy,
@@ -55,11 +55,10 @@ exports.getLeaderboard = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
-
 // Fetch all donations with optional sorting
 exports.getAllDonations = async (req, res) => {
     try {
-        const { sortBy, sortOrder } = req.query; // Get sort parameters from query string
+        const { sortBy, sortOrder } = req.query;
         const donations = await donationService.getAllDonations(
             sortBy,
             sortOrder
