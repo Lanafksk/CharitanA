@@ -7,6 +7,7 @@ import SignupPage from '../pages/auth/SignupPage';
 import ForgetPage from '../pages/auth/ForgetPage';
 import RecoveryPage from '../pages/auth/RecoveryPage';
 import AboutUsPage from '../pages/donor/AboutUsPage';
+import DonationPage from '../pages/donor/DontaionPage';
 
 import HomePage from '../pages/HomePage';
 
@@ -22,6 +23,7 @@ const RouteConfig = () => {
                 <Route path="/forget" element={<ForgetPage />} />
                 <Route path="/recovery" element={<RecoveryPage />} />
                 <Route path="/about-us" element={<AboutUsPage />} />
+                <Route path="/donation" element={<DonationPage />} />
             </Routes>
         </Suspense>
     )
