@@ -9,7 +9,6 @@ import DonationContainer from "../../components/donation/donationContainer";
 const DonationPage = () => {
     const location = useLocation();
 
-
     return (
         <Box>
             <NavigationBar currentPage={location.pathname} />

@@ -66,12 +66,12 @@ const CarouselSection = ({ images }) => {
     autoplay: true,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
-    beforeChange: (_, next) => setCurrentSlide(next), // 슬라이드 변경 시 현재 슬라이드 업데이트
+    beforeChange: (_, next) => setCurrentSlide(next), // update slides
     appendDots: (dots) => (
       <div
         style={{
           position: "absolute",
-          bottom: "20px", // 캐러셀 내부 하단
+          bottom: "20px", // put inside of carousel
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
@@ -89,7 +89,7 @@ const CarouselSection = ({ images }) => {
         sx={{
           width: "10px",
           height: "10px",
-          backgroundColor: i === currentSlide ? "#FB1465" : "#FFF", // 현재 슬라이드와 비교
+          backgroundColor: i === currentSlide ? "#FB1465" : "#FFF", 
           borderRadius: "50%",
           mx: 0.5,
           transition: "background-color 0.3s ease",
@@ -106,7 +106,7 @@ const CarouselSection = ({ images }) => {
       sx={{
         margin: "0 auto",
         width: "100%",
-        height: "400px", // 고정 높이
+        height: "400px", 
         overflow: "hidden",
         mb: 2,
         position: "relative",
@@ -118,7 +118,7 @@ const CarouselSection = ({ images }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "400px", // 로딩 중에도 높이를 동일하게 유지
+            height: "400px", // keep height while loading
           }}
         >
           <CircularProgress />
@@ -130,7 +130,7 @@ const CarouselSection = ({ images }) => {
               key={index}
               sx={{
                 width: "100%",
-                height: "400px", // 슬라이드도 고정 높이
+                height: "400px", 
                 position: "relative",
               }}
             >
@@ -141,7 +141,7 @@ const CarouselSection = ({ images }) => {
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover", // 이미지를 크기에 맞게 잘리거나 확대
+                  objectFit: "cover", // fit the image size
                 }}
               />
             </Box>
