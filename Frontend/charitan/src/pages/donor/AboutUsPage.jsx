@@ -12,13 +12,13 @@ import MinhTran from "../../assets/teammates/MinhTran.png";
 
 import Vally from "../../assets/teammates/Vally.png";
 import Vinh from "../../assets/teammates/Vinh.jpg";
-// empty Bao
+import DepTrai from "../../assets/teammates/DepTrai.jpg";
 import Luan from "../../assets/teammates/Luan.jpg";
 import Hoang from "../../assets/teammates/Hoang.png";
 
 
 
-// 인물 데이터 배열
+// Member data array
 const teamDataA = [
     { id: 1, name: "Nam Pham Thanh", team: "Team A", image: Nam },
     { id: 2, name: "Sanghwa Jung", team: "Team A", image: Lana },
@@ -29,7 +29,7 @@ const teamDataA = [
 const teamDataB = [
     { id: 1, name: "Anh Nguyen Duc", team: "Team B", image: Vally },
     { id: 2, name: "Vinh Le Thanh", team: "Team B", image: Vinh },
-    { id: 3, name: "Bao Luong Gia", team: "Team B", image: "/assets/teammates/studentB.jpg" },
+    { id: 3, name: "Bao Luong Gia", team: "Team B", image: DepTrai },
     { id: 4, name: "Luan Vinh Dang", team: "Team B", image: Luan },
     { id: 5, name: "Dat Tran Xuan Hoang", team: "Team B", image: Hoang },
 ];
@@ -37,9 +37,7 @@ const teamDataB = [
 
 const AboutUsPage = () => {
     const location = useLocation();
-
     
-
     return (
         <Box>
             <NavigationBar currentPage={location.pathname} />
