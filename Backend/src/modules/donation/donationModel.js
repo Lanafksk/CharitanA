@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require("uuid");
-const connectDB = require('../../../database/connection'); // Import database connection function
+const connectDB = require('../../database/connection'); // Import database connection function
 
 // Get the MongoDB connection URI from environment variables
 const clusterURI = process.env.MONGO_URI;
