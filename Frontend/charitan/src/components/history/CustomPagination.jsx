@@ -16,7 +16,7 @@ const CustomPagination = ({ totalPages, currentPage, onPageChange }) => {
         justifyContent: "center",
         "& .MuiPaginationItem-root": {
           border: "1px solid #000",
-          borderRadius: "10%", 
+          borderRadius: "30%", 
           width: "25px", 
           height: "30px",
           margin: "0 5px", 
@@ -25,7 +25,7 @@ const CustomPagination = ({ totalPages, currentPage, onPageChange }) => {
           margin: "20px"
         },
         "& .Mui-selected": {
-          backgroundColor: "#fb1465", // selected button color
+          backgroundColor: "#fb1465 !important", // selected button color
           color: "#fff", // selected button text color
           border: "none", // remove selected button border
         },

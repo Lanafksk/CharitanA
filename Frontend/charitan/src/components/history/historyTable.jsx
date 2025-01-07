@@ -14,34 +14,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search"; // Material-UI Search Icon
 import CustomPagination from "./CustomPagination";
 
-const HistoryTable = () => {
-  // Example data
-  const [rows, setRows] = useState([
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON002", receiver: "CHA002", project: "PRO002", amount: "$400", date: "09 - Feb - 2024", status: "Success", message: "Another message..." },
-    { id: "DON003", receiver: "CHA003", project: "PRO003", amount: "$500", date: "10 - Feb - 2024", status: "Success", message: "Yet another message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON002", receiver: "CHA002", project: "PRO002", amount: "$400", date: "09 - Feb - 2024", status: "Success", message: "Another message..." },
-    { id: "DON003", receiver: "CHA003", project: "PRO003", amount: "$500", date: "10 - Feb - 2024", status: "Success", message: "Yet another message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-    { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-
-    // Add more rows as needed
-  ]);
+const HistoryTable = ({rows}) => {
 
   const [page, setPage] = useState(1); 
   const rowsPerPage = 5; 

@@ -8,6 +8,7 @@
     "@fontsource/inter": "^5.1.0",
     "@mui/icons-material": "^6.2.0",
     "@mui/material": "^6.1.10",
+    "axios": "^1.7.9",
     "charitan": "file:",
     "cra-template": "1.2.0",
     "react": "^19.0.0",
