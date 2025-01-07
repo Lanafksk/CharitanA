@@ -28,15 +28,18 @@ const ProjectCard = ({
   const progress = (raised / goal) * 100;
 
   return (
-    <Card sx={{ maxWidth: 400, borderRadius: 2, overflow: 'hidden' }}>
+    // Set a fixed height for the entire card
+    <Card sx={{ width: 400, height: 500, borderRadius: 2, overflow: 'hidden' }}>
+      {/* Fixed height for the image */}
       <CardMedia
         component="img"
         height="160"
         image={image}
         alt={projectName}
       />
-      <CardContent>
-        <Box style={{ display: 'flex', alignItems: 'center', height: '100%' }}
+      {/* Set fixed height for content area */}
+      <CardContent sx={{ height: 290, position: 'relative' }}>
+        <Box 
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -45,9 +48,9 @@ const ProjectCard = ({
           }}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="h6" component="div" sx={{ textAlign: 'left', fontWeight: 'bold' , fontSize: '1.2rem'}}>
-            {projectName}
-          </Typography>
+            <Typography variant="h6" component="div" sx={{ textAlign: 'left', fontWeight: 'bold', fontSize: '1.2rem' }}>
+              {projectName}
+            </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography variant="body2" color="black" sx={{ fontSize: '1.0rem' }}>
                 {charityName}
@@ -56,12 +59,12 @@ const ProjectCard = ({
                 label={status}
                 variant="outlined"
                 sx={{
-                    fontSize: '0.75rem',
-                    borderColor: '#00ff26', // Green border
-                    color: '#00ff26',      // Green text
-                    borderRadius: '16px',       // Pill-shaped
+                  fontSize: '0.75rem',
+                  borderColor: '#00ff26',
+                  color: '#00ff26',
+                  borderRadius: '12px',
                 }}
-                />
+              />
             </Box>
           </Box>
           <Chip
@@ -70,11 +73,26 @@ const ProjectCard = ({
             sx={{
               borderColor: '#fb1465',
               color: '#fb1465',
-              borderRadius: '16px',
+              borderRadius: '12px',
             }}
           />
         </Box>
-        <Typography variant="body2" color="text.secondary" paragraph align="left">
+        {/* Add text truncation for description */}
+        <Typography 
+          variant="body2" 
+          color="text.secondary" 
+          paragraph 
+          align="left"
+          sx={{
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            height: '4.5em', // Approximately 3 lines of text
+            mb: 2
+          }}
+        >
           {description}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
@@ -88,13 +106,13 @@ const ProjectCard = ({
           value={progress}
           sx={{ mb: 2 }}
         />
-       <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Typography variant="body2" color="text.secondary">
-                {location} - {daysLeft} days left
-            </Typography>
-            <Button size="small" sx={{ ml: 2, color: '#fb1465', textTransform: 'none' }}>
-                Reading more →
-            </Button>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Typography variant="body2" color="text.secondary">
+            {location} - {daysLeft} days left
+          </Typography>
+          <Button size="small" sx={{ ml: 2, color: '#fb1465', textTransform: 'none' }}>
+            Reading more →
+          </Button>
         </Box>
       </CardContent>
       <Box

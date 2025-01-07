@@ -37,10 +37,34 @@ const CharityProjectPage = () => {
     <Box>
       <NavigationBar currentPage="/projects" />
       <PageBanner text="PROJECT" />
-      <Container sx={{ marginTop: 4 }}>
-        <Grid container spacing={4}>
+      {/* Add padding to the Container to ensure consistent edge spacing */}
+      <Container sx={{ marginTop: 4, padding: '24px' }}>
+        {/* The Grid container now uses consistent spacing and has a negative margin to offset padding */}
+        <Grid 
+          container 
+          spacing={3} // This creates 24px of space between grid items (spacing of 3 = 24px in MUI)
+          sx={{
+            margin: '0 auto', // Center the grid
+            width: '100%',
+            // Add negative margins to counteract container padding
+            marginLeft: '-24px',
+            marginRight: '-24px',
+          }}
+        >
           {mockProjects.map((project, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            // Each Grid item will now have equal spacing
+            <Grid 
+              item 
+              xs={12} 
+              sm={6} 
+              md={4} 
+              key={index}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center', // Center the card within its grid item
+                padding: '24px', // Add padding to ensure consistent spacing
+              }}
+            >
               <ProjectCard {...project} />
             </Grid>
           ))}
