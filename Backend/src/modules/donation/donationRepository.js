@@ -174,20 +174,53 @@ exports.getLeaderboard = async () => {
                 $sort: { totalAmount: -1 }, // Sort by totalAmount descending
             },
             {
-                $limit: 20,
-            },
-            {
-                $project: {
-                    _id: 0,
-                    donorId: "$_id",
-                    totalAmount: 1,
-                },
+                $limit: 10,
             },
         ]);
 
         console.log("Aggregated data:", aggregatedData);
 
-        return aggregatedData;
+        // Fetch donor details from Team B's API for each donor
+        const leaderboard = await Promise.all(
+            aggregatedData.map(async (donor) => {
+                try {
+                    console.log(`Fetching donor data for donor ID: ${donor._id}`);
+
+                    const response = await axios.get(
+                        `http://localhost:5001/admin-server/donor/id/${donor._id}`
+                    );
+
+                    console.log(`Response from Team B API:`, response.data);
+
+                    const donorData = response.data.data;
+
+                    return {
+                        donorId: donor._id,
+                        donorName: donorData
+                            ? `${donorData.first_name} ${donorData.last_name}`
+                            : "Unknown Donor",
+                        totalAmount: donor.totalAmount,
+                    };
+                } catch (error) {
+                    console.error(
+                        `Error fetching donor data for ${donor._id}:`,
+                        error.message
+                    );
+                    if (error.response) {
+                        console.error("Error response data:", error.response.data);
+                        console.error("Error response status:", error.response.status);
+                    }
+                    return {
+                        donorId: donor._id,
+                        donorName: "Unknown Donor",
+                        totalAmount: donor.totalAmount,
+                    };
+                }
+            })
+        );
+
+        console.log("Leaderboard:", leaderboard);
+        return leaderboard;
     } catch (error) {
         console.error("Error fetching leaderboard from DB:", error);
         throw new Error(
