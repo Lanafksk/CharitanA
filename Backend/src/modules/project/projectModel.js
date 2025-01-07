@@ -10,16 +10,21 @@ const clusterURI = process.env.MONGO_URI;
 // Connect to respective Database
 const db = connectDB('charitan', clusterURI);
 
+const ProjectCategory = ['Food', 'Health', 'Education', 'Environment', 'Religion', 'Humanitarian', 'Housing', 'Other'];
+const ProjectStatus = ['Active', 'Halted', 'Completed'];
+
 const projectSchema = new mongoose.Schema(
     {
         project_id: { type: String, default: uuidv4, unique: true },
-        category_id: { type: String, required: true }, // Reference to Category
+        category: { type: String, 
+            enum: ProjectCategory,
+            required: true },
         charity_id: { type: String, required: true },
         title: { type: String, required: true },
         target_amount: { type: Number, required: true },
         current_amount: { type: Number, default: 0 },
         description: { type: String, required: true },
-        status: { type: String, enum: ['active', 'halted', 'completed'], default: 'active' },
+        status: { type: String, enum: ProjectStatus, default: 'active' },
         start_date: { type: Date, required: true },
         end_date: { type: Date, required: true },
         region: { type: String, required: true },
@@ -31,4 +36,4 @@ const projectSchema = new mongoose.Schema(
 );
 
 const Project = db.model('Project', projectSchema);
-module.exports = Project;
+module.exports = { Project, ProjectCategory, ProjectStatus };

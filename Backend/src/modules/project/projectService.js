@@ -1,20 +1,21 @@
 const axios = require('axios');
 const isValidDate = require('../../utils/dateValidation').isValidDate;
+const { ProjectCategory, ProjectStatus } = require('./projectModel');
 const projectRepository = require('./projectRepository');
 
 const API_GATEWAY = 'http://localhost:5000/admin-server';
-const INTERNAL_SERVER = 'http://localhost:4000/api';
 
 // Create a new project
 exports.createProject = async (projectData) => {
     // Validate all passed fields
-    const validation = await validateProjectData(projectData);
-    if (!validation) {
-        throw new Error(validation);
+    try {
+        await validateProjectData(projectData);
+    }catch (err) {
+        throw new Error(err);
     }
 
     // Confirmation of data validation, and send email to donors
-    await projectRepository.createProject(projectData);
+    return await projectRepository.createProject(projectData);
 
     // Send email to donors
     // const callEmailService = async () => {
@@ -26,14 +27,6 @@ exports.createProject = async (projectData) => {
 // Get all projects
 exports.getAllProjects = async () => {
     const projects = await projectRepository.getAllProjects();
-
-    // Convert the category_id to category_name
-    for (let project of projects) {
-        console.log(project.category);
-        const category = await axios.get(`${INTERNAL_SERVER}/categories/${project.category}`);
-        project.category = category.data.name;
-    }
-
     return projects;
 };
 
@@ -61,8 +54,8 @@ exports.deleteProject = async (projectId) => {
 };
 
 // Get all projects by category
-exports.getProjectsByCategory = async (categoryId) => {
-    return await projectRepository.getProjectsByCategory(categoryId);
+exports.getProjectsByCategory = async (category) => {
+    return await projectRepository.getProjectsByCategory(category);
 };
 
 // Get all projects by charity
@@ -154,31 +147,30 @@ exports.getProjectsByCharityName = async (name) => {
 };
 
 async function validateProjectData(projectData) {
-    if (!projectData.title || !projectData.description || !projectData.target_amount || !projectData.current_amount || !projectData.start_date || !projectData.end_date || !projectData.country || !projectData.region || !projectData.category_id || !projectData.charity_id) {
+    if (!projectData.title || !projectData.description || !projectData.target_amount || !projectData.current_amount || !projectData.start_date || !projectData.end_date || !projectData.country || !projectData.region || !projectData.category || !projectData.charity_id) {
         throw new Error('All fields are required');
     }
 
+    // Validate if the charity exists
+    // try {
+    //     const response = await axios.get(`${API_GATEWAY}/charity/${projectData.charity_id}`);
+    //     const charityData = response.data;
+    //     if (charityData == null) {
+    //         throw new Error('Charity does not exist');
+    //     }
+    // }
+    // catch (err) {
+    //     console.log(err);
+    // }
+
     // Validate if the category exists
-    const categoryExists = await axios.get(`${INTERNAL_SERVER}/categories/${projectData.category_id}`);
-    if (!categoryExists) {
-        throw new Error('Category does not exist');
+    if (!ProjectCategory.includes(projectData.category)) {
+        throw new Error('Invalid category');
     }
 
     // Validate if status is valid
-    if (projectData.status !== 'active') {
-        throw new Error('Invalid status, newly created projects must be active');
-    }
-
-    // Validate if the charity exists
-    try {
-        const response = await axios.get(`${API_GATEWAY}/charity/${projectData.charity_id}`);
-        const charityData = response.data;
-        if (charityData == null) {
-            throw new Error('Charity does not exist');
-        }
-    }
-    catch (err) {
-        console.log(err);
+    if (projectData.status !== 'Active') {
+        throw new Error('Invalid status, newly created projects must be Active');
     }
 
     // Validate date

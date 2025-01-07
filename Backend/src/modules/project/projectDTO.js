@@ -2,7 +2,7 @@
 class ProjectDTO {
     constructor(project) {
         this.project_id = project.project_id;
-        this.category = project.category_id;
+        this.category = project.category;
         this.title = project.title;
         this.targetAmount = project.target_amount;
         this.currentAmount = project.current_amount;

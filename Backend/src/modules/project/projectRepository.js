@@ -1,4 +1,4 @@
-const Project = require('./projectModel');
+const { Project } = require('./projectModel');
 const ProjectDTO = require('./projectDTO');
 
 convertToDTO = (project) => {
@@ -47,8 +47,8 @@ exports.deleteProject = async (projectId) => {
 };
 
 // Get all projects by category
-exports.getProjectsByCategory = async (categoryId) => {
-    const projects = await Project.find({ category_id: categoryId });
+exports.getProjectsByCategory = async (category) => {
+    const projects = await Project.find({ category: category });
     return convertToDTO(projects);
 };
 
