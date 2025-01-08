@@ -14,6 +14,9 @@ const emailRoutes = require('../modules/email/routes/emailRoutes');
 // Donation Module
 const donationRoutes = require('../modules/donation/donationRoutes');
 
+// Payment Module
+const paymentRoutes = require('../modules/payment/paymentRoutes');
+
 // // encryption Module
 const keyRoutes = require('../modules/encryption/routes/keyRoutes');
 const jwsRoutes = require('../modules/encryption/routes/jweRoutes');
@@ -42,5 +45,8 @@ router.use('/jws', jwsRoutes); // Routes for the JWS module
 
 // Donations Module
 router.use('/donations', donationRoutes); // Routes for the Donation module
+
+// Payment Module
+router.use('/payments', paymentRoutes); // Routes for the Donation module
 
 module.exports = router;
