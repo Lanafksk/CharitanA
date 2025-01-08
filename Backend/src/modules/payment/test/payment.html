@@ -56,7 +56,9 @@
 <body>
     <div class="donation-form">
         <h2>Donate to [Project Name]</h2>
-        <input type="hidden" id="projectId" value="f8293bf0-b4e2-402c-a90c-3ef4517c2ea7">
+        <label for="projectId">Project ID:</label>
+        <input type="text" id="projectId" value="f8293bf0-b4e2-402c-a90c-3ef4517c2ea7">
+
         <label for="donorId">Donor ID (optional):</label>
         <input type="text" id="donorId" placeholder="Enter your donor ID">
 
@@ -91,7 +93,7 @@
 
             try {
                 paymentStatus.textContent = "Processing payment...";
-                const response = await fetch("http:/localhost:4001/api/payments", { // Make sure this matches your backend route
+                const response = await fetch("http://localhost:4000/api/payments", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

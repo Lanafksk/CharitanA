@@ -49,7 +49,7 @@ exports.createOrder = async (paymentData) => {
         ],
         application_context: {
             return_url: `${process.env.YOUR_BASE_URL}/api/payments/capture`, // Replace with your actual URL
-            cancel_url: `${process.env.YOUR_BASE_URL}/api/payments/cancel`, // Replace with your actual URL
+            cancel_url: `${process.env.YOUR_FRONTEND_URL}/payment-cancelled`, // Replace with your actual URL
         },
     };
 
@@ -77,7 +77,7 @@ exports.createOrder = async (paymentData) => {
         if (error.response) {
             console.error("PayPal API response data:", error.response.data);
         }
-        throw new Error("Failed to create PayPal order");
+        throw new Error("Failed to create PayPal order.");
     }
 };
 

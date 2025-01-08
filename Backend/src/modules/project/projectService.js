@@ -161,21 +161,19 @@ exports.getCharityPaypalEmail = async (projectId) => {
             throw new Error(`Project not found with ID: ${projectId}`);
         }
 
-        // Assuming that the charity ID is stored in a property called 'charity_id' in the project
         const charityId = project.charity_id;
         if (!charityId) {
             throw new Error(`Charity ID not found for project with ID: ${projectId}`);
         }
 
-        // Fetch the charity details from an external API (assuming Team B's API)
+        // Fetch the charity details from Team B's API
         const charityResponse = await axios.get(
             `http://localhost:5001/charity/id/${charityId}`
         );
         const charityData = charityResponse.data;
 
-        // Assuming the PayPal email is stored in a property called 'paypal_email'
-        // const paypalEmail = charityData.paypal_email;
-        const paypalEmail = "sb-vmtlt35454936@business.example.com";
+        // Access the paypal_email property
+        const paypalEmail = charityData.data.paypal_email;
         if (!paypalEmail) {
             throw new Error(
                 `PayPal email not found for charity with ID: ${charityId}`

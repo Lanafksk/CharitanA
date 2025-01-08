@@ -20,7 +20,7 @@ const paymentSchema = new mongoose.Schema(
         project_id: {
             type: String,
             required: true,
-            ref: "Project"
+            ref: "Project",
         },
         amount: {
             type: Number,

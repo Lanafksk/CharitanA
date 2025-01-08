@@ -1,6 +1,6 @@
 const paymentRepository = require("./paymentRepository");
 const paypalService = require("./paypalService");
-const projectService = require("../project/projectService"); // Import project service
+const projectService = require("../project/projectService");
 const donationService = require("../donation/donationService");
 
 exports.initiatePayment = async (paymentData) => {
@@ -21,8 +21,9 @@ exports.initiatePayment = async (paymentData) => {
 
         if (paymentData.payment_method === "paypal") {
             // Create a PayPal order
-            const { orderId, approvalUrl } =
-                await paypalService.createOrder(paymentData);
+            const { orderId, approvalUrl } = await paypalService.createOrder(
+                paymentData
+            );
 
             // Update the payment record with PayPal order ID
             await paymentRepository.updatePayment(paymentRecord._id, {
@@ -35,7 +36,7 @@ exports.initiatePayment = async (paymentData) => {
         }
     } catch (error) {
         console.error("Error initiating payment:", error);
-        throw new Error("Failed to initiate payment");
+        throw new Error(error.message);
     }
 };
 
@@ -80,6 +81,6 @@ exports.capturePayment = async (orderId) => {
         return updatedPayment;
     } catch (error) {
         console.error("Error capturing payment:", error);
-        throw new Error("Failed to capture payment");
+        throw new Error(error.message);
     }
 };

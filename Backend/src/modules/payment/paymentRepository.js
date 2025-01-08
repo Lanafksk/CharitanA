@@ -29,3 +29,12 @@ exports.updatePayment = async (paymentId, updateData) => {
         throw new Error("Failed to update payment");
     }
 };
+
+exports.findPaymentByPaypalOrderId = async (orderId) => {
+    try {
+        return await Payment.findOne({ "payment_gateway_response.orderId": orderId });
+    } catch (error) {
+        console.error("Error finding payment by PayPal order ID:", error);
+        throw new Error("Failed to find payment by PayPal order ID");
+    }
+};
