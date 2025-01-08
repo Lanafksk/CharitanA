@@ -30,9 +30,10 @@ exports.initiatePayment = async (paymentData) => {
 
             console.log("PayPal order created:", orderId, approvalUrl);
 
-            // Update the payment record with PayPal order ID
+            // Update the payment record with PayPal order ID and message
             await paymentRepository.updatePayment(paymentRecord._id, {
                 payment_gateway_response: { orderId },
+                message: paymentData.message, // Get message from paymentData
             });
 
             console.log("Payment record updated with order ID:", orderId);
@@ -93,10 +94,12 @@ exports.capturePayment = async (orderId) => {
             const donationData = {
                 donor_id: updatedPayment.donor_id,
                 project_id: updatedPayment.project_id,
-                amount: updatedPayment.amount, // or extract from captureResponse
-                payment_method: paymentMethod, // Use the determined payment method
+                amount: updatedPayment.amount,
+                payment_method: paymentMethod,
                 payment_id: updatedPayment.payment_id,
-                message: updatedPayment.message, // Assuming you're storing the message in the Payment
+                message:
+                    updatedPayment.payment_gateway_response.captureResponse
+                        .purchase_units[0].description, // Use optional chaining and nullish coalescing
                 is_recurring: updatedPayment.is_recurring,
             };
 
