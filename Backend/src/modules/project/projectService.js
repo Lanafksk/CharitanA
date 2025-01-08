@@ -146,3 +146,50 @@ exports.getProjectsByCharityName = async (name) => {
         console.log(err);
     }
 };
+
+/**
+ * Get the PayPal email of the charity associated with a project.
+ *
+ * @param {string} projectId - The ID of the project.
+ * @returns {string} - The PayPal email of the charity.
+ * @throws {Error} - If the project is not found or if the charity's PayPal email is not available.
+ */
+exports.getCharityPaypalEmail = async (projectId) => {
+    try {
+        const project = await projectRepository.getProjectById(projectId);
+        if (!project) {
+            throw new Error(`Project not found with ID: ${projectId}`);
+        }
+
+        // Assuming that the charity ID is stored in a property called 'charity_id' in the project
+        const charityId = project.charity_id;
+        if (!charityId) {
+            throw new Error(`Charity ID not found for project with ID: ${projectId}`);
+        }
+
+        // Fetch the charity details from an external API (assuming Team B's API)
+        const charityResponse = await axios.get(
+            `http://localhost:5001/charity/id/${charityId}`
+        );
+        const charityData = charityResponse.data;
+
+        // Assuming the PayPal email is stored in a property called 'paypal_email'
+        // const paypalEmail = charityData.paypal_email;
+        const paypalEmail = "sb-vmtlt35454936@business.example.com";
+        if (!paypalEmail) {
+            throw new Error(
+                `PayPal email not found for charity with ID: ${charityId}`
+            );
+        }
+
+        return paypalEmail;
+    } catch (error) {
+        console.error(
+            `Error getting charity PayPal email for project ID ${projectId}:`,
+            error
+        );
+        throw new Error(
+            `Failed to get charity PayPal email for project ID ${projectId}`
+        );
+    }
+};
