@@ -74,3 +74,14 @@ exports.getDonationById = async (donationId) => {
         throw new Error(`Error fetching donation by ID: ${error.message}`);
     }
 };
+
+// Create a new donation
+exports.createDonation = async (donationData) => {
+    try {
+        const donation = await donationRepository.createDonation(donationData);
+        return donation;
+    } catch (error) {
+        console.error("Error creating donation:", error);
+        throw new Error(`Error creating donation: ${error.message}`);
+    }
+};
