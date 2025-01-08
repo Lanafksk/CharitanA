@@ -3,7 +3,10 @@ const paypal = require("@paypal/checkout-server-sdk");
 // Setting up environment
 const clientId = process.env.PAYPAL_CLIENT_ID;
 const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
-const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret); // Use SandboxEnvironment for testing
+const environment = new paypal.core.SandboxEnvironment(
+    clientId,
+    clientSecret
+);
 const client = new paypal.core.PayPalHttpClient(environment);
 
 exports.createOrder = async (paymentData) => {
@@ -26,14 +29,18 @@ exports.createOrder = async (paymentData) => {
             },
         ],
         application_context: {
-            return_url: `${process.env.YOUR_BASE_URL}/api/payments/capture`,
-            cancel_url: `${process.env.YOUR_FRONTEND_URL}/payment-cancelled`,
+            return_url: `${process.env.TEAM_A_BASE_URL}/api/payments/capture`,
+            cancel_url: `${process.env.TEAM_A_BASE_URL_FRONTEND}/payment-cancelled`,
+            brand_name: process.env.YOUR_CHARITY_NAME,
+            locale: "en-US",
+            landing_page: "BILLING",
+            shipping_preference: "NO_SHIPPING",
+            user_action: "CONTINUE",
         },
     });
 
     try {
         const order = await client.execute(request);
-
         console.log("PayPal order created:", order.result);
 
         const orderId = order.result.id;
@@ -44,7 +51,7 @@ exports.createOrder = async (paymentData) => {
         return { orderId, approvalUrl };
     } catch (error) {
         console.error("Error creating PayPal order:", error);
-        throw new Error("Failed to create PayPal order.");
+        throw new Error(error.message);
     }
 };
 

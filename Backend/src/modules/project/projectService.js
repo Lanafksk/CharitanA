@@ -156,22 +156,27 @@ exports.getProjectsByCharityName = async (name) => {
  */
 exports.getCharityPaypalEmail = async (projectId) => {
     try {
+        console.log("Project ID: ", projectId);
         const project = await projectRepository.getProjectById(projectId);
         if (!project) {
             throw new Error(`Project not found with ID: ${projectId}`);
         }
 
+        console.log("Project: ", project);
         const charityId = project.charity_id;
+        console.log("Charity ID: ", charityId);
         if (!charityId) {
             throw new Error(`Charity ID not found for project with ID: ${projectId}`);
         }
 
         // Fetch the charity details from Team B's API
+        // Correct the URL by adding "admin-server"
         const charityResponse = await axios.get(
             `http://localhost:5001/admin-server/charity/id/${charityId}`
         );
+        console.log("Charity response:", charityResponse);
+
         const charityData = charityResponse.data;
-        console.log("Charity data:", charityData);
 
         // Access the paypal_email property
         const paypalEmail = charityData.data.paypal_email;

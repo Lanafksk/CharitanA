@@ -6,7 +6,7 @@ exports.createPayment = async (paymentData) => {
         return await payment.save();
     } catch (error) {
         console.error("Error creating payment:", error);
-        throw new Error("Failed to create payment");
+        throw new Error("Failed to create payment", { cause: error });
     }
 };
 

@@ -1,19 +1,21 @@
-const { v4: uuidv4 } = require('uuid');
-const connectDB = require('../../database/connection');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const mongoose = require("mongoose");
+const { v4: uuidv4 } = require("uuid");
 
-
-dotenv.config();
+// Get the MongoDB connection URI from environment variables
 const clusterURI = process.env.MONGO_URI;
 
-// Connect to respective Database
-const db = connectDB('charitan', clusterURI);
+// Connect to the "charitan" database using mongoose.createConnection()
+const db = mongoose.createConnection(clusterURI);
 
 db.on("connected", () => {
     console.log("Successfully connected to the database: charitan/payment  ");
 });
 
+db.on("error", (err) => {
+    console.error("Error connecting to MongoDB:", err);
+});
+
+// Define the Payment Schema
 const paymentSchema = new mongoose.Schema(
     {
         payment_id: {
@@ -33,6 +35,7 @@ const paymentSchema = new mongoose.Schema(
         project_id: {
             type: String,
             required: true,
+            ref: "Project"
         },
         amount: {
             type: Number,

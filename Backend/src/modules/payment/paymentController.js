@@ -5,7 +5,6 @@ exports.initiatePayment = async (req, res) => {
     try {
         const paymentData = req.body;
         const { approvalUrl } = await paymentService.initiatePayment(paymentData);
-
         res.status(200).json({ approvalUrl });
     } catch (error) {
         console.error("Error initiating payment:", error);
@@ -19,15 +18,18 @@ exports.capturePayment = async (req, res) => {
         const { token } = req.query; // Extract the order ID (token) from the query parameters
         const updatedPayment = await paymentService.capturePayment(token);
 
-        // Redirect the user to a success or failure page on your frontend
+        // Check if the payment was completed successfully
         if (updatedPayment.status === "completed") {
-            res.status(200).json({ message: "Payment captured successfully" }); // Send success message
+            // Send a success response to the frontend
+            res.status(200).json({ message: "Payment captured successfully" });
         } else {
+            // Handle payment failure
             res.status(500).json({ error: "Payment failed to capture" });
         }
     } catch (error) {
         console.error("Error capturing payment:", error);
-        res.status(500).json({ error: error.message }); // Send error as JSON
+        // Handle errors gracefully and inform the user
+        res.status(500).json({ error: error.message });
     }
 };
 
