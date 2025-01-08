@@ -30,7 +30,7 @@ exports.createOrder = async (paymentData) => {
         ],
         application_context: {
             return_url: `${process.env.TEAM_A_BASE_URL}/api/payments/capture`,
-            cancel_url: `${process.env.TEAM_A_BASE_URL_FRONTEND}/payment-cancelled`,
+            cancel_url: `${process.env.TEAM_A_BASE_URL}/payment-cancelled`,
             brand_name: process.env.YOUR_CHARITY_NAME,
             locale: "en-US",
             landing_page: "BILLING",
@@ -68,5 +68,17 @@ exports.capturePayment = async (orderId) => {
     } catch (error) {
         console.error("Error capturing PayPal payment:", error);
         throw new Error("Failed to capture PayPal payment");
+    }
+};
+
+exports.getOrder = async (orderId) => {
+    const request = new paypal.orders.OrdersGetRequest(orderId);
+    try {
+        const order = await client.execute(request);
+        console.log("Order details:", order.result);
+        return order.result;
+    } catch (error) {
+        console.error("Error fetching order details:", error);
+        throw new Error("Failed to fetch order details.");
     }
 };

@@ -67,6 +67,12 @@ const paymentSchema = new mongoose.Schema(
         },
         payment_gateway_response: {
             type: Object, // Store relevant data from PayPal's responses
+            payer: {
+                // Add payer object to store payer information
+                payer_id: { type: String },
+                email_address: { type: String },
+                address: { type: Object },
+            },
         },
         is_recurring: {
             type: Boolean,

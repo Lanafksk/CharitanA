@@ -53,6 +53,15 @@ exports.capturePayment = async (orderId) => {
         const captureResponse = await paypalService.capturePayment(orderId);
         console.log("Payment captured, response:", captureResponse);
 
+        // Get order details to check payment method
+        const orderDetails = await paypalService.getOrder(orderId);
+        console.log("Order details:", orderDetails);
+
+        // Determine the payment method based on the payer information
+        const paymentMethod = orderDetails.payment_source
+            ? Object.keys(orderDetails.payment_source)[0]
+            : "paypal";
+
         // Find the payment record associated with the order ID
         const paymentRecord = await paymentRepository.findPaymentByPaypalOrderId(
             orderId
@@ -69,7 +78,12 @@ exports.capturePayment = async (orderId) => {
             {
                 status:
                     captureResponse.status === "COMPLETED" ? "completed" : "failed",
-                payment_gateway_response: captureResponse,
+                payment_method: paymentMethod,
+                payment_gateway_response: {
+                    ...paymentRecord.payment_gateway_response,
+                    captureResponse,
+                    payer: orderDetails.payer, // Save payer information
+                },
             }
         );
         console.log("Payment record updated:", updatedPayment);
@@ -80,7 +94,7 @@ exports.capturePayment = async (orderId) => {
                 donor_id: updatedPayment.donor_id,
                 project_id: updatedPayment.project_id,
                 amount: updatedPayment.amount, // or extract from captureResponse
-                payment_method: updatedPayment.payment_method,
+                payment_method: paymentMethod, // Use the determined payment method
                 payment_id: updatedPayment.payment_id,
                 message: updatedPayment.message, // Assuming you're storing the message in the Payment
                 is_recurring: updatedPayment.is_recurring,

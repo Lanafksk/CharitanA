@@ -78,6 +78,7 @@ exports.getDonationById = async (donationId) => {
 // Create a new donation
 exports.createDonation = async (donationData) => {
     try {
+        console.log("Creating donation with data:", donationData); // Log the data
         const donation = await donationRepository.createDonation(donationData);
         return donation;
     } catch (error) {
