@@ -16,7 +16,6 @@ const donationRoutes = require('../modules/donation/donationRoutes');
 
 // Payment Module
 const paymentRoutes = require('../modules/payment/paymentRoutes');
-const paymentTestRoutes = require('../modules/payment/paymentTestRoutes');
 
 // // encryption Module
 const keyRoutes = require('../modules/encryption/routes/keyRoutes');
@@ -49,6 +48,5 @@ router.use('/donations', donationRoutes); // Routes for the Donation module
 
 // Payment Module
 router.use('/payments', paymentRoutes); // Routes for the Donation module
-router.use("/test/payments", paymentTestRoutes);
 
 module.exports = router;
