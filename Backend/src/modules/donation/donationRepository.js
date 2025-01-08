@@ -145,15 +145,7 @@ exports.findDonationByPlanId = async (planId) => {
     }
 };
 
-/**
- * Generates a leaderboard of donors based on their total donation amounts.
- *
- * @param {Date} startDate - The start date for the time period.
- * @param {Date} endDate - The end date for the time period.
- * @param {Number} sortDirection - The sort direction (-1 for descending, 1 for ascending).
- * @returns {Array} - An array of donor objects with their total donation amounts, sorted by total amount.
- * @throws {Error} - If there is an error fetching the leaderboard.
- */
+
 exports.getLeaderboard = async () => {
     console.log("Fetching leaderboard from DB (simplified)");
 
