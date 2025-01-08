@@ -1,14 +1,17 @@
-const mongoose = require("mongoose");
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require('uuid');
+const connectDB = require('../../database/connection');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
 // Get the MongoDB connection URI from environment variables
+dotenv.config();
 const clusterURI = process.env.MONGO_URI;
 
-// Connect to the "charitan" database using mongoose.createConnection()
-const db = mongoose.createConnection(clusterURI);
+// Connect to respective Database
+const db = connectDB('charitan', clusterURI);
 
 db.on("connected", () => {
-    console.log("Successfully connected to the database: charitan/payment  ");
+    console.log("Successfully connected to the database: charitan/payment");
 });
 
 db.on("error", (err) => {
@@ -35,7 +38,7 @@ const paymentSchema = new mongoose.Schema(
         project_id: {
             type: String,
             required: true,
-            ref: "Project"
+            ref: "Project",
         },
         amount: {
             type: Number,
@@ -47,7 +50,7 @@ const paymentSchema = new mongoose.Schema(
         },
         payment_method: {
             type: String,
-            enum: ["paypal"], // Only "paypal" for now
+            enum: ["paypal", "card"], // Only "paypal" for now
             required: true,
         },
         status: {
@@ -58,7 +61,7 @@ const paymentSchema = new mongoose.Schema(
                 "failed",
                 "cancelled",
                 "active-subscription", // For recurring payments
-                "inactive-subscription", // For recurring payments
+                "inactive-subscription", // For in-recurring payments
             ],
             default: "pending",
         },

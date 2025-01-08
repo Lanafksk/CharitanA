@@ -57,10 +57,11 @@ exports.capturePayment = async (orderId) => {
         const paymentRecord = await paymentRepository.findPaymentByPaypalOrderId(
             orderId
         );
-
         if (!paymentRecord) {
             throw new Error(`Payment record not found for order ID: ${orderId}`);
         }
+
+        console.log("Payment record found:", paymentRecord);
 
         // Update the payment record with the capture response and status
         const updatedPayment = await paymentRepository.updatePayment(
@@ -71,16 +72,17 @@ exports.capturePayment = async (orderId) => {
                 payment_gateway_response: captureResponse,
             }
         );
+        console.log("Payment record updated:", updatedPayment);
 
         // If the payment was successful, create a donation record
         if (updatedPayment.status === "completed") {
             const donationData = {
                 donor_id: updatedPayment.donor_id,
                 project_id: updatedPayment.project_id,
-                amount: updatedPayment.amount,
+                amount: updatedPayment.amount, // or extract from captureResponse
                 payment_method: updatedPayment.payment_method,
                 payment_id: updatedPayment.payment_id,
-                message: updatedPayment.message,
+                message: updatedPayment.message, // Assuming you're storing the message in the Payment
                 is_recurring: updatedPayment.is_recurring,
             };
 

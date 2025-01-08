@@ -3,7 +3,7 @@ const Payment = require("./paymentModel");
 exports.createPayment = async (paymentData) => {
     try {
         const payment = new Payment(paymentData);
-        return await payment.save();
+        return await payment.save(); // Await the save operation
     } catch (error) {
         console.error("Error creating payment:", error);
         throw new Error("Failed to create payment", { cause: error });
