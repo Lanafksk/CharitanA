@@ -168,9 +168,10 @@ exports.getCharityPaypalEmail = async (projectId) => {
 
         // Fetch the charity details from Team B's API
         const charityResponse = await axios.get(
-            `http://localhost:5001/charity/id/${charityId}`
+            `http://localhost:5001/admin-server/charity/id/${charityId}`
         );
         const charityData = charityResponse.data;
+        console.log("Charity data:", charityData);
 
         // Access the paypal_email property
         const paypalEmail = charityData.data.paypal_email;
