@@ -23,15 +23,14 @@ The donation module is organized into the following files:
 
 The following API routes are available for the donation module:
 
-| Method                                             | Route                                | Description                                                         | Query Parameters                                                                           |
-| :------------------------------------------------- | :----------------------------------- | :------------------------------------------------------------------ | :----------------------------------------------------------------------------------------- |
-| GET                                                | `/donations`                         | Fetch all donations.                                                | `sortBy`: Field to sort by (e.g., `createdAt`, `amount`).<br>`sortOrder`: `asc` or `desc`. |
-| GET                                                | `/donations/:donationId`             | Get a specific donation by its ID.                                  | None                                                                                       |
-| GET                                                | `/donations/history/:donorId`        | Get the donation history for a specific donor.                      | None                                                                                       |
-| GET                                                | `/donations/total-amount/:donorId`   | Get the total donation amount for a specific donor.                 | None                                                                                       |
-| GET                                                | `/donations/total-projects/:donorId` | Get the total number of unique projects a donor has contributed to. | None                                                                                       |
-| GET                                                | `/donations/leaderboard`             | Get the leaderboard of top donors based on total donation amounts.  | `timePeriod`: `month` or `year` (optional, defaults to all-time from 2010).<br>`sortBy`:   |
-| Field to sort by.<br>`sortOrder`: `asc` or `desc`. |
+| Method | Route                                | Description                                                         | Query Parameters                                                                           |
+| :----- | :----------------------------------- | :------------------------------------------------------------------ | :----------------------------------------------------------------------------------------- |
+| GET    | `/donations`                         | Fetch all donations.                                                | `sortBy`: Field to sort by (e.g., `createdAt`, `amount`).<br>`sortOrder`: `asc` or `desc`. |
+| GET    | `/donations/:donationId`             | Get a specific donation by its ID.                                  | None                                                                                       |
+| GET    | `/donations/history/:donorId`        | Get the donation history for a specific donor.                      | None                                                                                       |
+| GET    | `/donations/total-amount/:donorId`   | Get the total donation amount for a specific donor.                 | None                                                                                       |
+| GET    | `/donations/total-projects/:donorId` | Get the total number of unique projects a donor has contributed to. | None                                                                                       |
+| GET    | `/donations/leaderboard`             | Get the leaderboard of top donors based on total donation amounts.  | None                                                                                       |
 
 **Note:** All routes are relative to your API's base URL (e.g., `http://localhost:4000/api`).
 
