@@ -1,11 +1,21 @@
-import React from 'react';
+// CharityProjectPage.js
+import React, { useState, useMemo } from 'react';
 import { Box, Grid, Container } from '@mui/material';
 import NavigationBar from '../../components/navigationBar';
 import PageBanner from '../../components/pageBanner';
 import ProjectCard from '../../components/projectCard';
+import ProjectCarousel from '../../components/projectCarousel';
+import SearchFilter from '../../components/searchFilter';
 import projectImage from '../../assets/project.jpg';
 
 const CharityProjectPage = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeFilters, setActiveFilters] = useState({
+    country: '',
+    category: '',
+    goal: '',
+    status: ''
+  });
   const mockProjects = [
     {
       projectName: 'Clean Water Initiative',
@@ -31,44 +41,118 @@ const CharityProjectPage = () => {
       daysLeft: 45,
       image: projectImage,
     },
+    {
+      projectName: 'Healthcare Access',
+      charityName: 'Health Charity',
+      status: 'Available',
+      description: 'Providing healthcare services to underserved communities.',
+      category: 'Health',
+      raised: 30000,
+      goal: 90000,
+      location: 'Uganda',
+      daysLeft: 60,
+      image: projectImage,
+    },
+    {
+      projectName: 'Food for All',
+      charityName: 'Hunger Charity',
+      status: 'Available',
+      description: 'Distributing food to families in need.',
+      category: 'Hunger',
+      raised: 40000,
+      goal: 70000,
+      location: 'Ethiopia',
+      daysLeft: 20,
+      image: projectImage,
+    },
+    {
+      projectName: 'Shelter for Homeless',
+      charityName: 'Shelter Charity',
+      status: 'Available',
+      description: 'Providing shelter and support to homeless individuals.',
+      category: 'Shelter',
+      raised: 60000,
+      goal: 120000,
+      location: 'USA',
+      daysLeft: 90,
+      image: projectImage,
+    },
+    {
+      projectName: 'Environmental Protection',
+      charityName: 'Environment Charity',
+      status: 'Available',
+      description: 'Protecting the environment through various initiatives.',
+      category: 'Environment',
+      raised: 20000,
+      goal: 50000,
+      location: 'Brazil',
+      daysLeft: 40,
+      image: projectImage,
+    },
   ];
+
+  const filteredProjects = useMemo(() => {
+    return mockProjects.filter(project => {
+      // Search term filter
+      const searchMatch = project.projectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         project.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+      // Apply filters
+      const countryMatch = !activeFilters.country || project.location === activeFilters.country;
+      const categoryMatch = !activeFilters.category || project.category === activeFilters.category;
+      const statusMatch = !activeFilters.status || project.status === activeFilters.status;
+      
+      // Goal filter logic
+      let goalMatch = true;
+      if (activeFilters.goal) {
+        const projectGoal = project.goal;
+        switch (activeFilters.goal) {
+          case 'Under $10,000':
+            goalMatch = projectGoal < 10000;
+            break;
+          case '$10,000-$50,000':
+            goalMatch = projectGoal >= 10000 && projectGoal <= 50000;
+            break;
+          case 'Over $50,000':
+            goalMatch = projectGoal > 50000;
+            break;
+          default:
+            goalMatch = true;
+        }
+      }
+
+      return searchMatch && countryMatch && categoryMatch && statusMatch && goalMatch;
+    });
+  }, [mockProjects, searchTerm, activeFilters]);
 
   return (
     <Box>
       <NavigationBar currentPage="/projects" />
       <PageBanner text="PROJECT" />
-      {/* Add padding to the Container to ensure consistent edge spacing */}
       <Container sx={{ marginTop: 4, padding: '24px' }}>
-        {/* The Grid container now uses consistent spacing and has a negative margin to offset padding */}
-        <Grid 
-          container 
-          spacing={3} // This creates 24px of space between grid items (spacing of 3 = 24px in MUI)
-          sx={{
-            margin: '0 auto', // Center the grid
-            width: '100%',
-            // Add negative margins to counteract container padding
-            marginLeft: '-24px',
-            marginRight: '-24px',
-          }}
-        >
-          {mockProjects.map((project, index) => (
-            // Each Grid item will now have equal spacing
-            <Grid 
-              item 
-              xs={12} 
-              sm={6} 
-              md={4} 
+        <SearchFilter
+          onSearch={setSearchTerm}
+          onFilter={setActiveFilters}
+        />
+        <ProjectCarousel>
+          {filteredProjects.map((project, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
               key={index}
               sx={{
                 display: 'flex',
-                justifyContent: 'center', // Center the card within its grid item
-                padding: '24px', // Add padding to ensure consistent spacing
+                justifyContent: 'center',
+                padding: '24px',
+                flexShrink: 0
               }}
             >
               <ProjectCard {...project} />
             </Grid>
           ))}
-        </Grid>
+        </ProjectCarousel>
       </Container>
     </Box>
   );
