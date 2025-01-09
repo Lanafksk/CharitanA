@@ -79,8 +79,8 @@ const CharityProjectPage = () => {
       image: projectImage,
     },
     {
-      projectName: 'Environmental Protection',
-      charityName: 'Environment Charity',
+      projectName: 'Protection',
+      charityName: 'Charity',
       status: 'Available',
       description: 'Protecting the environment through various initiatives.',
       category: 'Environment',
