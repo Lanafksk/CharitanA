@@ -246,14 +246,25 @@ exports.updateDonation = async (donationId, updateData) => {
 };
 
 // Fetch all donations with optional sorting
-exports.getAllDonations = async (sortBy, sortOrder) => {
+exports.getAllDonations = async (startDate, endDate, sortBy, sortOrder) => {
     try {
-        const sortOptions = {};
-        if (sortBy) {
-            sortOptions[sortBy] = sortOrder === "asc" ? 1 : -1; // 1 for ascending, -1 for descending
+        const allowedSortFields = ["createdAt", "amount", "donor_id"]; // Fields that can be sorted
+
+        let query = {}; // Default: no filtering
+
+        if (startDate && endDate) {
+            query.createdAt = { $gte: startDate, $lte: endDate };
         }
 
-        const donations = await Donation.find().sort(sortOptions);
+        // Sorting options (with validation and default)
+        let sortOptions = {};
+        if (sortBy && allowedSortFields.includes(sortBy)) {
+            sortOptions[sortBy] = sortOrder === "desc" ? -1 : 1; // 1 for ascending, -1 for descending
+        } else {
+            sortOptions = { createdAt: -1 }; // Default sort: newest first (by createdAt)
+        }
+
+        const donations = await Donation.find(query).sort(sortOptions);
         return donations;
     } catch (error) {
         throw new Error(`Error fetching all donations: ${error.message}`);

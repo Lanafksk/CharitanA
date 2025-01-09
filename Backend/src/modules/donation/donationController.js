@@ -58,11 +58,40 @@ exports.getLeaderboard = async (req, res) => {
 // Fetch all donations with optional sorting
 exports.getAllDonations = async (req, res) => {
     try {
-        const { sortBy, sortOrder } = req.query;
+        const { timePeriod, year, month, startDate, endDate, sortBy, sortOrder } =
+            req.query;
+
+        // Basic Input Validation (you can make this more robust)
+        if (
+            (timePeriod === "year" && !year) ||
+            (timePeriod === "month" && (!year || !month)) ||
+            (timePeriod === "custom" && (!startDate || !endDate))
+        ) {
+            return res
+                .status(400)
+                .json({ error: "Invalid date parameters for the given time period." });
+        }
+
+        if (
+            sortOrder &&
+            sortOrder.toLowerCase() !== "asc" &&
+            sortOrder.toLowerCase() !== "desc"
+        ) {
+            return res
+                .status(400)
+                .json({ error: "Invalid sortOrder. Must be 'asc' or 'desc'." });
+        }
+
         const donations = await donationService.getAllDonations(
+            timePeriod,
+            year,
+            month,
+            startDate,
+            endDate,
             sortBy,
             sortOrder
         );
+
         res.status(200).json(donations);
     } catch (error) {
         console.error("Error getting all donations:", error);

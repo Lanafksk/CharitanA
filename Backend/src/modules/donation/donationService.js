@@ -53,9 +53,35 @@ exports.getLeaderboard = async () => {
     }
 };
 
-exports.getAllDonations = async (sortBy, sortOrder) => {
+// Get all donations with optional sorting
+exports.getAllDonations = async (
+    timePeriod,
+    year,
+    month,
+    startDate,
+    endDate,
+    sortBy,
+    sortOrder
+) => {
     try {
+        let start, end;
+
+        if (timePeriod === "year" && year) {
+            start = new Date(year, 0, 1); // Start of the year
+            end = new Date(year, 11, 31, 23, 59, 59, 999); // End of the year
+        } else if (timePeriod === "month" && year && month) {
+            start = new Date(year, month - 1, 1); // Start of the month
+            end = new Date(year, month, 0, 23, 59, 59, 999); // End of the month
+        } else if (timePeriod === "custom" && startDate && endDate) {
+            start = new Date(startDate);
+            end = new Date(endDate);
+            end.setHours(23, 59, 59, 999); // Set end time to the end of the day
+        }
+
+        // Pass start, end, sortBy, and sortOrder to the repository
         const donations = await donationRepository.getAllDonations(
+            start,
+            end,
             sortBy,
             sortOrder
         );
