@@ -74,9 +74,13 @@ exports.deleteImage = async (req, res) => {
 // Get all images by project ID
 exports.getImagesByProjectId = async (req, res) => {
     try {
+        const project_id = req.params.id;
+
         // Validate if the project exists
-        const projectExists = await imageService.validateProject(req.params.id);
-        if (!projectExists) {
+        const projectExists = await axios.get(`http://localhost:4000/api/projects/${project_id}`);
+        const projectRepsonse = projectExists.data;
+        
+        if (projectRepsonse == null) {
             return res.status(400).json({ error: 'Invalid project_id. Project does not exist.' });
         }
 

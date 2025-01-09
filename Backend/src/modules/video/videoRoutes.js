@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const videoController = require('./videoController');
+const upload = require('../../database/multerConfig');
 
 // Create a new video
-router.post('/', videoController.createVideo);
+router.post('/', upload.single('video'), videoController.createVideo);
 
 // Get all videos
 router.get('/', videoController.getAllVideos);

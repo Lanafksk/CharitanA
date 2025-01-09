@@ -1,16 +1,25 @@
+const axios = require('axios');
 const videoService = require('./videoService');
-const projectService = require('../project/projectService');
 
 // Create a new video
 exports.createVideo = async (req, res) => {
     try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded!' });
+        }
+
         const { project_id } = req.body;
 
         // Validate if the project exists
-        const projectExists = await projectService.getProjectById(project_id);
-        if (!projectExists) {
+        const projectExists = await axios.get(`http://localhost:4000/api/projects/${project_id}`);
+        const projectRepsonse = projectExists.data;    
+        if (projectRepsonse == null) {
             return res.status(400).json({ error: 'Invalid project_id. Project does not exist.' });
         }
+        
+        // Upload video to cloudinary
+        req.body.url = req.file.path;
+        req.body.format = req.file.mimetype;
 
         const video = await videoService.createVideo(req.body);
         res.status(201).json(video);
@@ -65,9 +74,13 @@ exports.deleteVideo = async (req, res) => {
 // Get all videos by project ID
 exports.getVideosByProjectId = async (req, res) => {
     try {
+        const project_id = req.params.id;
+        
         // Validate if the project exists
-        const projectExists = await videoService.validateProject(req.params.id);
-        if (!projectExists) {
+        const projectExists = await axios.get(`http://localhost:4000/api/projects/${project_id}`);
+        const projectRepsonse = projectExists.data;
+        
+        if (projectRepsonse == null) {
             return res.status(400).json({ error: 'Invalid project_id. Project does not exist.' });
         }
 
