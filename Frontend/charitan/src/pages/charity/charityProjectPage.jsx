@@ -7,6 +7,7 @@ import ProjectCard from '../../components/projectCard';
 import ProjectCarousel from '../../components/projectCarousel';
 import SearchFilter from '../../components/searchFilter';
 import projectImage from '../../assets/project.jpg';
+import CreateProjectForm from '../../components/createProjectForm';
 
 const CharityProjectPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -154,6 +155,7 @@ const CharityProjectPage = () => {
           ))}
         </ProjectCarousel>
       </Container>
+      <CreateProjectForm/>
     </Box>
   );
 };
