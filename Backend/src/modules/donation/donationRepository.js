@@ -146,14 +146,32 @@ exports.findDonationByPlanId = async (planId) => {
 };
 
 
-exports.getLeaderboard = async () => {
+exports.getLeaderboard = async (
+    startDate,
+    endDate,
+    sortBy = "totalAmount",
+    sortOrder = "desc"
+) => {
     console.log("Fetching leaderboard from DB (simplified)");
-
     try {
-        const aggregatedData = await Donation.aggregate([
+        const allowedSortFields = ["totalAmount", "donorId"]; // Only allow sorting by totalAmount or donorId on the leaderboard
+
+        // Validate sortBy
+        if (!allowedSortFields.includes(sortBy)) {
+            sortBy = "totalAmount"; // default
+        }
+
+        // Create sort options object
+        const sortOptions = {};
+        sortOptions[sortBy] = sortOrder === "desc" ? -1 : 1;
+
+        const aggregationPipeline = [
             {
                 $match: {
                     status: { $in: ["completed", "active-subscription"] },
+                    ...(startDate && endDate
+                        ? { createdAt: { $gte: startDate, $lte: endDate } }
+                        : {}), // Add date filtering to the aggregation pipeline
                 },
             },
             {
@@ -163,29 +181,26 @@ exports.getLeaderboard = async () => {
                 },
             },
             {
-                $sort: { totalAmount: -1 }, // Sort by totalAmount descending
+                $sort: sortOptions,
             },
             {
-                $limit: 10,
+                $limit: 10, // Limit to top 10 donors
             },
-        ]);
+        ];
 
+        const aggregatedData = await Donation.aggregate(aggregationPipeline);
         console.log("Aggregated data:", aggregatedData);
 
-        // Fetch donor details from Team B's API for each donor
+        // Fetch donor details from Team B's API for each donor (if needed)
         const leaderboard = await Promise.all(
             aggregatedData.map(async (donor) => {
                 try {
                     console.log(`Fetching donor data for donor ID: ${donor._id}`);
-
                     const response = await axios.get(
                         `http://localhost:5001/admin-server/donor/id/${donor._id}`
                     );
-
                     console.log(`Response from Team B API:`, response.data);
-
                     const donorData = response.data.data;
-
                     return {
                         donorId: donor._id,
                         donorName: donorData
@@ -220,7 +235,6 @@ exports.getLeaderboard = async () => {
         );
     }
 };
-
 
 /**
  * Finds a donation by its associated payment ID.

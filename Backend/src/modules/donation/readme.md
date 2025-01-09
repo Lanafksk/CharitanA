@@ -29,7 +29,7 @@ The following API routes are available for the donation module:
 | GET    | `/donations/history/:donorId`        | Get the donation history for a specific donor.                      | None             |
 | GET    | `/donations/total-amount/:donorId`   | Get the total donation amount for a specific donor.                 | None             |
 | GET    | `/donations/total-projects/:donorId` | Get the total number of unique projects a donor has contributed to. | None             |
-| GET    | `/donations/leaderboard`             | Get the leaderboard of top donors based on total donation amounts.  | None             |
+| GET    | `/donations/get/leaderboard`         | Get the leaderboard of top donors based on total donation amounts.  | None             |
 
 ## `getAllDonations` Endpoint
 
@@ -98,3 +98,19 @@ GET /api/donations?sortBy=amount&sortOrder=desc
 
 Get donations in June 2024, sorted by creation date in ascending order:
 GET /api/donations?timePeriod=month&year=2024&month=6&sortBy=createdAt&sortOrder=asc
+
+<!-- Leaderboard -->
+
+GET /api/donations/get/leaderboard
+Get the leaderboard for the year 2023:
+
+GET /api/donations/get/leaderboard?timePeriod=year&year=2023
+Get the leaderboard for June 2023:
+
+GET /api/donations/get/leaderboard?timePeriod=month&year=2023&month=6
+Get the leaderboard from 2023-06-01 to 2023-06-15:
+
+GET /api/donations/get/leaderboard?timePeriod=custom&startDate=2023-06-01&endDate=2023-06-15
+Get the all-time leaderboard, sorted by donor ID in ascending order:
+
+GET /api/donations/get/leaderboard?sortBy=donorId&sortOrder=asc

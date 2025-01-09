@@ -41,11 +41,39 @@ exports.getTotalProjectsParticipatedByDonor = async (donorId) => {
 };
 
 // Get the leaderboard with optional time period and sort order
-exports.getLeaderboard = async () => {
+exports.getLeaderboard = async (
+    timePeriod,
+    year,
+    month,
+    startDate,
+    endDate,
+    sortBy,
+    sortOrder
+) => {
     console.log("Fetching leaderboard (simplified)");
-
     try {
-        const leaderboard = await donationRepository.getLeaderboard();
+        let start, end;
+
+        // Same date filtering logic as getAllDonations
+        if (timePeriod === "year" && year) {
+            start = new Date(year, 0, 1);
+            end = new Date(year, 11, 31, 23, 59, 59, 999);
+        } else if (timePeriod === "month" && year && month) {
+            start = new Date(year, month - 1, 1);
+            end = new Date(year, month, 0, 23, 59, 59, 999);
+        } else if (timePeriod === "custom" && startDate && endDate) {
+            start = new Date(startDate);
+            end = new Date(endDate);
+            end.setHours(23, 59, 59, 999);
+        }
+
+        // Call donationRepository.getLeaderboard with optional parameters
+        const leaderboard = await donationRepository.getLeaderboard(
+            start,
+            end,
+            sortBy,
+            sortOrder
+        );
         return leaderboard;
     } catch (error) {
         console.error("Error in donationService.getLeaderboard:", error);

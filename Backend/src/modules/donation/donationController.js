@@ -43,9 +43,14 @@ exports.getTotalProjectsParticipatedByDonor = async (req, res) => {
 // Get a list of donors with their total donation amounts (for leaderboard)
 exports.getLeaderboard = async (req, res) => {
     try {
-        const { timePeriod, sortBy, sortOrder } = req.query;
+        const { timePeriod, year, month, startDate, endDate, sortBy, sortOrder } = req.query;
+
         const leaderboard = await donationService.getLeaderboard(
             timePeriod,
+            year,
+            month,
+            startDate,
+            endDate,
             sortBy,
             sortOrder
         );
