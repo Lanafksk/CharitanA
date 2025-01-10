@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 const axios = require('axios');
 const projectRepository = require('./projectRepository');
 const categoryRepository = require('../category/categoryRepository');
 const videoRepository = require('../video/videoRepository');
 const imageRepository = require('../image/imageRepository');
 
-const API_GATEWAY = 'http://localhost:5000/admin-server';
+const API_GATEWAY = process.env.INTERNAL_API_GATEWAY;
 
 // Validate if the category exists
 exports.validateCategory = async (categoryId) => {
@@ -172,7 +174,7 @@ exports.getCharityPaypalEmail = async (projectId) => {
         // Fetch the charity details from Team B's API
         // Correct the URL by adding "admin-server"
         const charityResponse = await axios.get(
-            `http://localhost:5001/admin-server/charity/id/${charityId}`
+            `${API_GATEWAY}/charity/id/${charityId}`
         );
         console.log("Charity response:", charityResponse);
 

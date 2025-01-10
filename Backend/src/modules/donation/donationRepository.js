@@ -1,6 +1,9 @@
+require('dotenv').config();
+
 const Donation = require("./donationModel");
 const axios = require("axios"); // Import axios for making HTTP requests
 
+const API_GATEWAY = process.env.INTERNAL_API_GATEWAY;
 /**
  * Creates a new donation record in the database.
  *
@@ -197,7 +200,7 @@ exports.getLeaderboard = async (
                 try {
                     console.log(`Fetching donor data for donor ID: ${donor._id}`);
                     const response = await axios.get(
-                        `http://localhost:5001/admin-server/donor/id/${donor._id}`
+                        `${API_GATEWAY}/admin-server/donor/id/${donor._id}`
                     );
                     console.log(`Response from Team B API:`, response.data);
                     const donorData = response.data.data;
