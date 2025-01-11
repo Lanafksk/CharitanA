@@ -206,8 +206,8 @@ const UserProfile = ({
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setIsEditDialogOpen(false)}>Cancel</Button>
-            <Button onClick={handleSave} variant="contained" color="primary">
+            <Button onClick={() => setIsEditDialogOpen(false)} style={{ color: 'black' }}>Cancel</Button>
+            <Button onClick={handleSave} variant="contained" style={{ backgroundColor: '#FB1465', color: 'white' }}>
               Save
             </Button>
           </DialogActions>
