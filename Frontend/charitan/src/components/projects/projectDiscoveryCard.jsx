@@ -23,7 +23,7 @@ const TEXT_LIMITS = {
   location: 20
 };
 
-const ProjectCard = ({
+const ProjectDiscoveryCard = ({
   projectName,
   charityName,
   status,
@@ -52,7 +52,7 @@ const ProjectCard = ({
   };
 
   return (
-    <Card sx={{ width: 400, height: 400, borderRadius: 2, overflow: 'hidden' }}>
+    <Card sx={{ width: 350, height: 400, borderRadius: 2, overflow: 'hidden' }}>
       <CardMedia
         component="img"
         height="160"
@@ -155,15 +155,15 @@ const ProjectCard = ({
           </Typography>
         </Box>
         <LinearProgress
-          variant="determinate"
-          value={progress}
-          sx={{ 
+            variant="determinate"
+            value={progress}
+            sx={{ 
             mb: 2,
             backgroundColor: '#FFE2F1', // Color of the unfilled part
             '& .MuiLinearProgress-bar': {
-              backgroundColor: '#FB1465' // Color of the filled part
+                backgroundColor: '#FB1465' // Color of the filled part
             }
-          }}
+            }}
         />
         <Box display="flex" alignItems="center" justifyContent="space-between">
           {/* Location with Tooltip */}
@@ -186,32 +186,8 @@ const ProjectCard = ({
           </Button>
         </Box>
       </CardContent>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          padding: 1,
-          borderTop: '1px solid #f0f0f0',
-        }}
-      >
-        <EditIcon 
-          sx={{ cursor: 'pointer', mx: 1, ':active': { color: 'highlightColor' } }}
-          onClick={handleEditClick}
-        />
-        <ProjectDetailForm
-          open={isEditFormOpen}
-          onClose={() => setIsEditFormOpen(false)}
-          project={projectData}
-          onSave={(updatedData) => {
-            console.log('Updated project data:', updatedData);
-            // Handle the save operation here
-          }}
-        />
-        <PauseIcon sx={{ cursor: 'pointer', mx: 1, ':active': { color: 'highlightColor' } }} />
-        <DeleteIcon sx={{ cursor: 'pointer', mx: 1, ':active': { color: 'highlightColor' } }} />
-      </Box>
     </Card>
   );
 };
 
-export default ProjectCard;
+export default ProjectDiscoveryCard;

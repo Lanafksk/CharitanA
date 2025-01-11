@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+
+import SubscribeButton from './projects/subscribeButton';
+
+
 import { 
   Box, 
   TextField, 
@@ -12,7 +16,10 @@ import {
   InputBase,
   Paper,
   ListItemIcon,
-  Divider
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent
 } from '@mui/material';
 import { 
   Search as SearchIcon,
@@ -20,8 +27,11 @@ import {
   LocalHospital as HealthIcon,
   Park as EnvironmentIcon,
   Computer as TechnologyIcon,
-  FilterAltOff as ClearFiltersIcon
+  FilterAltOff as ClearFiltersIcon,
+  Favorite as FavoriteIcon
 } from '@mui/icons-material';
+
+
 
 // Helper object for category icons
 const categoryIcons = {
@@ -172,7 +182,7 @@ const FilterButton = ({ label, options, value, onChange, isCountry, isCategory }
 };
 
 // Main Search and Filter Component
-const SearchFilter = ({ onSearch, onFilter, hasResults = true }) => {
+const SearchFilter = ({ onSearch, onFilter, hasResults = true, isDiscovery = false }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filters, setFilters] = useState({
       country: '',
@@ -218,29 +228,31 @@ const SearchFilter = ({ onSearch, onFilter, hasResults = true }) => {
     return (
       <Box sx={{ mb: 4 }}>
         {/* Search Bar */}
-        <Paper
-          elevation={3}
-          sx={{
-            p: '2px 4px',
-            display: 'flex',
-            alignItems: 'center',
-            width: '100%',
-            mb: 3,
-            borderRadius: '8px'
-          }}
-        >
-          <InputBase
-            sx={{ ml: 1, flex: 1 }}
-            placeholder="Search your Project name..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            startAdornment={
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: '#e91e63' }} />
-              </InputAdornment>
-            }
-          />
-        </Paper>
+        <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>  {/* New wrapper Box for search and favorite */}
+          <Paper
+            elevation={3}
+            sx={{
+              p: '2px 4px',
+              display: 'flex',
+              alignItems: 'center',
+              flex: 1,          // Changed from width: '100%' to flex: 1
+              borderRadius: '8px'
+            }}
+          >
+            <InputBase
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="Search your Project name..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              startAdornment={
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: '#e91e63' }} />
+                </InputAdornment>
+              }
+            />
+          </Paper>
+          {isDiscovery && <SubscribeButton />}  
+        </Box>
   
         {/* Filters Section */}
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, alignItems: 'center', mb: 3 }}>

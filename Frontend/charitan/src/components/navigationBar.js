@@ -34,7 +34,7 @@ const NavigationBar = ({ currentPage }) => {
                       <NavLink href="/leaderboard" color="black" size="1rem" highlight={currentPage === '/leaderboard'}>
                           Leaderboard
                       </NavLink>
-                      <NavLink href="/history" color="black" size="1rem" highlight={currentPage === '/history'}>
+                      <NavLink href="/donor-history" color="black" size="1rem" highlight={currentPage === '/donor-history'}>
                           History
                       </NavLink>
                   </Box>

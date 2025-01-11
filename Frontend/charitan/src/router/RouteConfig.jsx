@@ -8,7 +8,7 @@ import RecoveryPage from '../pages/auth/RecoveryPage';
 import AboutUsPage from '../pages/AboutUsPage';
 
 
-import DonationPage from '../pages/donor/DontaionPage';
+import DonationPage from '../pages/donor/DonationPage';
 
 import LeaderboardPage from '../pages/LeaderboardPage';
 
@@ -20,7 +20,9 @@ import CharityHistoryPage from '../pages/charity/CharityHistoryPage';
 import CharityProfilePage from '../pages/charity/CharityProfilePage';
 
 
-import CharityProjectPage from '../pages/charity/charityProjectPage';
+import CharityProjectPage from '../pages/charity/CharityProjectPage';
+
+import ProjectDiscoveryPage from '../pages/donor/ProjectDiscoveryPage';
 
 const RouteConfig = () => {
     return (
@@ -46,6 +48,8 @@ const RouteConfig = () => {
                 <Route path="/projects" element={<CharityProjectPage />} />
 
                 <Route path="/charity-profile" element={<CharityProfilePage />} />
+
+                <Route path="/discovery" element={<ProjectDiscoveryPage />} />
 
             </Routes>
         </Suspense>

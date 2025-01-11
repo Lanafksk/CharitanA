@@ -1,7 +1,10 @@
 import React from 'react';
 import { Card, CardContent, Typography, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const CustomCard = ({ icon: Icon, title, description, width = 345, height = 200 }) => {
+
+const CustomCard = ({ icon: Icon, title, description, width = 345, height = 200, route }) => {
+  const navigate = useNavigate();
   return (
     <Card
       sx={{
@@ -17,6 +20,7 @@ const CustomCard = ({ icon: Icon, title, description, width = 345, height = 200 
           boxShadow: 4, // Increase shadow on hover
         },
       }}
+      onClick={() => navigate(route)}
     >
       <Box
         sx={{

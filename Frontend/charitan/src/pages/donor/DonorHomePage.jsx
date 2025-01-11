@@ -22,7 +22,7 @@ const DonorHomePage = () => {
       icon: SearchIcon,
       title: 'Project Discovery',
       description: 'You can find and manage your all projects here.',
-      route: '/project-discovery',
+      route: '/discovery',
     },
     {
       icon: HistoryIcon,
@@ -40,7 +40,7 @@ const DonorHomePage = () => {
       icon: SettingsIcon,
       title: 'Preference',
       description: 'You can find the System Settings here.',
-      route: '/donor-preference',
+      route: '/charity-profile',
     },
   ];
 

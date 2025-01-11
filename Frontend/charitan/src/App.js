@@ -1,6 +1,6 @@
 import "./App.css";
 import Footer from "./components/footer";
-import RouteConfig from "./rooter/RouteConfig";
+import RouteConfig from "./router/RouteConfig";
 import { BrowserRouter } from "react-router-dom";
 
 
