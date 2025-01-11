@@ -3,11 +3,12 @@ import React, { useState, useMemo } from 'react';
 import { Box, Grid, Container } from '@mui/material';
 import NavigationBar from '../../components/navigationBar';
 import PageBanner from '../../components/pageBanner';
-import ProjectCard from '../../components/projectCard';
-import ProjectCarousel from '../../components/projectCarousel';
+import ProjectCard from '../../components/projects/projectCard';
+import ProjectCarousel from '../../components/projects/projectCarousel';
 import SearchFilter from '../../components/searchFilter';
 import projectImage from '../../assets/project.jpg';
-import CreateProjectForm from '../../components/createProjectForm';
+import CreateProjectForm from '../../components/projects/createProjectForm';
+import CustomLinks from '../../components/projects/customLinks';
 
 const CharityProjectPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -155,7 +156,28 @@ const CharityProjectPage = () => {
           ))}
         </ProjectCarousel>
       </Container>
-      <CreateProjectForm/>
+      
+      {/* New Grid container for side-by-side layout */}
+      <Container>
+        <Grid 
+          container 
+          spacing={4}
+          sx={{
+            marginTop: 4,
+            marginBottom: 4
+          }}
+        >
+          {/* Left side - CustomLinks */}
+          <Grid item xs={12} md={5}>
+            <CustomLinks />
+          </Grid>
+          
+          {/* Right side - CreateProjectForm */}
+          <Grid item xs={12} md={7}>
+            <CreateProjectForm />
+          </Grid>
+        </Grid>
+      </Container>
     </Box>
   );
 };
