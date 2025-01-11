@@ -83,3 +83,19 @@ Note:
 "category": "Health & Sanitation"
 }
 }
+
+/api/emails/send-project-creation-confirmation
+{
+"projectData": {
+"project_id": "project-uuid-789",
+"title": "Support for Education in Remote Areas",
+"charity_id": "charity-uuid-123",
+"charityName": "Education For All",
+"category_id": "Education",
+"region": "South Asia"
+},
+"user": {
+"email": "user email",
+"name": "Test User"
+}
+}
