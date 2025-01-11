@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -15,6 +15,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import DonorForm from "./donorForm";
 import CharityForm from "./charityForm";
 import RoleSelector from "./roleSelector"
+import ImageUploader from "../imageUploader";
 
 const SignupForm = () => {
   const theme = useTheme();
@@ -107,10 +108,6 @@ const SignupForm = () => {
     return Object.keys(newErrors).length === 0; // no error return true
   };
 
-  const handleAvatarClick = () => {
-    // adding picture funtions will be implemented here
-    console.log("Avatar clicked!");
-  };
 
   const handleSubmit = () => {
     let filteredData;
@@ -133,7 +130,8 @@ const SignupForm = () => {
         address: formData.address,
         password: formData.password,
         passwordConfirm: formData.passwordConfirm,
-        img: formData.img,
+        // Include the image URL, or null if no image was uploaded
+        img: formData.img || null
       };
     } else {
       filteredData = {
@@ -147,12 +145,33 @@ const SignupForm = () => {
         charityType: formData.charityType,
         password: formData.password,
         passwordConfirm: formData.passwordConfirm,
-        img: formData.img,
+        // Include the image URL, or null if no image was uploaded
+        img: formData.img || null
       };
     }
 
     console.log("Submitted Data:", filteredData);
     alert(`Submitted Data: ${JSON.stringify(filteredData, null, 2)}`);
+  };
+
+  // Add script loader for Cloudinary
+  useEffect(() => {
+    const loadCloudinaryScript = () => {
+      const script = document.createElement('script');
+      script.src = 'https://widget.cloudinary.com/v2.0/global/all.js';
+      script.async = true;
+      document.body.appendChild(script);
+    };
+
+    loadCloudinaryScript();
+  }, []);
+
+  // Add image handler
+  const handleImageUpload = (imageUrl) => {
+    setFormData(prev => ({
+      ...prev,
+      img: imageUrl
+    }));
   };
 
   return (
@@ -179,25 +198,11 @@ const SignupForm = () => {
       <RoleSelector selectedRole={formData.type} onSelectRole={handleRoleSelect} />
 
       {/* Profile Image */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginBottom: 1, 
-        }}
-      >
-        <Avatar
-          sx={{
-            width: 100,
-            height: 100,
-            backgroundColor: "#f4f4f4",
-            cursor: "pointer", // for hover effect
-          }}
-          onClick={handleAvatarClick} 
-        >
-          <AddPhotoAlternateIcon fontSize="large" sx={{ color: "#ccc" }} />
-        </Avatar>
+      <Box sx={{ mb: 3 }}>
+        <ImageUploader 
+          onImageUpload={handleImageUpload}
+          currentImage={formData.img}
+        />
       </Box>
 
       {/* Country Selector */}
