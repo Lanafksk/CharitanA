@@ -22,13 +22,13 @@ const HomePage = () => {
       icon: AssessmentIcon,
       title: 'Project Management',
       description: 'You can find and manage your all projects here.',
-      route: '/project-management',
+      route: '/projects',
     },
     {
       icon: HistoryIcon,
       title: 'History',
       description: 'You can find your all donations informations.',
-      route: '/history',
+      route: '/charity-history',
     },
     {
       icon: LeaderboardIcon,
@@ -40,7 +40,7 @@ const HomePage = () => {
       icon: SettingsIcon,
       title: 'Preference',
       description: 'You can find the System Settings here.',
-      route: '/preference',
+      route: '/charity-profile',
     },
   ];
 
@@ -66,10 +66,11 @@ const HomePage = () => {
                 description={card.description}
                 width={345}
                 height={200}
+                route={card.route}
                 sx={{
                   margin: 'auto', // Center-align cards horizontally
                 }}
-                onClick={() => navigate(card.route)}
+                
               />
             </Grid>
           ))}
