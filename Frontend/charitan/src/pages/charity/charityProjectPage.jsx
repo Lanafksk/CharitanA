@@ -69,7 +69,7 @@ const CharityProjectPage = () => {
     },
     {
       projectName: 'Shelter for Homeless',
-      charityName: 'Shelter Charity',
+      charityName: 'Shelter Charityfffffffffffffff',
       status: 'Available',
       description: 'Providing shelter and support to homeless individuals.',
       category: 'Shelter',
@@ -135,26 +135,29 @@ const CharityProjectPage = () => {
         <SearchFilter
           onSearch={setSearchTerm}
           onFilter={setActiveFilters}
+          hasResults={filteredProjects.length > 0}
         />
-        <ProjectCarousel>
-          {filteredProjects.map((project, index) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              key={index}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                padding: '24px',
-                flexShrink: 0
-              }}
-            >
-              <ProjectCard {...project} />
-            </Grid>
-          ))}
-        </ProjectCarousel>
+        {filteredProjects.length > 0 ? (
+          <ProjectCarousel>
+            {filteredProjects.map((project, index) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                key={index}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  padding: '24px',
+                  flexShrink: 0
+                }}
+              >
+                <ProjectCard {...project} />
+              </Grid>
+            ))}
+          </ProjectCarousel>
+        ) : null}
       </Container>
       
       {/* New Grid container for side-by-side layout */}
