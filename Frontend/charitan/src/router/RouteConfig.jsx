@@ -8,7 +8,7 @@ import RecoveryPage from '../pages/auth/RecoveryPage';
 import AboutUsPage from '../pages/AboutUsPage';
 
 
-import DonationPage from '../pages/donor/DontaionPage';
+import DonationPage from '../pages/donor/DonationPage';
 
 import LeaderboardPage from '../pages/LeaderboardPage';
 
@@ -20,7 +20,7 @@ import CharityHistoryPage from '../pages/charity/CharityHistoryPage';
 import CharityProfilePage from '../pages/charity/CharityProfilePage';
 
 
-import CharityProjectPage from '../pages/charity/charityProjectPage';
+import CharityProjectPage from '../pages/charity/CharityProjectPage';
 
 const RouteConfig = () => {
     return (
