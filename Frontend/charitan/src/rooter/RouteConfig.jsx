@@ -20,6 +20,8 @@ import CharityHistoryPage from '../pages/charity/CharityHistoryPage';
 import CharityProfilePage from '../pages/charity/CharityProfilePage';
 
 
+import CharityProjectPage from '../pages/charity/charityProjectPage';
+
 const RouteConfig = () => {
     return (
         <Suspense fallback={<CircularProgress className="w-8 h-8" />}>
@@ -39,6 +41,9 @@ const RouteConfig = () => {
                 <Route path="/donation" element={<DonationPage />} />
 
                 <Route path='/leaderboard' element={<LeaderboardPage/>} />
+
+
+                <Route path="/projects" element={<CharityProjectPage />} />
 
                 <Route path="/charity-profile" element={<CharityProfilePage />} />
 
