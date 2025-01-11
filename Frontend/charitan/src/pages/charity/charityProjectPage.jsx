@@ -9,6 +9,7 @@ import SearchFilter from '../../components/searchFilter';
 import projectImage from '../../assets/project.jpg';
 import CreateProjectForm from '../../components/projects/createProjectForm';
 import CustomLinks from '../../components/projects/customLinks';
+import PageTitle from '../../components/pageTitle';
 
 const CharityProjectPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -136,6 +137,11 @@ const CharityProjectPage = () => {
           onSearch={setSearchTerm}
           onFilter={setActiveFilters}
           hasResults={filteredProjects.length > 0}
+        />
+
+        <PageTitle 
+          title="Projects" 
+          subtitle="You can manage your projects"
         />
         {filteredProjects.length > 0 ? (
           <ProjectCarousel>
