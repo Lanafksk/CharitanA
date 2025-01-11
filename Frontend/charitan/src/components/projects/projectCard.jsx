@@ -12,7 +12,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PauseIcon from '@mui/icons-material/Pause';
-import ProjectDetailForm from '../projectDetailForm';
+import ProjectDetailForm from './projectDetailForm';
 
 const ProjectCard = ({
   projectName,
