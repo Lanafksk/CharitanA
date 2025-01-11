@@ -5,7 +5,7 @@ import SigninPage from '../pages/auth/SigninPage';
 import SignupPage from '../pages/auth/SignupPage';
 import ForgetPage from '../pages/auth/ForgetPage';
 import RecoveryPage from '../pages/auth/RecoveryPage';
-import AboutUsPage from '../pages/donor/AboutUsPage';
+import AboutUsPage from '../pages/AboutUsPage';
 
 
 import DonationPage from '../pages/donor/DontaionPage';
@@ -14,7 +14,10 @@ import LeaderboardPage from '../pages/LeaderboardPage';
 
 import HomePage from '../pages/HomePage';
 import DonorHomePage from '../pages/donor/DonorHomePage';
-import DonationHistoryPage from '../pages/donor/DonationHistoryPage';
+import DonorHistoryPage from '../pages/donor/DonorHistoryPage';
+import CharityHistoryPage from '../pages/charity/CharityHistoryPage';
+
+import CharityProfilePage from '../pages/charity/CharityProfilePage';
 
 
 import CharityProjectPage from '../pages/charity/charityProjectPage';
@@ -32,8 +35,8 @@ const RouteConfig = () => {
                 <Route path="/about-us" element={<AboutUsPage />} />
 
                 <Route path="/donor-home" element={<DonorHomePage />} />
-                <Route path="/history" element={<DonationHistoryPage />} />
-
+                <Route path="/donor-history" element={<DonorHistoryPage />} />
+                <Route path="/charity-history" element={<CharityHistoryPage />} />
 
                 <Route path="/donation" element={<DonationPage />} />
 
@@ -41,6 +44,9 @@ const RouteConfig = () => {
 
 
                 <Route path="/projects" element={<CharityProjectPage />} />
+
+                <Route path="/charity-profile" element={<CharityProfilePage />} />
+
             </Routes>
         </Suspense>
     )

@@ -5,7 +5,7 @@ import NavigationBar from "../../components/navigationBar";
 import PageBanner from '../../components/pageBanner';
 import HistoryTable from '../../components/history/historyTable';
 
-const DonationHistoryPage = () => {
+const DonorHistoryPage = () => {
     // const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -67,10 +67,10 @@ const DonationHistoryPage = () => {
             <NavigationBar />
             <PageBanner text="History" />
             <div style={{ padding: "20px" }}>
-                <HistoryTable rows={rows} />
+                <HistoryTable rows={rows} userType="donor"/>
             </div>
         </div>
     );
 };
 
-export default DonationHistoryPage;
+export default DonorHistoryPage;
