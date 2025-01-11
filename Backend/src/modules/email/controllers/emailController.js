@@ -121,6 +121,39 @@ class EmailController {
             res.status(500).json({ error: "Internal server error" });
         }
     }
+
+    /**
+     * Sends a welcome email to a all users that subscribe to specific religion.
+     * Route: POST /api/emails/send-welcome-email-charity
+     */
+    async sendProjectNotification(req, res) {
+        try {
+            const { projectData, user } = req.body; // Get projectData and user
+
+            // Basic validation
+            if (!projectData || !user) {
+                return res.status(400).json({ error: "Invalid request body" });
+            }
+
+            const result = await mailerSendService.sendProjectNotification(
+                projectData,
+                user
+            );
+
+            if (result.success) {
+                res.status(200).json({ message: "Project notification sent successfully" });
+            } else {
+                res.status(500).json({
+                    error: "Failed to send project notification",
+                    details: result.error,
+                });
+            }
+        } catch (error) {
+            console.error("Error in sendProjectNotification:", error);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    }
+
 }
 
 module.exports = new EmailController();
