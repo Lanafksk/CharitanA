@@ -17,7 +17,7 @@ import ProjectDetailForm from './projectDetailForm';
 
 // Configuration object for text length limits
 const TEXT_LIMITS = {
-  projectName: 15,
+  projectName: 20,
   charityName: 20,
   description: 150,
   location: 20
@@ -52,7 +52,7 @@ const ProjectCard = ({
   };
 
   return (
-    <Card sx={{ width: 400, height: 500, borderRadius: 2, overflow: 'hidden' }}>
+    <Card sx={{ width: 400, height: 400, borderRadius: 2, overflow: 'hidden' }}>
       <CardMedia
         component="img"
         height="160"
@@ -157,7 +157,13 @@ const ProjectCard = ({
         <LinearProgress
           variant="determinate"
           value={progress}
-          sx={{ mb: 2 }}
+          sx={{ 
+            mb: 2,
+            backgroundColor: '#FFE2F1', // Color of the unfilled part
+            '& .MuiLinearProgress-bar': {
+              backgroundColor: '#FB1465' // Color of the filled part
+            }
+          }}
         />
         <Box display="flex" alignItems="center" justifyContent="space-between">
           {/* Location with Tooltip */}
