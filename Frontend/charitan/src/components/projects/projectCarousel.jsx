@@ -39,7 +39,8 @@ const ProjectCarousel = ({ children }) => {
           zIndex: 2,
           color: '#FB1465',
           cursor: 'pointer',
-          display: startIndex === 0 ? 'none' : 'block'
+          display: startIndex === 0 ? 'none' : 'block',
+          fontSize: '40px'
         }}
       />
 
@@ -71,7 +72,8 @@ const ProjectCarousel = ({ children }) => {
           zIndex: 2,
           color: '#FB1465',
           cursor: 'pointer',
-          display: startIndex >= totalProjects - getVisibleCount() ? 'none' : 'block'
+          display: startIndex >= totalProjects - getVisibleCount() ? 'none' : 'block',
+          fontSize: '40px'
         }}
       />
     </Box>

@@ -77,7 +77,7 @@ const ProjectCard = ({
                 sx={{ 
                   textAlign: 'left', 
                   fontWeight: 'bold', 
-                  fontSize: '1.2rem',
+                  fontSize: '1.0rem',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -95,7 +95,7 @@ const ProjectCard = ({
                   variant="body2" 
                   color="black" 
                   sx={{ 
-                    fontSize: '1.0rem',
+                    fontSize: '0.8rem',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
