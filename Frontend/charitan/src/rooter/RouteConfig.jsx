@@ -16,6 +16,8 @@ import HomePage from '../pages/HomePage';
 import DonorHomePage from '../pages/donor/DonorHomePage';
 import DonationHistoryPage from '../pages/donor/DonationHistoryPage';
 
+import CharityProfilePage from '../pages/CharityProfilePage';
+
 
 const RouteConfig = () => {
     return (
@@ -36,6 +38,8 @@ const RouteConfig = () => {
                 <Route path="/donation" element={<DonationPage />} />
 
                 <Route path='/leaderboard' element={<LeaderboardPage/>} />
+
+                <Route path="/charity-profile" element={<CharityProfilePage />} />
 
             </Routes>
         </Suspense>
