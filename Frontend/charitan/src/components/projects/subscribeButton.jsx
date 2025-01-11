@@ -32,7 +32,7 @@ const categories = [
   'Environment',
 ];
 
-const FavoriteButton = () => {
+const SubscribeButton = () => {
   // State management remains the same
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRegions, setSelectedRegions] = useState([]);
@@ -190,4 +190,4 @@ const FavoriteButton = () => {
   );
 };
 
-export default FavoriteButton;
+export default SubscribeButton;

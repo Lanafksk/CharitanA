@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-// import FavoriteButton from './projects/favoriteButton';
+import SubscribeButton from './projects/subscribeButton';
 
 
 import { 
@@ -251,7 +251,7 @@ const SearchFilter = ({ onSearch, onFilter, hasResults = true, isDiscovery = fal
               }
             />
           </Paper>
-          {/* {isDiscovery && <FavoriteButton />}   */}
+          {isDiscovery && <SubscribeButton />}  
         </Box>
   
         {/* Filters Section */}

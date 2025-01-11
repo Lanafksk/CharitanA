@@ -138,6 +138,7 @@ const ProjectDiscoveryPage = () => {
           onSearch={setSearchTerm}
           onFilter={setActiveFilters}
           hasResults={filteredProjects.length > 0}
+          isDiscovery = {true}
         />
 
         <PageTitle 
