@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import NavigationBar from '../components/navigationBar';
-import PageBanner from "../components/pageBanner";
-import UserProfile from "../components/user/userProfile";
+import NavigationBar from '../../components/navigationBar';
+import PageBanner from "../../components/pageBanner";
+import UserProfile from "../../components/user/userProfile";
 
 const CharityProfilePage = () => {
   // Setting up the initial data as state instead of constant

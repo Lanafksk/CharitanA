@@ -16,7 +16,7 @@ import HomePage from '../pages/HomePage';
 import DonorHomePage from '../pages/donor/DonorHomePage';
 import DonationHistoryPage from '../pages/donor/DonationHistoryPage';
 
-import CharityProfilePage from '../pages/CharityProfilePage';
+import CharityProfilePage from '../pages/charity/CharityProfilePage';
 
 
 const RouteConfig = () => {
