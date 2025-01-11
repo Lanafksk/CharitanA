@@ -5,7 +5,7 @@ import SigninPage from '../pages/auth/SigninPage';
 import SignupPage from '../pages/auth/SignupPage';
 import ForgetPage from '../pages/auth/ForgetPage';
 import RecoveryPage from '../pages/auth/RecoveryPage';
-import AboutUsPage from '../pages/donor/AboutUsPage';
+import AboutUsPage from '../pages/AboutUsPage';
 
 
 import DonationPage from '../pages/donor/DontaionPage';
