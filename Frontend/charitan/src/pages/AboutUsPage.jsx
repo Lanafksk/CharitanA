@@ -1,20 +1,20 @@
 import React from "react";
 import { Box, Typography, Divider, Grid } from "@mui/material";
-import NavigationBar from "../../components/navigationBar";
+import NavigationBar from "../components/navigationBar";
 import { useLocation } from "react-router-dom";
-import PageBanner from "../../components/pageBanner";
-import AboutMemberCard from "../../components/aboutMemberCard";
+import PageBanner from "../components/pageBanner";
+import AboutMemberCard from "../components/aboutMemberCard";
 
-import Nam from "../../assets/teammates/Nam.jpg";
-import Lana from "../../assets/teammates/Lana.png";
-import Kenny from "../../assets/teammates/Kenny.jpeg";
-import MinhTran from "../../assets/teammates/MinhTran.png";
+import Nam from "../assets/teammates/Nam.jpg";
+import Lana from "../assets/teammates/Lana.png";
+import Kenny from "../assets/teammates/Kenny.jpeg";
+import MinhTran from "../assets/teammates/MinhTran.png";
 
-import Vally from "../../assets/teammates/Vally.png";
-import Vinh from "../../assets/teammates/Vinh.jpg";
-import DepTrai from "../../assets/teammates/DepTrai.jpg";
-import Luan from "../../assets/teammates/Luan.jpg";
-import Hoang from "../../assets/teammates/Hoang.png";
+import Vally from "../assets/teammates/Vally.png";
+import Vinh from "../assets/teammates/Vinh.jpg";
+import DepTrai from "../assets/teammates/DepTrai.jpg";
+import Luan from "../assets/teammates/Luan.jpg";
+import Hoang from "../assets/teammates/Hoang.png";
 
 
 

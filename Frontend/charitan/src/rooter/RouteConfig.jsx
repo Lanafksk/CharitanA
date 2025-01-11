@@ -5,7 +5,7 @@ import SigninPage from '../pages/auth/SigninPage';
 import SignupPage from '../pages/auth/SignupPage';
 import ForgetPage from '../pages/auth/ForgetPage';
 import RecoveryPage from '../pages/auth/RecoveryPage';
-import AboutUsPage from '../pages/donor/AboutUsPage';
+import AboutUsPage from '../pages/AboutUsPage';
 
 
 import DonationPage from '../pages/donor/DontaionPage';
@@ -15,6 +15,8 @@ import LeaderboardPage from '../pages/LeaderboardPage';
 import HomePage from '../pages/HomePage';
 import DonorHomePage from '../pages/donor/DonorHomePage';
 import DonationHistoryPage from '../pages/donor/DonationHistoryPage';
+
+import CharityProfilePage from '../pages/charity/CharityProfilePage';
 
 
 const RouteConfig = () => {
@@ -36,6 +38,8 @@ const RouteConfig = () => {
                 <Route path="/donation" element={<DonationPage />} />
 
                 <Route path='/leaderboard' element={<LeaderboardPage/>} />
+
+                <Route path="/charity-profile" element={<CharityProfilePage />} />
 
             </Routes>
         </Suspense>
