@@ -297,3 +297,35 @@ exports.getDonationById = async (donationId) => {
         throw new Error(`Error fetching donation by ID: ${error.message}`);
     }
 };
+
+/**
+ * Calculates the total donation amount for a specific project using aggregation.
+ *
+ * @param {string} projectId - The ID of the project.
+ * @returns {Promise<number>} - The total donation amount.
+ */
+exports.getTotalDonationsForProject = async (projectId) => {
+    try {
+        const result = await Donation.aggregate([
+            {
+                $match: {
+                    project_id: projectId,
+                    status: { $in: ["completed", "active-subscription"] }, // Consider only completed or active-subscription donations
+                },
+            },
+            {
+                $group: {
+                    _id: null, // Group all matching donations together
+                    totalAmount: { $sum: "$amount" }, // Calculate the sum of the "amount" field
+                },
+            },
+        ]);
+
+        // If no donations are found, the result array will be empty
+        return result.length > 0 ? result[0].totalAmount : 0;
+    } catch (error) {
+        throw new Error(
+            `Error calculating total donations for project: ${error.message}`
+        );
+    }
+};

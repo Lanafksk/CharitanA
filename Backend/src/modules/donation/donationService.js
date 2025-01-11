@@ -144,3 +144,22 @@ exports.createDonation = async (donationData) => {
         throw new Error(`Error creating donation: ${error.message}`);
     }
 };
+
+/**
+ * Calculates the total amount of donations for a specific project.
+ *
+ * @param {string} projectId - The ID of the project.
+ * @returns {Promise<number>} - The total donation amount for the project.
+ */
+exports.getTotalDonationsForProject = async (projectId) => {
+    try {
+        const totalAmount = await donationRepository.getTotalDonationsForProject(
+            projectId
+        );
+        return totalAmount;
+    } catch (error) {
+        throw new Error(
+            `Error getting total donation amount for project: ${error.message}`
+        );
+    }
+};

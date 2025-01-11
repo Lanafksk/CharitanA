@@ -25,4 +25,8 @@ router.get(
 // Get a list of donors with their total donation amounts (for leaderboard)
 router.get("/get/leaderboard", donationController.getLeaderboard);
 
+// GET total donations for a project
+router.get('/total-amount/project/:projectId', donationController.getTotalDonationsForProject);
+
+
 module.exports = router;

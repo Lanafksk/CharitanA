@@ -118,3 +118,23 @@ exports.getDonationById = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+/**
+ * Get the total donation amount for a specific project.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>}
+ */
+exports.getTotalDonationsForProject = async (req, res) => {
+    try {
+        const { projectId } = req.params;
+        const totalDonationAmount =
+            await donationService.getTotalDonationsForProject(projectId);
+
+        res.status(200).json({ totalDonationAmount });
+    } catch (error) {
+        console.error("Error getting total donations for project:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
