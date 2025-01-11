@@ -17,5 +17,7 @@ router.post("/send-welcome-email-charity", emailController.sendWelcomeEmailChari
 // --- Subscribe Email for Donors Endpoint ---
 router.post("/send-project-notification", emailController.sendProjectNotification);
 
+// Reason for halting the project
+router.post("/project-halted", emailController.sendProjectHaltedEmail);
 
 module.exports = router;

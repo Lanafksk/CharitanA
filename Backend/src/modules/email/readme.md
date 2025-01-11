@@ -84,7 +84,7 @@ Note:
 }
 }
 
-/api/emails/send-project-creation-confirmation
+/api/emails/send-project-notification
 {
 "projectData": {
 "project_id": "project-uuid-789",
@@ -98,4 +98,16 @@ Note:
 "email": "user email",
 "name": "Test User"
 }
+}
+
+/api/emails/project-halted
+
+{
+"to":
+{ "email": "vinhhuu02@gmail.com", "name": "Test User" },
+"projectData": {
+"projectId": "your_project_id",
+"projectTitle": "Test Project Title"
+},
+"reason": "This is a test reason for halting the project."
 }

@@ -154,6 +154,73 @@ class EmailController {
         }
     }
 
+
+
+    /**
+   * Sends an email to the donor of a halted project (simplified version).
+   * Expects `to`, `projectData`, and `reason` in the request body.
+   *
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @returns {Promise<void>}
+   */
+    async sendProjectHaltedEmail(req, res) {
+        const { to, projectData, reason } = req.body;
+
+        try {
+            // 1. Validate the input
+            if (!to || !to.email || !to.name || !projectData || !reason) {
+                return res.status(400).json({
+                    error:
+                        "Missing required fields: to ({email, name}), projectData ({projectId, projectTitle}), reason",
+                });
+            }
+
+            if (!projectData.projectId || !projectData.projectTitle) {
+                return res.status(400).json({
+                    error: "projectData must contain projectId and projectTitle",
+                });
+            }
+
+            // 2. Send email to the recipient
+            const emailData = {
+                from: { email: process.env.EMAIL_FROM, name: process.env.EMAIL_FROM_NAME },
+                to: { email: to.email, name: to.name }, // Use the provided email and name directly
+                subject: `Project ${projectData.projectTitle} Has Been Halted`,
+                templateName: "projectHalted.html", // Your email template
+                data: {
+                    projectName: projectData.projectTitle,
+                    reason: reason,
+                    donorName: to.name,
+                },
+            };
+
+            const result = await mailerSendService.sendEmailWithTemplate(
+                emailData.from,
+                emailData.to,
+                emailData.subject,
+                emailData.templateName,
+                emailData.data
+            );
+
+            if (!result.success) {
+                logger.error(
+                    `Failed to send project halted email to ${to.email}`,
+                    { error: result.error }
+                );
+                // Handle email sending failures (log, retry, etc.)
+            } else {
+                logger.info(`Project halted email sent to ${to.email}`, {
+                    messageId: result.messageId,
+                });
+            }
+
+            res.status(200).json({ message: "Project halted email sent successfully." });
+        } catch (error) {
+            logger.error("Error sending project halted email:", error);
+            res.status(500).json({ error: "Failed to send project halted email." });
+        }
+    }
 }
 
 module.exports = new EmailController();
