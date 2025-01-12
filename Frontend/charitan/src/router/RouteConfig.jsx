@@ -12,7 +12,7 @@ import DonationPage from '../pages/donor/DonationPage';
 
 import LeaderboardPage from '../pages/LeaderboardPage';
 
-import HomePage from '../pages/HomePage';
+import CharityHomePage from '../pages/charity/CharityHomePage';
 import DonorHomePage from '../pages/donor/DonorHomePage';
 import DonorHistoryPage from '../pages/donor/DonorHistoryPage';
 import CharityHistoryPage from '../pages/charity/CharityHistoryPage';
@@ -23,6 +23,8 @@ import CharityProfilePage from '../pages/charity/CharityProfilePage';
 import CharityProjectPage from '../pages/charity/CharityProjectPage';
 
 import ProjectDiscoveryPage from '../pages/donor/ProjectDiscoveryPage';
+
+import HomePage from '../pages/HomePage';
 
 const RouteConfig = () => {
     return (
@@ -50,6 +52,8 @@ const RouteConfig = () => {
                 <Route path="/charity-profile" element={<CharityProfilePage />} />
 
                 <Route path="/discovery" element={<ProjectDiscoveryPage />} />
+
+                <Route path="/charity-home" element={< CharityHomePage />} />
 
             </Routes>
         </Suspense>
