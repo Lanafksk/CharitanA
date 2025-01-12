@@ -9,12 +9,10 @@ import SigninPage from '../pages/auth/SigninPage';
 import SignupPage from '../pages/auth/SignupPage';
 import ForgetPage from '../pages/auth/ForgetPage';
 import RecoveryPage from '../pages/auth/RecoveryPage';
-// Guest home 
+import HomePage from '../pages/HomePage';
 import AboutUsPage from '../pages/AboutUsPage';
 import ProjectDiscoveryPage from '../pages/donor/ProjectDiscoveryPage';
 import LeaderboardPage from '../pages/LeaderboardPage';
-
-    //Route for donor & charity (user who sign up)
 import DonationPage from '../pages/donor/DonationPage';
 
     // Route for donor only
@@ -23,11 +21,10 @@ import DonorHistoryPage from '../pages/donor/DonorHistoryPage';
 // donor profile page
 
     // Route for charity only
-import HomePage from '../pages/HomePage'; // actually this is charity homepage
+import CharityHomePage from '../pages/charity/CharityHomePage';
 import CharityHistoryPage from '../pages/charity/CharityHistoryPage';
 import CharityProfilePage from '../pages/charity/CharityProfilePage';
 import CharityProjectPage from '../pages/charity/CharityProjectPage';
-
 
 const RouteConfig = () => {
     return (
@@ -55,6 +52,7 @@ const RouteConfig = () => {
 
                 <Route path="/discovery" element={<ProjectDiscoveryPage />} />
 
+                <Route path="/charity-home" element={< CharityHomePage />} />
 
                 {/* Protected Routes for Donors */}
                 <Route
