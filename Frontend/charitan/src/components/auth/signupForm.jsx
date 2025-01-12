@@ -16,9 +16,23 @@ import DonorForm from "./donorForm";
 import CharityForm from "./charityForm";
 import RoleSelector from "./roleSelector"
 import ImageUploader from "../imageUploader";
+import forge from "node-forge";
+import { useNavigate } from 'react-router-dom';
+
 
 const SignupForm = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
+  const rsaPublicKey = `-----BEGIN PUBLIC KEY-----
+  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu/tB9+zU3RxhdeiLXgZF
+  pql7GpOLzDcbXneQubo5B02iuRIuO2m0bmCYzG2sdqu5bOOG4jieegDr6X75nC26
+  Sb/wVwH5xP1/EJayL6va1se/Zh+aiYWhWRW82j6meLvxodZoIcV2TGhQoZEHBVQ/
+  Ta4i1dJr/rtdoha2f8H/YUF+wToTMCaNcqDEbNYQnhj55fLZ0+y+a9o8MQHXP4VB
+  FcSqyKTKAO+r3vlnxyXezhZtP1jt9Mp5Lg60qHjEpxfnridchQSJUxSBMw87BOC3
+  hBcrQjEA12pRnkGQCO4tZXyrC0kaRS2edBLj+B4qnmO1u3rzEvMSsJY0jL13ftdS
+  TQIDAQAB
+    -----END PUBLIC KEY-----`
 
   const [isChecked, setIsChecked] = useState(false); // checkbox
   const [errors, setErrors] = useState({}); // error state
@@ -29,17 +43,24 @@ const SignupForm = () => {
     lastName: "",
     email: "",
     phoneNumber: "",
-    address: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+      postal_code: "",
+    },
+    country: "",
     password: "",
     passwordConfirm: "",
     charityName: "",
     taxCode: "",
     charityType: "",
     img: "",
+    paypal_email:"",
   });
 
-  // role select function
-  const handleRoleSelect = (role) => {
+   // role select function
+   const handleRoleSelect = (role) => {
     setFormData({
       ...formData,
       type: role,
@@ -48,13 +69,20 @@ const SignupForm = () => {
       lastName: "",
       email: "",
       phoneNumber: "",
-      address: "",
+      address: {
+        street: "",
+        city: "",
+        state: "",
+        postal_code: "",
+      },
+      country: "",
       password: "",
       passwordConfirm: "",
       charityName: "",
       taxCode: "",
       charityType: "",
       img: "",
+      paypal_email:"",
     });
   };
 
@@ -73,6 +101,34 @@ const SignupForm = () => {
     }
   };
 
+  const handleAddressChange = (field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      address: {
+        ...prevData.address,
+        [field]: value,
+      },
+    }));
+  
+    if (value.trim() !== "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        address: {
+          ...prevErrors.address,
+          [field]: false,
+        },
+      }));
+    }
+  };
+
+  const encryptData = (data) => {
+    const publicKey = forge.pki.publicKeyFromPem(rsaPublicKey);
+    const encrypted = publicKey.encrypt(data, "RSA-OAEP", {
+      md: forge.md.sha256.create(),
+    });
+    return forge.util.encode64(encrypted);
+  };
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -85,7 +141,11 @@ const SignupForm = () => {
       if (!formData.lastName.trim()) newErrors.lastName = true;
       if (!formData.email.trim()) newErrors.email = true;
       if (!formData.phoneNumber.trim()) newErrors.phoneNumber = true;
-      if (!formData.address.trim()) newErrors.address = true;
+      if (!formData.address.street.trim()) newErrors.address = { ...newErrors.address, street: true };
+      if (!formData.address.city.trim()) newErrors.address = { ...newErrors.address, city: true };
+      if (!formData.address.state.trim()) newErrors.address = { ...newErrors.address, state: true };
+      if (!formData.address.postal_code.trim()) newErrors.address = { ...newErrors.address, postal_code: true };
+      if (!formData.country.trim()) newErrors.country = true;
       if (!formData.password.trim()) newErrors.password = true;
       if (!formData.passwordConfirm.trim()) newErrors.passwordConfirm = true;
     } else if (formData.type === "Charity") {
@@ -94,7 +154,12 @@ const SignupForm = () => {
       if (!formData.taxCode.trim()) newErrors.taxCode = true;
       if (!formData.email.trim()) newErrors.email = true;
       if (!formData.phoneNumber.trim()) newErrors.phoneNumber = true;
-      if (!formData.address.trim()) newErrors.address = true;
+      if (!formData.address.street.trim()) newErrors.address = { ...newErrors.address, street: true };
+      if (!formData.address.city.trim()) newErrors.address = { ...newErrors.address, city: true };
+      if (!formData.address.state.trim()) newErrors.address = { ...newErrors.address, state: true };
+      if (!formData.address.postal_code.trim()) newErrors.address = { ...newErrors.address, postal_code: true };
+      if (!formData.country.trim()) newErrors.country = true;
+      if (!formData.paypal_email.trim()) newErrors.paypal_email = true;
       if (!formData.charityType.trim()) newErrors.charityType = true;
       if (!formData.password.trim()) newErrors.password = true;
       if (!formData.passwordConfirm.trim()) newErrors.passwordConfirm = true;
@@ -108,8 +173,7 @@ const SignupForm = () => {
     return Object.keys(newErrors).length === 0; // no error return true
   };
 
-
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
     let filteredData;
 
     // form validate check 
@@ -121,33 +185,71 @@ const SignupForm = () => {
     // filter data based on the role
     if (formData.type === "Donor") {
       filteredData = {
-        type: formData.type,
+        userType: formData.type,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: encryptData(formData.email),
+        phone: formData.phoneNumber,
+        address: {
+          street: formData.address.street,
+          city: formData.address.city,
+          state: formData.address.state,
+          postal_code: formData.address.postal_code,
+        },        
         country: formData.country,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phoneNumber: formData.phoneNumber,
-        address: formData.address,
-        password: formData.password,
-        passwordConfirm: formData.passwordConfirm,
-        // Include the image URL, or null if no image was uploaded
+        password: encryptData(formData.password),
         img: formData.img || null
       };
-    } else {
+    } else { // charity
       filteredData = {
-        type: formData.type,
+        userType: formData.type,
+        name: formData.charityName,
+        tax_code: formData.taxCode,
+        email: encryptData(formData.email),
+        phone: formData.phoneNumber,
+        address: {
+          street: formData.address.street,
+          city: formData.address.city,
+          state: formData.address.state,
+          zip: formData.address.postal_code,
+        },        
         country: formData.country,
-        charityName: formData.charityName,
-        taxCode: formData.taxCode,
-        email: formData.email,
-        phoneNumber: formData.phoneNumber,
-        address: formData.address,
-        charityType: formData.charityType,
-        password: formData.password,
-        passwordConfirm: formData.passwordConfirm,
-        // Include the image URL, or null if no image was uploaded
+        type: formData.charityType,
+        paypal_email: formData.paypal_email,
+        password: encryptData(formData.password),
         img: formData.img || null
       };
+    }
+
+    try {
+      const response = await fetch("http://172.30.1.26:5001/admin-server/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json"
+        },
+        body: JSON.stringify(filteredData),
+        
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Sign up failed");
+      }
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        // const jwe = data.JWE; // Extract JWE
+        // console.log(data)
+        alert("Sign-up successful!");
+        navigate("/signin")
+      } else {
+        console.error("Detailed error response:", data); 
+        throw new Error("Invalid credentials");
+      }
+
+      } catch (error) {
+      setErrors(error.message);
+      console.error("Error:", error.message);
     }
 
     console.log("Submitted Data:", filteredData);
@@ -238,9 +340,9 @@ const SignupForm = () => {
       {/* Form Fields */}
       {/* Change the form up to user type */}
       {formData.type === "Donor" ? (
-        <DonorForm formData={formData} handleInputChange={handleInputChange} errors={errors} />
+        <DonorForm formData={formData} handleInputChange={handleInputChange} handleAddressChange={handleAddressChange} errors={errors} />
       ) : (
-        <CharityForm formData={formData} handleInputChange={handleInputChange} errors={errors} />
+        <CharityForm formData={formData} handleInputChange={handleInputChange} handleAddressChange={handleAddressChange} errors={errors} />
       )}
 
       {/* Terms and Conditions */}

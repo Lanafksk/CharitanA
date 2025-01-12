@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Grid, Container, Card, CardActionArea, Box, Typography } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useLocation for current route
 import charityImage from '../../assets/charity.png';
@@ -12,7 +12,10 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SearchIcon from '@mui/icons-material/Search';
 
+import { useAPI } from '../../utils/auth/APIContext';
+
 const DonorHomePage = () => {
+  const { authToken } = useAPI(); // get token
   const navigate = useNavigate(); // React Router hook for navigation
   const location = useLocation(); // React Router hook to get the current route
 
@@ -43,6 +46,19 @@ const DonorHomePage = () => {
       route: '/charity-profile',
     },
   ];
+
+  useEffect(() => {
+    const fetchDonorData = async () => {
+      if (!authToken) {
+        console.error("No auth token available");
+        return;
+      }
+  
+      console.log("Current Auth Token:", authToken); // check token, delete later
+    };
+  
+    fetchDonorData();
+  }, [authToken]); // authToken changed
 
   return (
     <>
