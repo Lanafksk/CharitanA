@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Card,
   CardContent,
@@ -11,12 +11,34 @@ import {
   Tooltip,
 } from '@mui/material';
 
+import projectImage from '../../assets/project.jpg';
+
 // Configuration object for text length limits
 const TEXT_LIMITS = {
   projectName: 20,
   charityName: 20,
   description: 150,
   location: 20
+};
+
+// Status color mapping object to handle different project statuses
+const STATUS_COLORS = {
+  Running: {
+    border: '#00ff26',
+    text: '#00ff26'
+  },
+  Halted: {
+    border: '#ff0000',
+    text: '#ff0000'
+  },
+  Pending: {
+    border: '#808080',
+    text: '#808080'
+  },
+  Completed: {
+    border: '#013220',
+    text: '#013220'
+  }
 };
 
 // Helper function to calculate days remaining until project end
@@ -33,12 +55,10 @@ const getProjectImage = (images) => {
   if (images && images.length > 0 && images[0].url) {
     return images[0].url;
   }
-  // Return a placeholder image if no project image is available
   return 'https://via.placeholder.com/350x160';
 };
 
 const ProjectDiscoveryCard = ({ project }) => {
-  // Destructure all needed properties from the project object
   const {
     title,
     charity_id,
@@ -53,13 +73,15 @@ const ProjectDiscoveryCard = ({ project }) => {
     images,
   } = project;
 
-  // Calculate values needed for display
   const progress = (current_amount / target_amount) * 100;
   const daysLeft = calculateDaysLeft(end_date);
   const location = `${country}, ${region}`;
   const image = getProjectImage(images);
+  const imageUrl = images.length > 0 ? images[0] : projectImage;
 
-  // Helper function to truncate text with ellipsis
+  // Get status colors from our mapping, defaulting to grey if status is unknown
+  const statusColors = STATUS_COLORS[status] || { border: '#808080', text: '#808080' };
+
   const truncateText = (text, limit) => {
     if (!text) return '';
     if (text.length <= limit) return text;
@@ -71,7 +93,7 @@ const ProjectDiscoveryCard = ({ project }) => {
       <CardMedia
         component="img"
         height="160"
-        image={image}
+        image={images.length > 0 ? image : projectImage}
         alt={title}
       />
       <CardContent sx={{ height: 290, position: 'relative' }}>
@@ -81,10 +103,16 @@ const ProjectDiscoveryCard = ({ project }) => {
             justifyContent: 'space-between',
             alignItems: 'flex-start',
             mb: 1,
+            gap: 1, // Add gap between title area and category
           }}
         >
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            {/* Project Title with Tooltip */}
+          {/* Title and charity section with flex-grow to take available space */}
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column',
+            flexGrow: 1,
+            minWidth: 0 // This is crucial for text truncation to work
+          }}>
             <Tooltip title={title.length > TEXT_LIMITS.projectName ? title : ''}>
               <Typography 
                 variant="h6" 
@@ -95,8 +123,7 @@ const ProjectDiscoveryCard = ({ project }) => {
                   fontSize: '1.0rem',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  maxWidth: '250px'
+                  textOverflow: 'ellipsis'
                 }}
               >
                 {truncateText(title, TEXT_LIMITS.projectName)}
@@ -104,7 +131,6 @@ const ProjectDiscoveryCard = ({ project }) => {
             </Tooltip>
             
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              {/* Charity ID displayed until we can fetch charity names */}
               <Tooltip title={charity_id}>
                 <Typography 
                   variant="body2" 
@@ -125,22 +151,32 @@ const ProjectDiscoveryCard = ({ project }) => {
                 variant="outlined"
                 sx={{
                   fontSize: '0.75rem',
-                  borderColor: '#00ff26',
-                  color: '#00ff26',
+                  borderColor: statusColors.border,
+                  color: statusColors.text,
                   borderRadius: '12px',
                 }}
               />
             </Box>
           </Box>
-          <Chip
-            label={category}
-            variant="outlined"
-            sx={{
-              borderColor: '#fb1465',
-              color: '#fb1465',
-              borderRadius: '12px',
-            }}
-          />
+
+          {/* Category chip with minimum width to prevent excessive growth */}
+          <Box sx={{ flexShrink: 0, minWidth: 'auto' }}>
+            <Chip
+              label={category}
+              variant="outlined"
+              sx={{
+                borderColor: '#fb1465',
+                color: '#fb1465',
+                borderRadius: '12px',
+                maxWidth: '120px', // Limit maximum width
+                '& .MuiChip-label': {
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }
+              }}
+            />
+          </Box>
         </Box>
         
         <Tooltip title={description.length > TEXT_LIMITS.description ? description : ''}>
