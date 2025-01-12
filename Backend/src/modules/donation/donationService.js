@@ -1,4 +1,5 @@
 const donationRepository = require("./donationRepository");
+const projectRepository = require('../project/projectRepository');
 
 // Get donation history for a specific donor
 exports.getDonationHistoryByDonor = async (donorId) => {
@@ -162,4 +163,27 @@ exports.getTotalDonationsForProject = async (projectId) => {
             `Error getting total donation amount for project: ${error.message}`
         );
     }
+};
+
+// Get a list of donations for a specific charity
+exports.getDonationsByCharityId = async (charityId, month, year) => {
+    // 1. Get project IDs for the charity
+    const projectIds = await projectRepository.getProjectIdsByCharityId(charityId);
+
+    // 2. Use the repository function to get donations based on project IDs
+    return await donationRepository.getDonationsByProjectIds(projectIds, month, year);
+};
+
+// Get the total number of projects for a specific charity
+exports.getProjectCountByCharityId = async (charityId, month, year) => {
+    return await donationRepository.getProjectCountByCharityId(charityId, month, year);
+};
+
+// Get the total donation amount for a specific charity
+exports.getTotalDonationAmountByCharityId = async (charityId, month, year) => {
+    // 1. Get project IDs for the charity
+    const projectIds = await projectRepository.getProjectIdsByCharityId(charityId);
+
+    // 2. Use the repository function to get the total amount based on project IDs
+    return await donationRepository.getTotalDonationAmountByProjectIds(projectIds, month, year);
 };

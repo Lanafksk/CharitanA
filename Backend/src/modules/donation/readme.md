@@ -114,3 +114,14 @@ GET /api/donations/get/leaderboard?timePeriod=custom&startDate=2023-06-01&endDat
 Get the all-time leaderboard, sorted by donor ID in ascending order:
 
 GET /api/donations/get/leaderboard?sortBy=donorId&sortOrder=asc
+
+<!-- donation for charity ID -->
+<!-- Without Sort then get data All Time -->
+
+- **GET `/api/donations/charity/donations/xyz123?month=12&year=2023`:** Get all donations for charity `xyz123` in December 2023.
+- **GET `/api/donations/charity/donations/abc456?year=2024`:** Get all donations for charity `abc456` in 2024.
+- **GET `/api/donations/charity/donations/def789`:** Get all donations for charity `def789` (all time).
+- **GET `/api/donations/charity/project-count/xyz123?month=1&year=2024`:** Get the number of projects for charity `xyz123` in January 2024.
+- **GET `/api/donations/charity/project-count/abc456`:** Get the total number of projects for charity `abc456` (all time).
+- **GET `/api/donations/charity/total-donations/def789?year=2023`:** Get the total donation amount for charity `def789` in 2023.
+- **GET `/api/donations/charity/total-donations/ghi101`:** Get the total donation amount for charity `ghi101` (all time).

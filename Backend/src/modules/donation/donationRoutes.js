@@ -28,5 +28,11 @@ router.get("/get/leaderboard", donationController.getLeaderboard);
 // GET total donations for a project
 router.get('/total-amount/project/:projectId', donationController.getTotalDonationsForProject);
 
+// GET donations list (objects) for a charity (have sorting options)
+router.get('/charity/donations/:charityId/', donationController.getDonationsByCharityId);
+// GET number of donations for a project (have sorting options)
+router.get('/charity/project-count/:charityId/', donationController.getProjectCountByCharityId);
+// GET total donation amount for a charity (have sorting options)
+router.get('/charity/total-donations/:charityId', donationController.getTotalDonationAmountByCharityId);
 
 module.exports = router;

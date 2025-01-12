@@ -100,3 +100,9 @@ exports.getProjectsByRegion = async (region) => {
 exports.getProjectsByTitle = async (title) => {
     return await Project.find({ title: { $regex: title, $options: 'i' } });
 }
+
+// Helper function to get project IDs by charity ID
+exports.getProjectIdsByCharityId = async (charityId) => {
+    const projects = await Project.find({ charity_id: charityId });
+    return projects.map((project) => project.project_id);
+};

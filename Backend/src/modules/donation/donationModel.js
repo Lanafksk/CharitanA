@@ -8,7 +8,7 @@ dotenv.config();
 const clusterURI = process.env.MONGO_URI;
 
 // Connect to respective Database
-const db = connectDB('charitan', clusterURI);
+const db = connectDB('donationDB', clusterURI);
 
 // Define the Donation Schema
 const donationSchema = new mongoose.Schema(

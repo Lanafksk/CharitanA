@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const Donation = require("./donationModel");
+const Project = require('../project/projectModel')
 const axios = require("axios"); // Import axios for making HTTP requests
 
 const API_GATEWAY = process.env.INTERNAL_API_GATEWAY;
@@ -328,4 +329,66 @@ exports.getTotalDonationsForProject = async (projectId) => {
             `Error calculating total donations for project: ${error.message}`
         );
     }
+};
+
+
+// Get a list of donations for a specific charity using project IDs
+exports.getDonationsByProjectIds = async (projectIds, month, year) => {
+    let query = { project_id: { $in: projectIds } };
+
+    if (month && year) {
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+        query.createdAt = { $gte: startDate, $lte: endDate };
+    } else if (year) {
+        const startDate = new Date(year, 0, 1);
+        const endDate = new Date(year, 11, 31, 23, 59, 59, 999);
+        query.createdAt = { $gte: startDate, $lte: endDate };
+    }
+
+    return await Donation.find(query);
+};
+
+// Get the total number of projects for a specific charity
+exports.getProjectCountByCharityId = async (charityId, month, year) => {
+    let query = { charity_id: charityId };
+
+    if (month && year) {
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+        query.createdAt = { $gte: startDate, $lte: endDate };
+    } else if (year) {
+        const startDate = new Date(year, 0, 1);
+        const endDate = new Date(year, 11, 31, 23, 59, 59, 999);
+        query.createdAt = { $gte: startDate, $lte: endDate };
+    }
+
+    return await Project.countDocuments(query);
+};
+
+// Get the total donation amount for a specific charity using project IDs
+exports.getTotalDonationAmountByProjectIds = async (projectIds, month, year) => {
+    let matchStage = { project_id: { $in: projectIds } };
+
+    if (month && year) {
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+        matchStage.createdAt = { $gte: startDate, $lte: endDate };
+    } else if (year) {
+        const startDate = new Date(year, 0, 1);
+        const endDate = new Date(year, 11, 31, 23, 59, 59, 999);
+        matchStage.createdAt = { $gte: startDate, $lte: endDate };
+    }
+
+    const result = await Donation.aggregate([
+        { $match: matchStage },
+        {
+            $group: {
+                _id: null,
+                totalAmount: { $sum: "$amount" },
+            },
+        },
+    ]);
+
+    return result.length > 0 ? result[0].totalAmount : 0;
 };

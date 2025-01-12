@@ -138,3 +138,38 @@ exports.getTotalDonationsForProject = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.getDonationsByCharityId = async (req, res) => {
+    try {
+        const charityId = req.params.charityId;
+        const { month, year } = req.query;
+        const donations = await donationService.getDonationsByCharityId(charityId, month, year);
+        res.status(200).json(donations);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Get the total number of projects for a specific charity
+exports.getProjectCountByCharityId = async (req, res) => {
+    try {
+        const charityId = req.params.charityId;
+        const { month, year } = req.query;
+        const count = await donationService.getProjectCountByCharityId(charityId, month, year);
+        res.status(200).json({ count });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Get the total donation amount for a specific charity
+exports.getTotalDonationAmountByCharityId = async (req, res) => {
+    try {
+        const charityId = req.params.charityId;
+        const { month, year } = req.query;
+        const totalAmount = await donationService.getTotalDonationAmountByCharityId(charityId, month, year);
+        res.status(200).json({ totalAmount });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
