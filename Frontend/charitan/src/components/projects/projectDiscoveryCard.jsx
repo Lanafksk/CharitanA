@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Card,
   CardContent,
@@ -10,10 +10,8 @@ import {
   Button,
   Tooltip,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import PauseIcon from '@mui/icons-material/Pause';
-import ProjectDetailForm from './projectDetailForm';
+
+import projectImage from '../../assets/project.jpg';
 
 // Configuration object for text length limits
 const TEXT_LIMITS = {
@@ -23,32 +21,71 @@ const TEXT_LIMITS = {
   location: 20
 };
 
-const ProjectDiscoveryCard = ({
-  projectName,
-  charityName,
-  status,
-  description,
-  category,
-  raised,
-  goal,
-  location,
-  daysLeft,
-  image,
-  projectData
-}) => {
-  const progress = (raised / goal) * 100;
-  const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+// Status color mapping object to handle different project statuses
+const STATUS_COLORS = {
+  Running: {
+    border: '#00ff26',
+    text: '#00ff26'
+  },
+  Halted: {
+    border: '#ff0000',
+    text: '#ff0000'
+  },
+  Pending: {
+    border: '#808080',
+    text: '#808080'
+  },
+  Completed: {
+    border: '#013220',
+    text: '#013220'
+  }
+};
 
-  // Helper function to truncate text with ellipsis
+// Helper function to calculate days remaining until project end
+const calculateDaysLeft = (endDate) => {
+  const end = new Date(endDate);
+  const today = new Date();
+  const diffTime = end - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays > 0 ? diffDays : 0;
+};
+
+// Helper function to get the first available image or return a placeholder
+const getProjectImage = (images) => {
+  if (images && images.length > 0 && images[0].url) {
+    return images[0].url;
+  }
+  return 'https://via.placeholder.com/350x160';
+};
+
+const ProjectDiscoveryCard = ({ project }) => {
+  const {
+    title,
+    charity_id,
+    status,
+    description,
+    category,
+    current_amount,
+    target_amount,
+    country,
+    region,
+    end_date,
+    images,
+  } = project;
+
+  const progress = (current_amount / target_amount) * 100;
+  const daysLeft = calculateDaysLeft(end_date);
+  const location = `${country}, ${region}`;
+  const image = getProjectImage(images);
+  const imageUrl = images.length > 0 ? images[0] : projectImage;
+
+  // Get status colors from our mapping, defaulting to grey if status is unknown
+  const statusColors = STATUS_COLORS[status] || { border: '#808080', text: '#808080' };
+
   const truncateText = (text, limit) => {
     if (!text) return '';
     if (text.length <= limit) return text;
     return `${text.substring(0, limit)}...`;
-  };
-
-  // Handle edit icon click
-  const handleEditClick = () => {
-    setIsEditFormOpen(true);
   };
 
   return (
@@ -56,8 +93,8 @@ const ProjectDiscoveryCard = ({
       <CardMedia
         component="img"
         height="160"
-        image={image}
-        alt={projectName}
+        image={images.length > 0 ? image : projectImage}
+        alt={title}
       />
       <CardContent sx={{ height: 290, position: 'relative' }}>
         <Box 
@@ -66,11 +103,17 @@ const ProjectDiscoveryCard = ({
             justifyContent: 'space-between',
             alignItems: 'flex-start',
             mb: 1,
+            gap: 1, // Add gap between title area and category
           }}
         >
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            {/* Project Name with Tooltip */}
-            <Tooltip title={projectName.length > TEXT_LIMITS.projectName ? projectName : ''}>
+          {/* Title and charity section with flex-grow to take available space */}
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column',
+            flexGrow: 1,
+            minWidth: 0 // This is crucial for text truncation to work
+          }}>
+            <Tooltip title={title.length > TEXT_LIMITS.projectName ? title : ''}>
               <Typography 
                 variant="h6" 
                 component="div" 
@@ -80,17 +123,15 @@ const ProjectDiscoveryCard = ({
                   fontSize: '1.0rem',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  maxWidth: '250px'  // Adjust based on your needs
+                  textOverflow: 'ellipsis'
                 }}
               >
-                {truncateText(projectName, TEXT_LIMITS.projectName)}
+                {truncateText(title, TEXT_LIMITS.projectName)}
               </Typography>
             </Tooltip>
             
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              {/* Charity Name with Tooltip */}
-              <Tooltip title={charityName.length > TEXT_LIMITS.charityName ? charityName : ''}>
+              <Tooltip title={charity_id}>
                 <Typography 
                   variant="body2" 
                   color="black" 
@@ -99,10 +140,10 @@ const ProjectDiscoveryCard = ({
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    maxWidth: '150px'  // Adjust based on your needs
+                    maxWidth: '150px'
                   }}
                 >
-                  {truncateText(charityName, TEXT_LIMITS.charityName)}
+                  {truncateText(charity_id, TEXT_LIMITS.charityName)}
                 </Typography>
               </Tooltip>
               <Chip
@@ -110,24 +151,34 @@ const ProjectDiscoveryCard = ({
                 variant="outlined"
                 sx={{
                   fontSize: '0.75rem',
-                  borderColor: '#00ff26',
-                  color: '#00ff26',
+                  borderColor: statusColors.border,
+                  color: statusColors.text,
                   borderRadius: '12px',
                 }}
               />
             </Box>
           </Box>
-          <Chip
-            label={category}
-            variant="outlined"
-            sx={{
-              borderColor: '#fb1465',
-              color: '#fb1465',
-              borderRadius: '12px',
-            }}
-          />
+
+          {/* Category chip with minimum width to prevent excessive growth */}
+          <Box sx={{ flexShrink: 0, minWidth: 'auto' }}>
+            <Chip
+              label={category}
+              variant="outlined"
+              sx={{
+                borderColor: '#fb1465',
+                color: '#fb1465',
+                borderRadius: '12px',
+                maxWidth: '120px', // Limit maximum width
+                '& .MuiChip-label': {
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }
+              }}
+            />
+          </Box>
         </Box>
-        {/* Description with Tooltip */}
+        
         <Tooltip title={description.length > TEXT_LIMITS.description ? description : ''}>
           <Typography 
             variant="body2" 
@@ -149,24 +200,23 @@ const ProjectDiscoveryCard = ({
         </Tooltip>
         
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-          <Typography variant="body2">${raised.toLocaleString()} raised</Typography>
+          <Typography variant="body2">${current_amount.toLocaleString()} raised</Typography>
           <Typography variant="body2" color="text.secondary">
-            / ${goal.toLocaleString()} goal
+            / ${target_amount.toLocaleString()} goal
           </Typography>
         </Box>
         <LinearProgress
-            variant="determinate"
-            value={progress}
-            sx={{ 
+          variant="determinate"
+          value={progress}
+          sx={{ 
             mb: 2,
-            backgroundColor: '#FFE2F1', // Color of the unfilled part
+            backgroundColor: '#FFE2F1',
             '& .MuiLinearProgress-bar': {
-                backgroundColor: '#FB1465' // Color of the filled part
+              backgroundColor: '#FB1465'
             }
-            }}
+          }}
         />
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          {/* Location with Tooltip */}
           <Tooltip title={location.length > TEXT_LIMITS.location ? location : ''}>
             <Typography 
               variant="body2" 
@@ -175,7 +225,7 @@ const ProjectDiscoveryCard = ({
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-                maxWidth: '150px'  // Adjust based on your needs
+                maxWidth: '150px'
               }}
             >
               {truncateText(location, TEXT_LIMITS.location)} - {daysLeft} days left
