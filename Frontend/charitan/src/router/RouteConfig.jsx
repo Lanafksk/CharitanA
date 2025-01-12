@@ -16,6 +16,8 @@ import LeaderboardPage from '../pages/LeaderboardPage';
 
     //Route for donor & charity (user who sign up)
 import DonationPage from '../pages/donor/DonationPage';
+import LeaderboardPage from '../pages/LeaderboardPage';
+import CharityHomePage from '../pages/charity/CharityHomePage';
 
     // Route for donor only
 import DonorHomePage from '../pages/donor/DonorHomePage';
@@ -28,6 +30,8 @@ import CharityHistoryPage from '../pages/charity/CharityHistoryPage';
 import CharityProfilePage from '../pages/charity/CharityProfilePage';
 import CharityProjectPage from '../pages/charity/CharityProjectPage';
 
+
+import HomePage from '../pages/HomePage';
 
 const RouteConfig = () => {
     return (
@@ -55,6 +59,7 @@ const RouteConfig = () => {
 
                 <Route path="/discovery" element={<ProjectDiscoveryPage />} />
 
+                <Route path="/charity-home" element={< CharityHomePage />} />
 
                 {/* Protected Routes for Donors */}
                 <Route
