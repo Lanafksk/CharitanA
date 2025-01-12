@@ -48,15 +48,19 @@ exports.initiatePayment = async (paymentData) => {
     }
 };
 
+// paymentService.js
 exports.capturePayment = async (orderId) => {
     try {
         // Capture the payment using the PayPal API
         const captureResponse = await paypalService.capturePayment(orderId);
         console.log("Payment captured, response:", captureResponse);
 
-        // Get order details to check payment method
+        // Get order details to check payment method and message
         const orderDetails = await paypalService.getOrder(orderId);
         console.log("Order details:", orderDetails);
+
+        // Extract the message from orderDetails
+        const message = orderDetails.purchase_units[0].description;
 
         // Determine the payment method based on the payer information
         const paymentMethod = orderDetails.payment_source
@@ -97,9 +101,7 @@ exports.capturePayment = async (orderId) => {
                 amount: updatedPayment.amount,
                 payment_method: paymentMethod,
                 payment_id: updatedPayment.payment_id,
-                message:
-                    updatedPayment.payment_gateway_response.captureResponse
-                        .purchase_units[0].description, // Use optional chaining and nullish coalescing
+                message: message, // Use the message extracted from orderDetails
                 is_recurring: updatedPayment.is_recurring,
             };
 

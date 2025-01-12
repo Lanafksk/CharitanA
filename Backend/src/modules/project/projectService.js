@@ -171,22 +171,27 @@ exports.getCharityPaypalEmail = async (projectId) => {
             throw new Error(`Charity ID not found for project with ID: ${projectId}`);
         }
 
-        // Fetch the charity details from Team B's API
-        // Correct the URL by adding "admin-server"
-        const charityResponse = await axios.get(
-            `${API_GATEWAY}/charity/id/${charityId}`
-        );
-        console.log("Charity response:", charityResponse);
+        // // Fetch the charity details from Team B's API
+        // // Correct the URL by adding "admin-server"
+        // const charityResponse = await axios.get(
+        //     `${API_GATEWAY}/charity/id/${charityId}`
+        // );
+        // console.log("Charity response:", charityResponse);
 
-        const charityData = charityResponse.data;
+        // const charityData = charityResponse.data;
 
-        // Access the paypal_email property
-        const paypalEmail = charityData.data.paypal_email;
-        if (!paypalEmail) {
-            throw new Error(
-                `PayPal email not found for charity with ID: ${charityId}`
-            );
-        }
+        // Testing purposes for this time
+
+        paypalEmail = "sb-vmtlt35454936@business.example.com"
+
+
+        // // Access the paypal_email property
+        // const paypalEmail = charityData.data.paypal_email;
+        // if (!paypalEmail) {
+        //     throw new Error(
+        //         `PayPal email not found for charity with ID: ${charityId}`
+        //     );
+        // }
 
         return paypalEmail;
     } catch (error) {
