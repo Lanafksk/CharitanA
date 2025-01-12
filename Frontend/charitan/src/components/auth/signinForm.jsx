@@ -20,16 +20,6 @@ const SigninForm = () => {
   const navigate = useNavigate();
   const [error, setErrors] = useState("");
 
-  const rsaPublicKey = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu/tB9+zU3RxhdeiLXgZF
-pql7GpOLzDcbXneQubo5B02iuRIuO2m0bmCYzG2sdqu5bOOG4jieegDr6X75nC26
-Sb/wVwH5xP1/EJayL6va1se/Zh+aiYWhWRW82j6meLvxodZoIcV2TGhQoZEHBVQ/
-Ta4i1dJr/rtdoha2f8H/YUF+wToTMCaNcqDEbNYQnhj55fLZ0+y+a9o8MQHXP4VB
-FcSqyKTKAO+r3vlnxyXezhZtP1jt9Mp5Lg60qHjEpxfnridchQSJUxSBMw87BOC3
-hBcrQjEA12pRnkGQCO4tZXyrC0kaRS2edBLj+B4qnmO1u3rzEvMSsJY0jL13ftdS
-TQIDAQAB
-  -----END PUBLIC KEY-----`
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -58,8 +48,20 @@ TQIDAQAB
     }
   };
 
-  const encryptData = (data) => {
-    const publicKey = forge.pki.publicKeyFromPem(rsaPublicKey);
+    const encryptData = (data) => {
+    const publicKeyPem = process.env.REACT_APP_RSA_PUBLIC_KEY;
+    if (!publicKeyPem) {
+      throw new Error('Public key not found in environment variables');
+    }
+    
+    // PEM format
+    const formattedPublicKey = publicKeyPem
+      .replace(/\\n/g, '\n') 
+      .replace(/\\$/gm, '') 
+      .trim();
+    
+    const publicKey = forge.pki.publicKeyFromPem(formattedPublicKey);
+    
     const encrypted = publicKey.encrypt(data, "RSA-OAEP", {
       md: forge.md.sha256.create(),
     });
@@ -83,10 +85,11 @@ TQIDAQAB
         userType: formData.userType,
       };
 
-      const response = await fetch("http://172.30.1.26:5001/admin-server/auth/login", {
+      const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+      const response = await fetch(`${API_BASE_URL}/admin-server/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json"
-         },
+        },
         body: JSON.stringify(dataToSend),
       });
 
