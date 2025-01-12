@@ -8,7 +8,7 @@ dotenv.config();
 const clusterURI = process.env.MONGO_URI;
 
 // Connect to respective Database
-const db = connectDB('charitan', clusterURI);
+const db = connectDB('paymentDB', clusterURI);
 
 db.on("connected", () => {
     console.log("Successfully connected to the database: charitan/payment");
