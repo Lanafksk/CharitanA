@@ -1,5 +1,6 @@
 .env
 /*/node_modules
+*.pem
 
 # React Component Preview
 previewConfig.json
