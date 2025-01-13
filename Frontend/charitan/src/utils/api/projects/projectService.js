@@ -1,14 +1,27 @@
-const API_BASE_URL = `${process.env.REACT_APP_TEAM_A_BACKEND_URL}/api`;
+const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/client-server/projects`;
 
 export const fetchProjects = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/projects`);
+    const response = await fetch(
+      BASE_URL,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        //credentials: 'include',
+      }
+    );
+
     if (!response.ok) {
-      throw new Error('Failed to fetch projects');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return await response.json();
+
+    const data = await response.json();
+    console.log("Projects Data:", data);
+    return data.projectResponse;
   } catch (error) {
-    // We throw the error to handle it in the component
-    throw new Error(`Error fetching projects: ${error.message}`);
+    console.error('Error fetching projects:', error);
+    throw error;
   }
 };
