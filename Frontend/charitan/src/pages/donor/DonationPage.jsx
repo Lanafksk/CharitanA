@@ -8,12 +8,14 @@ import DonationContainer from "../../components/donation/donationContainer";
 
 const DonationPage = () => {
     const location = useLocation();
+    const projectData = location.state?.projectData;
+
 
     return (
         <Box>
             <NavigationBar currentPage={location.pathname} />
             <PageBanner text="Donation" />
-            <DonationContainer/>
+            <DonationContainer projectData = {projectData}/>
         </Box>
     );
 };

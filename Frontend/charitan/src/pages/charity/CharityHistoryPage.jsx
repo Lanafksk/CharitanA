@@ -1,58 +1,82 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
-import axios from 'axios';
 import NavigationBar from "../../components/navigationBar";
 import PageBanner from '../../components/pageBanner';
 import HistoryTable from '../../components/history/historyTable';
+import { fetchAllDonations } from '../../utils/api/history/getAllDonations';
+import { fetchDonationHistoryCharity } from '../../utils/api/history/charityHistoryService';
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  }).replace(/(\d+) ([A-Za-z]+) (\d+)/, '$1 - $2 - $3');
+};
+
+const formatAmount = (amount) => {
+  return `$${Number(amount).toFixed(2)}`;
+};
 
 const CharityHistoryPage = () => {
-    // const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(false);
+  const [donations, setDonations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-          // Example data
-          const rows = [
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON002", donor: "DON002", project: "PRO002", amount: "$400", date: "09 - Feb - 2024", status: "Success", message: "Another message..." },
-            { id: "DON003", donor: "DON003", project: "PRO003", amount: "$500", date: "10 - Feb - 2024", status: "Success", message: "Yet another message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON002", donor: "DON002", project: "PRO002", amount: "$400", date: "09 - Feb - 2024", status: "Success", message: "Another message..." },
-            { id: "DON003", donor: "DON003", project: "PRO003", amount: "$500", date: "10 - Feb - 2024", status: "Success", message: "Yet another message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-        
-          ];
+  useEffect(() => {
+    const loadDonations = async () => {
+      try {
+        const donationData = await fetchAllDonations();
+        const formattedDonations = donationData.map(donation => ({
+          id: donation.donation_id,
+          donor: donation.donor_id,
+          project: donation.project_id,
+          amount: formatAmount(donation.amount),
+          date: formatDate(donation.createdAt),
+          status: donation.status,
+          message: donation.message || 'No message',
+        }));
+        setDonations(formattedDonations);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    if (loading) {
-        return (
-            <div style={{ display: "flex", justifyContent: "center", margin: "100px" }}>
-                <CircularProgress />
-            </div>
-            );
-    }
+    loadDonations();
+  }, []);
 
+  if (loading) {
     return (
-        <div>
-            <NavigationBar />
-            <PageBanner text="History" />
-            <div style={{ padding: "20px" }}>
-                <HistoryTable rows={rows} userType="charity"/>
-            </div>
-        </div>
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress />
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <NavigationBar />
+        <PageBanner text="History" />
+        <div className="p-4 text-red-600">
+          Error loading donations: {error}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <NavigationBar />
+      <PageBanner text="History" />
+      <div className="p-5">
+        <HistoryTable rows={donations} userType="charity"/>
+      </div>
+    </div>
+  );
 };
 
 export default CharityHistoryPage;

@@ -5,11 +5,13 @@ import NavLink from './navLink';
 import WelcomeBox from './welcomeBox';
 import CustomButton from './button';
 import { useNavigate } from 'react-router-dom';
-import { fetchCharityProfile } from '../utils/profile/profileService';
+import { fetchCharityProfile } from '../utils/api/profile/profileService';
+
 
 const NavigationBar = ({ currentPage }) => {
     const navigate = useNavigate();
     const [userProfile, setUserProfile] = useState(null);
+    const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
       const fetchUserProfile = async () => {
@@ -23,6 +25,8 @@ const NavigationBar = ({ currentPage }) => {
           }
         }
       };
+      const role = localStorage.getItem('role');
+      setUserRole(role);
 
       fetchUserProfile();
     }, []);
@@ -62,9 +66,16 @@ const NavigationBar = ({ currentPage }) => {
                       <NavLink href="/leaderboard" color="black" size="1rem" highlight={currentPage === '/leaderboard'}>
                           Leaderboard
                       </NavLink>
-                      <NavLink href="/donor-history" color="black" size="1rem" highlight={currentPage === '/donor-history'}>
+                      {userRole && (
+                        <NavLink
+                          href={userRole === 'Charity' ? '/charity-history' : '/donor-history'}
+                          color="black"
+                          size="1rem"
+                          highlight={currentPage === '/charity-history' || currentPage === '/donor-history'}
+                        >
                           History
-                      </NavLink>
+                        </NavLink>
+                      )}
                   </Box>
               </Grid>
               <Grid item>
