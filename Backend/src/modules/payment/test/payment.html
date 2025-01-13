@@ -57,7 +57,7 @@
     <div class="donation-form">
         <h2>Donate to [Project Name]</h2>
         <label for="projectId">Project ID:</label>
-        <input type="text" id="projectId" value="f8293bf0-b4e2-402c-a90c-3ef4517c2ea7">
+        <input type="text" id="projectId" value="17b462d1-caae-43d8-b8e9-7e5e6dcf1949">
 
         <label for="donorId">Donor ID (optional):</label>
         <input type="text" id="donorId" placeholder="Enter your donor ID">
@@ -102,7 +102,7 @@
                         project_id: projectId,
                         amount: amount,
                         donor_id: donorId,
-                        message: message, // Send the message
+                        message: message,
                         payment_method: "paypal",
                         currency: "USD"
                     }),
@@ -117,7 +117,7 @@
 
                 if (data.approvalUrl) {
                     // Redirect to PayPal's approval URL
-                    window.location.href = data.approvalUrl;
+                    window.open(data.approvalUrl, '_blank');
                 } else {
                     throw new Error("Approval URL not received from backend.");
                 }
