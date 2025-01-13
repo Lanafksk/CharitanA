@@ -6,12 +6,14 @@
   "scripts": {
     "start": "nodemon src/app.js",
     "dev": "nodemon src/app.js",
+    "generate-data": "node src/generateData/generateDonationData.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^9.3.0",
     "@paypal/checkout-server-sdk": "^1.0.3",
     "axios": "^1.7.8",
     "backend": "file:",

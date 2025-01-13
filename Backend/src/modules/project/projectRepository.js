@@ -132,14 +132,23 @@ exports.getProjectsByRegion = async (region) => {
 
 // Get projects by charity name
 exports.getProjectsByTitle = async (title) => {
+
     const projects = await Project.find({ title: { $regex: title, $options: 'i' } });
     return await convertToDTO(projects);
 }
 
+// Get static possible project categories
 exports.getProjectCategories = async () => {
     return ProjectCategory;
 };
 
+// Get static possible project statuses
 exports.getProjectStatuses = async () => {
     return ProjectStatus;
+};
+
+// Helper function to get project IDs by charity ID
+exports.getProjectIdsByCharityId = async (charityId) => {
+    const projects = await Project.find({ charity_id: charityId });
+    return projects.map((project) => project.project_id);
 };

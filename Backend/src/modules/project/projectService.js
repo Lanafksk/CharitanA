@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 const axios = require('axios');
 const isValidDate = require('../../utils/dateValidation').isValidDate;
 const { ProjectCategory, ProjectStatus } = require('./projectModel');
 const projectRepository = require('./projectRepository');
 const { cacheProject: cacheProject, returnCacheProject, deleteCacheProject } = require('../redis/redisService');
 
-const API_GATEWAY = 'http://localhost:5000/admin-server';
+const API_GATEWAY = process.env.INTERNAL_API_GATEWAY;
 
 let cached_project_ids = [];
 let cached_project_count = 0;
@@ -578,6 +580,7 @@ exports.getProjectsByCharityName = async (name) => {
     }
 };
 
+
 async function validateProjectData(project_data) {
     if (project_data.title == null || project_data.description == null || project_data.target_amount == null || project_data.current_amount == null || project_data.start_date == null || project_data.end_date == null || project_data.country == null || project_data.region == null || project_data.category == null || project_data.charity_id == null) {
         throw new Error('All fields are required, missing: ' + Object.keys(project_data));
@@ -626,4 +629,59 @@ exports.getProjectCategories = async () => {
 exports.getProjectStatuses = async () => {
     const statuses = await projectRepository.getProjectStatuses();
     return statuses;
+
+/**
+ * Get the PayPal email of the charity associated with a project.
+ *
+ * @param {string} projectId - The ID of the project.
+ * @returns {string} - The PayPal email of the charity.
+ * @throws {Error} - If the project is not found or if the charity's PayPal email is not available.
+ */
+exports.getCharityPaypalEmail = async (projectId) => {
+    try {
+        console.log("Project ID: ", projectId);
+        const project = await projectRepository.getProjectById(projectId);
+        if (!project) {
+            throw new Error(`Project not found with ID: ${projectId}`);
+        }
+
+        console.log("Project: ", project);
+        const charityId = project.charity_id;
+        console.log("Charity ID: ", charityId);
+        if (!charityId) {
+            throw new Error(`Charity ID not found for project with ID: ${projectId}`);
+        }
+
+        // // Fetch the charity details from Team B's API
+        // // Correct the URL by adding "admin-server"
+        // const charityResponse = await axios.get(
+        //     `${API_GATEWAY}/charity/id/${charityId}`
+        // );
+        // console.log("Charity response:", charityResponse);
+
+        // const charityData = charityResponse.data;
+
+        // Testing purposes for this time
+
+        paypalEmail = "sb-vmtlt35454936@business.example.com"
+
+
+        // // Access the paypal_email property
+        // const paypalEmail = charityData.data.paypal_email;
+        // if (!paypalEmail) {
+        //     throw new Error(
+        //         `PayPal email not found for charity with ID: ${charityId}`
+        //     );
+        // }
+
+        return paypalEmail;
+    } catch (error) {
+        console.error(
+            `Error getting charity PayPal email for project ID ${projectId}:`,
+            error
+        );
+        throw new Error(
+            `Failed to get charity PayPal email for project ID ${projectId}`
+        );
+    }
 };
