@@ -16,6 +16,15 @@ import {
 } from '@mui/material';
 import { Edit as EditIcon, AttachMoney, AssignmentTurnedIn } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { AdvancedImage } from "@cloudinary/react";
+import { fill } from "@cloudinary/url-gen/actions/resize";
+
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME
+  }
+});
 
 const StyledCard = styled(Card)({
   backgroundColor: 'white',
@@ -122,23 +131,43 @@ const UserProfile = ({
         { label: 'Email Address', value: profileData.emailAddress, field: 'emailAddress' },
         { label: 'Country', value: profileData.country, field: 'country' },
         { label: 'Address', value: profileData.address, field: 'address' },
+        { label: 'Img_url', value: profileData.img_url, field: 'img_url' },
       ];
     }
   };
+
+  const image = profileData.img_url
+            ? cld.image(profileData.img_url).resize(fill().width(100).height(100)) // ratio 1:1
+            : null;
 
   return (
     <StyledCard>
       <CardContent>
         {/* Profile Header */}
         <ProfileHeader>
-          <Avatar
-            sx={{
-              width: 120,
-              height: 120,
-              marginBottom: 2,
-              backgroundColor: '#f5f5f5',
-            }}
-          />
+          {image ? (
+            <AdvancedImage
+              cldImg={image}
+              className="rounded-full"
+              style={{
+                width: '120px', //size
+                height: '120px', 
+                borderRadius: '50%',
+                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', 
+              }}
+            />          
+          ) : (
+            <Avatar
+              sx={{
+                width: 120,
+                height: 120,
+                marginBottom: 2,
+                backgroundColor: '#f5f5f5',
+              }}
+            >
+              No Avatar
+            </Avatar>
+          )}
           <Typography variant="h5" gutterBottom>
             {type === 'charity' ? profileData.charityName : `${profileData.firstName} ${profileData.lastName}`}
           </Typography>

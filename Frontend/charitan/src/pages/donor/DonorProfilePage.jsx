@@ -16,6 +16,7 @@ const DonorProfilePage = () => {
     emailAddress: "",
     country: "",
     address: "",
+    img_url: "",
     totalAmount: 0,
     totalProjects: 0
   });
@@ -55,9 +56,11 @@ const DonorProfilePage = () => {
         emailAddress: donorData.email || "",
         country: donorData.country || "",
         address: formattedAddress || "",
+        img_url: donorData.img_url || "",
         // totalAmount: 0,
         // totalProjects: 0
       };
+      
   
       setProfileData(transformedData);
     } catch (err) {
