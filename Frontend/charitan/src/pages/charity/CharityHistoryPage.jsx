@@ -4,44 +4,47 @@ import axios from 'axios';
 import NavigationBar from "../../components/navigationBar";
 import PageBanner from '../../components/pageBanner';
 import HistoryTable from '../../components/history/historyTable';
+import { fetchDonationHistoryCharity } from '../../utils/api/history/charityHistoryService';
 
 const CharityHistoryPage = () => {
-    // const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [rows, setRows] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-          // Example data
-          const rows = [
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON002", donor: "DON002", project: "PRO002", amount: "$400", date: "09 - Feb - 2024", status: "Success", message: "Another message..." },
-            { id: "DON003", donor: "DON003", project: "PRO003", amount: "$500", date: "10 - Feb - 2024", status: "Success", message: "Yet another message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON002", donor: "DON002", project: "PRO002", amount: "$400", date: "09 - Feb - 2024", status: "Success", message: "Another message..." },
-            { id: "DON003", donor: "DON003", project: "PRO003", amount: "$500", date: "10 - Feb - 2024", status: "Success", message: "Yet another message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", donor: "DON001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-        
-          ];
+    useEffect(() => {
+        const loadDonationHistory = async () => {
+            try {
+                const charityId = localStorage.getItem("charityId"); // Retrieve charityId from local storage
+                if (!charityId) {
+                    throw new Error("Charity ID not found in local storage");
+                }
+                const data = await fetchDonationHistoryCharity(charityId);
+                setRows(Array.isArray(data) ? data : []);
+            } catch (err) {
+                setError('Failed to load donation history. Please try again later.');
+                console.error('Error loading donation history:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadDonationHistory();
+    }, []);
 
     if (loading) {
         return (
             <div style={{ display: "flex", justifyContent: "center", margin: "100px" }}>
                 <CircularProgress />
             </div>
-            );
+        );
+    }
+
+    if (error) {
+        return (
+            <div style={{ display: "flex", justifyContent: "center", margin: "100px" }}>
+                <p>{error}</p>
+            </div>
+        );
     }
 
     return (
