@@ -18,7 +18,7 @@ import DonationPage from '../pages/donor/DonationPage';
     // Route for donor only
 import DonorHomePage from '../pages/donor/DonorHomePage';
 import DonorHistoryPage from '../pages/donor/DonorHistoryPage';
-// donor profile page
+import DonorProfilePage from '../pages/donor/DonorProfilePage';
 
     // Route for charity only
 import CharityHomePage from '../pages/charity/CharityHomePage';
@@ -54,6 +54,8 @@ const RouteConfig = () => {
                 <Route path="/charity-home" element={< CharityHomePage />} />
 
                 <Route path="/donor-home" element={< DonorHomePage />} />
+                <Route path="/donor-profile" element={<DonorProfilePage />} />
+
 
 
                 {/* Protected Routes for Donors */}

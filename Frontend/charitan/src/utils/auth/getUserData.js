@@ -9,7 +9,7 @@ export const fetchUserData = async () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
+        credentials: 'include', // means cookies will be sent
       }
     );
 
