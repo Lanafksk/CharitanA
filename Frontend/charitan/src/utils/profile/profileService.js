@@ -1,4 +1,4 @@
-const BASE_URL = 'http://192.168.68.103:5001/admin-server/charity/id';
+const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/admin-server/charity/id`;
 
 export const fetchCharityProfile = async (charityId) => {
   try {
@@ -8,8 +8,8 @@ export const fetchCharityProfile = async (charityId) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          // Add any authentication headers if required
         },
+        credentials: 'include',
       }
     );
 
@@ -18,9 +18,10 @@ export const fetchCharityProfile = async (charityId) => {
     }
 
     const data = await response.json();
+    console.log("Charity Profile Data:", data);
     return data;
   } catch (error) {
     console.error('Error fetching charity profile:', error);
     throw error;
   }
-}
+};
