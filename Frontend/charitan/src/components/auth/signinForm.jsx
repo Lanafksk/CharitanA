@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 import {
   Box,
   Typography,
@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import forge from "node-forge";
 import { useNavigate } from 'react-router-dom';
 import { useAPI } from "../../utils/auth/APIContext";
+import { fetchUserData } from "../../utils/auth/getUserData";
 
 const SigninForm = () => {
   const theme = useTheme();
@@ -91,6 +92,7 @@ const SigninForm = () => {
         headers: { "Content-Type": "application/json"
         },
         body: JSON.stringify(dataToSend),
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -101,28 +103,38 @@ const SigninForm = () => {
       const data = await response.json();
 
       if (data.status === "success") {
-        const jwe = data.JWE; // Extract JWE
-        const role = formData.userType;
+          const role = formData.userType;
 
-        console.log("JWE Token:", jwe); 
-        console.log("User Role:", role);
+          console.log("User Role:", role);
 
-        saveToken(jwe, role); // Context save
-        alert("Sign-in successful!");
+          alert("Sign-in successful!");
 
-        if (role === "Donor"){
-          navigate("/donor-home")
-        } else if (role === "Charity") {
-          navigate("/charity-profile")
+          // Fetch user data
+          const userData = await fetchUserData();
+          if (role === "Donor") {
+            const donorId = userData.donor_id; // Assuming the donor ID is in the 'donor_id' field
+            localStorage.setItem("donorId", donorId);
+          } else if (role === "Charity") {
+            const charityId = userData.data.charity_id; // Assuming the charity ID is in the 'charity_id' field
+            console.log(userData);
+            console.log("Charity ID:", charityId);
+            localStorage.setItem("charityId", charityId);
+          }
+          localStorage.setItem("role", role);
+
+          if (role === "Donor"){
+            navigate("/donor-home")
+          } else if (role === "Charity") {
+            navigate("/charity-profile")
+          }
+        } else {
+          throw new Error("Invalid credentials");
         }
-      } else {
-        throw new Error("Invalid credentials");
+      } catch (error) {
+        setErrors(error.message);
+        console.error("Error:", error.message);
       }
-    } catch (error) {
-      setErrors(error.message);
-      console.error("Error:", error.message);
-    }
-  };
+    };
 
   return (
     <Box
