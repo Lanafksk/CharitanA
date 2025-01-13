@@ -100,6 +100,9 @@ donationSchema.index({ donor_id: 1 });
 // Index for project-related queries (e.g., fetching all donations for a project)
 donationSchema.index({ project_id: 1 });
 
+// Index for project-related and status queries
+donationSchema.index({ project_id: 1, status: 1 });
+
 // Index for filtering by payment status (e.g., finding all completed donations)
 donationSchema.index({ status: 1 });
 
