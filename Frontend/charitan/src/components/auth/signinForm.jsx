@@ -109,11 +109,11 @@ const SigninForm = () => {
           console.log("User Role:", role);
 
           alert("Sign-in successful!");
-
+          localStorage.setItem("role", role);
           // Fetch donor data
           if (role === "Donor") {
             const userData = await fetchDonorData();
-            const donorId = userData.donor_id; // Assuming the donor ID is in the 'donor_id' field
+            const donorId = userData.data.donor_id; // Assuming the donor ID is in the 'donor_id' field
             localStorage.setItem("donorId", donorId);
           } else if (role === "Charity") {
             // Fetch user data - charity
@@ -128,7 +128,7 @@ const SigninForm = () => {
           if (role === "Donor"){
             navigate("/donor-home")
           } else if (role === "Charity") {
-            navigate("/charity-profile")
+            navigate("/charity-home")
           }
         } else {
           throw new Error("Invalid credentials");

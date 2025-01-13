@@ -47,18 +47,16 @@ const DonorHomePage = () => {
     },
   ];
 
-  useEffect(() => {
-    const fetchDonorData = async () => {
-      if (!authToken) {
-        console.error("No auth token available");
-        return;
-      }
+  // useEffect(() => {
+  //   const fetchDonorData = async () => {
+  //     if (!authToken) {
+  //       console.error("No auth token available");
+  //       return;
+  //     }
+  //     };
   
-      console.log("Current Auth Token:", authToken); // check token, delete later
-    };
-  
-    fetchDonorData();
-  }, [authToken]); // authToken changed
+  //   fetchDonorData();
+  // }, [authToken]); // authToken changed
 
   return (
     <>
