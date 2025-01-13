@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBar, Toolbar, Box, Grid } from '@mui/material';
 import CharitanLogo from './charitanLogo';
 import NavLink from './navLink';
 import WelcomeBox from './welcomeBox';
 import CustomButton from './button';
+import { useNavigate } from 'react-router-dom';
+import { fetchCharityProfile } from '../utils/profile/profileService';
 
 const NavigationBar = ({ currentPage }) => {
+    const navigate = useNavigate();
+    const [userProfile, setUserProfile] = useState(null);
+
+    useEffect(() => {
+      const fetchUserProfile = async () => {
+        const charityId = localStorage.getItem('charityId');
+        if (charityId) {
+          try {
+            const profileData = await fetchCharityProfile(charityId);
+            setUserProfile(profileData);
+          } catch (error) {
+            console.error('Error fetching user profile:', error);
+          }
+        }
+      };
+
+      fetchUserProfile();
+    }, []);
+
+    const handleSignIn = () => {
+      navigate("/signin");
+    };
+
+    const handleSignUp = () => {
+      navigate("/signup");
+    };
     return (
       <AppBar
         position="static"
@@ -39,11 +67,16 @@ const NavigationBar = ({ currentPage }) => {
                       </NavLink>
                   </Box>
               </Grid>
-            <Grid item>
-                {/* <WelcomeBox userName="Nam" /> */}
-                <CustomButton text="Sign In" backgroundColor="white" textColor="black" hoverColor="grey" disabledColor="#d3d3d3" />
-                <CustomButton text="Sign Up" backgroundColor="#FB1465" hoverColor="#d93b63" disabledColor="#d3d3d3" />
-            </Grid> 
+              <Grid item>
+                {userProfile ? (
+                  <WelcomeBox userName={userProfile.data.name} imageUrl={userProfile.data.imageUrl} />
+                ) : (
+                  <>
+                    <CustomButton text="Sign In" backgroundColor="white" textColor="black" hoverColor="grey" disabledColor="#d3d3d3" onClick={handleSignIn} />
+                    <CustomButton text="Sign Up" backgroundColor="#FB1465" hoverColor="#d93b63" disabledColor="#d3d3d3" onClick={handleSignUp} />
+                  </>
+                )}
+              </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
