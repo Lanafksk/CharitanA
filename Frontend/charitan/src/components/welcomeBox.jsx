@@ -1,18 +1,30 @@
-import React from 'react';
 import { Box, Typography, Avatar, Tooltip } from '@mui/material';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { useNavigate } from 'react-router-dom';
 
-const WelcomeBox = ({ userName = 'Vinh Company' }) => {
+const WelcomeBox = ({ userName, imageUrl='https://via.placeholder.com/150' }) => {
+  const navigate = useNavigate();
+
+  const handleAvatarClick = () => {
+    const role = localStorage.getItem("role");
+    console.log(role);
+    if (role === "Charity") {
+      navigate("/charity-profile");
+    } else if (role === "Donor") {
+      navigate("/donor-profile");
+    }
+  };
+
   return (
     <Box display="flex" alignItems="center" gap={1}>
       {/* Welcome Message */}
-      <Typography variant="h6" sx={{ color: 'black' }}>
+      <Typography variant="h6" sx={{ color: 'black', fontSize: '1rem' }}>
         Hi, {userName}
       </Typography>
 
       {/* Avatar with Tooltip */}
       <Tooltip title="You have logged in!" arrow>
         <Avatar
+          src={imageUrl}
           sx={{
             bgcolor: 'transparent',
             border: '1px solid black',
@@ -21,18 +33,9 @@ const WelcomeBox = ({ userName = 'Vinh Company' }) => {
             height: 40,
             cursor: 'pointer',
           }}
-        >
-          <Box display="flex" justifyContent="center" alignItems="center">
-            {/* Icon Inside Avatar */}
-            <Typography component="span" variant="h5">
-              👤
-            </Typography>
-          </Box>
-        </Avatar>
+          onClick={handleAvatarClick}
+        />
       </Tooltip>
-
-      {/* Dropdown Arrow */}
-      <ArrowDropUpIcon sx={{ fontSize: '24px', color: 'black' }} />
     </Box>
   );
 };
