@@ -12,10 +12,8 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { useAPI } from '../../utils/auth/APIContext';
 
 const DonorHomePage = () => {
-  const { authToken } = useAPI(); // get token
   const navigate = useNavigate(); // React Router hook for navigation
   const location = useLocation(); // React Router hook to get the current route
 
@@ -43,20 +41,9 @@ const DonorHomePage = () => {
       icon: SettingsIcon,
       title: 'Preference',
       description: 'You can find the System Settings here.',
-      route: '/charity-profile',
+      route: '/donor-profile',
     },
   ];
-
-  // useEffect(() => {
-  //   const fetchDonorData = async () => {
-  //     if (!authToken) {
-  //       console.error("No auth token available");
-  //       return;
-  //     }
-  //     };
-  
-  //   fetchDonorData();
-  // }, [authToken]); // authToken changed
 
   return (
     <>
@@ -80,6 +67,7 @@ const DonorHomePage = () => {
                 description={card.description}
                 width={345}
                 height={200}
+                route={card.route}
                 sx={{
                   margin: 'auto', // Center-align cards horizontally
                 }}
