@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import NavigationBar from '../../components/navigationBar';
 import PageBanner from "../../components/pageBanner";
 import UserProfile from "../../components/user/userProfile";
-import { fetchCharityProfile } from '../../utils/profile/profileService';
-import { fetchTotalDonationCharity } from "../../utils/profile/getTotalDonationCharity";
-import { fetchTotalProjectsCharity } from "../../utils/profile/getTotalProjectsCharity";
+import { fetchCharityProfile } from '../../utils/api/profile/profileService';
+import { fetchTotalDonationCharity } from "../../utils/api/profile/getTotalDonationCharity";
+import { fetchTotalProjectsCharity } from "../../utils/api/profile/getTotalProjectsCharity";
 
 const CharityProfilePage = () => {
   // State for profile data
@@ -46,7 +46,7 @@ const CharityProfilePage = () => {
   
       const totalDonationData = await fetchTotalDonationCharity(charityId);  
 
-      // const totalProjectsData = await fetchTotalProjectsCharity(charityId);
+      const totalProjectsData = await fetchTotalProjectsCharity(charityId);
       // Transform the data with correct property mappings
       const transformedData = {
         charityName: charityData.name || "",
@@ -57,7 +57,7 @@ const CharityProfilePage = () => {
         type: charityData.type || "",
         taxCode: charityData.tax_code || "",
         totalAmount: totalDonationData != null ? totalDonationData : 6969,  
-        // totalProjects: totalProjectsData != null ? totalDonationData : 6969, 
+        totalProjects: totalProjectsData != null ? totalDonationData : 6969, 
       };
   
       setProfileData(transformedData);

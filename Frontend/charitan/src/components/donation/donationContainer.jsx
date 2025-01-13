@@ -7,52 +7,38 @@ import MessageBox from "./messageBox";
 import DonationList from "./donationList";
 import DonationHeader from "./donatinoHeader";
 
-const DonationContainer = () => {
-  
-  const projectData = {
-    title: "Project A",
-    company: "Company A",
-    category: "Education",
-    email: "companyA@gmail.com",
-    phone: "+84927874001",
-    address: "702 Nguyen Van Linh st, D7, HCM City, Vietnam",
-    location: "Germany",
-    description:
-      "When it comes to supporting charitable organizations When it comes to supporting charitable organizations When it comes to supporting charitable organizations When it comes to supporting charitable organizations When it comes to supporting charitable organizations When it comes to supporting charitable organizations ...",
-    raised: 30000,
-    goal: 100000,
-    status: "available",
-    donationList: [
-      { name: "Thanh Vinh", amount: 100 },
-      { name: "Vally Duc Anh", amount: 900 },
-      { name: "Dang Vinh Luan", amount: 500 },
-      { name: "User", amount: 100 },
-      { name: "Vally Duc Anh", amount: 900 },
-      { name: "User", amount: 500 },
-      { name: "Thanh Vinh", amount: 100 },
-    ],
-    images: [
-      "https://via.placeholder.com/800x400?text=Image+1",
-      "https://via.placeholder.com/800x400?text=Image+2",
-      "https://via.placeholder.com/800x400?text=Image+3",
-    ],
-  };  
+const DonationContainer = ({ projectData }) => {
+  // Transform project data to match the expected format
+  const formattedProjectData = {
+    title: projectData.title,
+    company: projectData.charity_id,
+    category: projectData.category,
+    email: projectData.email ? projectData.email : "Not provided",
+    phone: projectData.phone ? projectData.phone : "Not provided",
+    address: projectData.address ? projectData.address : "Not provided",
+    location: `${projectData.country}, ${projectData.region}`,
+    description: projectData.description,
+    raised: projectData.current_amount,
+    goal: projectData.target_amount,
+    status: projectData.status,
+    donationList: projectData.donations || [],
+    images: projectData.images?.length > 0 
+      ? projectData.images.map(img => img.url || img)
+      : ["https://via.placeholder.com/800x400?text=No+Image"]
+  };
 
   return (
     <div style={{ padding: "50px 200px" }}>
-      <CarouselSection images={projectData.images} />
-      <DonationHeader {...projectData}/>
+      <CarouselSection images={formattedProjectData.images} />
+      <DonationHeader {...formattedProjectData} />
       <div style={{ display: "flex", marginTop: "20px", gap: "20px" }}>
-        {/* Left column for project info */}
         <div style={{ flex: 1 }}>
-          <ProjectDescription {...projectData} />
-          <ContactInfo {...projectData} />
-          <DonationList donations={projectData.donationList} />
+          <ProjectDescription {...formattedProjectData} />
+          <ContactInfo {...formattedProjectData} />
+          <DonationList donations={formattedProjectData.donationList} />
         </div>
-
-        {/* Right column for payment */}
         <div style={{ flex: 1 }}>
-          <PaymentForm />
+          <PaymentForm projectData={formattedProjectData} />
           <MessageBox />
         </div>
       </div>

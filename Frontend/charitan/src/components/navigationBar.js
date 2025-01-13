@@ -10,6 +10,7 @@ import { fetchCharityProfile, fetchDonorProfile } from '../utils/profile/profile
 const NavigationBar = ({ currentPage }) => {
     const navigate = useNavigate();
     const [userProfile, setUserProfile] = useState(null);
+    const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
       const fetchUserProfile = async () => {
@@ -77,9 +78,16 @@ const NavigationBar = ({ currentPage }) => {
                       <NavLink href="/leaderboard" color="black" size="1rem" highlight={currentPage === '/leaderboard'}>
                           Leaderboard
                       </NavLink>
-                      <NavLink href="/donor-history" color="black" size="1rem" highlight={currentPage === '/donor-history'}>
+                      {userRole && (
+                        <NavLink
+                          href={userRole === 'Charity' ? '/charity-history' : '/donor-history'}
+                          color="black"
+                          size="1rem"
+                          highlight={currentPage === '/charity-history' || currentPage === '/donor-history'}
+                        >
                           History
-                      </NavLink>
+                        </NavLink>
+                      )}
                   </Box>
               </Grid>
               <Grid item>

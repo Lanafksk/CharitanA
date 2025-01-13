@@ -13,6 +13,8 @@ import {
 
 import projectImage from '../../assets/project.jpg';
 
+import { useNavigate } from 'react-router-dom';
+
 // Configuration object for text length limits
 const TEXT_LIMITS = {
   projectName: 20,
@@ -82,6 +84,14 @@ const ProjectDiscoveryCard = ({ project }) => {
   // Get status colors from our mapping, defaulting to grey if status is unknown
   const statusColors = STATUS_COLORS[status] || { border: '#808080', text: '#808080' };
 
+  const navigate = useNavigate();
+  const handleCardClick = () => {
+    // Navigate to donation page with project data
+    navigate('/donation', { 
+      state: { projectData: project }
+    });
+  };
+
   const truncateText = (text, limit) => {
     if (!text) return '';
     if (text.length <= limit) return text;
@@ -89,7 +99,19 @@ const ProjectDiscoveryCard = ({ project }) => {
   };
 
   return (
-    <Card sx={{ width: 350, height: 400, borderRadius: 2, overflow: 'hidden' }}>
+    <Card sx={{ 
+      width: 350, 
+      height: 400, 
+      borderRadius: 2, 
+      overflow: 'hidden',
+      cursor: 'pointer',
+      '&:hover': {
+        boxShadow: 6,
+        transform: 'translateY(-4px)',
+        transition: 'all 0.3s ease-in-out'
+      }
+    }}
+    onClick={handleCardClick}>
       <CardMedia
         component="img"
         height="160"
