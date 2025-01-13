@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import NavigationBar from '../../components/navigationBar';
 import PageBanner from "../../components/pageBanner";
 import UserProfile from "../../components/user/userProfile";
-import { fetchDonorProfile } from '../../utils/profile/profileService';
-import { fetchTotalDonationDonor } from "../../utils/profile/getTotalDonationDonor";
-import { fetchTotalProjectsCharity } from "../../utils/profile/getTotalProjectsCharity";
+import { fetchDonorProfile } from "../../utils/api/profile/profileService";
+import { fetchTotalDonationDonor } from "../../utils/api/profile/getTotalDonationDonor";
+import { fetchTotalProjectsCharity } from "../../utils/api/profile/getTotalProjectsCharity";
 
 const DonorProfilePage = () => {
   // State for profile data
