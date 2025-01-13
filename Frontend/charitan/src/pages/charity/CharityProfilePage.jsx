@@ -4,6 +4,8 @@ import NavigationBar from '../../components/navigationBar';
 import PageBanner from "../../components/pageBanner";
 import UserProfile from "../../components/user/userProfile";
 import { fetchCharityProfile } from '../../utils/profile/profileService';
+import { fetchTotalDonationCharity } from "../../utils/profile/getTotalDonationCharity";
+import { fetchTotalProjectsCharity } from "../../utils/profile/getTotalProjectsCharity";
 
 const CharityProfilePage = () => {
   // State for profile data
@@ -28,7 +30,10 @@ const CharityProfilePage = () => {
     try {
       setIsLoading(true);
       setError(null);
-      const charityId = "3dedc9cf-b6f3-463d-9179-0f5ba981a6f0";
+      const charityId = localStorage.getItem("charityId"); // Retrieve charityId from local storage
+      if (!charityId) {
+        throw new Error("Charity ID not found in local storage");
+      }
       const response = await fetchCharityProfile(charityId);
       
       // Make sure we're accessing the data property from the API response
@@ -39,6 +44,9 @@ const CharityProfilePage = () => {
         ? `${charityData.address.street}, ${charityData.address.city}, ${charityData.address.state} ${charityData.address.zip}`
         : "";
   
+      const totalDonationData = await fetchTotalDonationCharity(charityId);  
+
+      const totalProjectsData = await fetchTotalProjectsCharity(charityId);
       // Transform the data with correct property mappings
       const transformedData = {
         charityName: charityData.name || "",
@@ -48,10 +56,8 @@ const CharityProfilePage = () => {
         address: formattedAddress,
         type: charityData.type || "",
         taxCode: charityData.tax_code || "",
-        // Since these fields aren't in your API response, 
-        // you might want to fetch them separately or calculate them
-        totalAmount: 0,  // You'll need to get this from another API endpoint
-        totalProjects: 0 // You'll need to get this from another API endpoint
+        totalAmount: totalDonationData != null ? totalDonationData : 6969,  
+        totalProjects: totalProjectsData != null ? totalDonationData : 6969, 
       };
   
       setProfileData(transformedData);
