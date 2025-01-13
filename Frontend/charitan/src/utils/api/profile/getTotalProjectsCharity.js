@@ -1,4 +1,4 @@
-const BASE_URL = `${process.env.REACT_APP_TEAM_A_BACKEND_URL}/api/donations/charity/project-count`;
+const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/client-server/donation/total-projects/charity`;
 export const fetchTotalProjectsCharity = async (charityId) => {
   try {
     console.log(BASE_URL);
@@ -18,8 +18,8 @@ export const fetchTotalProjectsCharity = async (charityId) => {
     }
 
     const data = await response.json();
-    console.log("Charity total projects:", data.totalAmount);
-    return data;
+    console.log("Charity total projects:", data);
+    return data.projectCountResponse.count;
   } catch (error) {
     console.error('Error fetching charity projects count:', error);
     throw error;

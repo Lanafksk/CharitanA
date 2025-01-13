@@ -1,5 +1,3 @@
-// const BASE_URL = `${process.env.REACT_APP_TEAM_A_BACKEND_URL}/api/donations/charity/total-donations`;
-
 const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/client-server/donation/total-donations/charity`;
 
 export const fetchTotalDonationCharity = async (charityId) => {
