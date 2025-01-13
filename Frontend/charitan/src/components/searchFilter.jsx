@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-
 import SubscribeButton from './projects/subscribeButton';
-
 
 import { 
   Box, 
-  TextField, 
+  TextField,
   InputAdornment,
   Popover,
   Typography,
@@ -16,29 +14,32 @@ import {
   InputBase,
   Paper,
   ListItemIcon,
-  Divider,
-  Dialog,
-  DialogTitle,
-  DialogContent
+  Divider
 } from '@mui/material';
+
 import { 
   Search as SearchIcon,
   School as EducationIcon,
   LocalHospital as HealthIcon,
   Park as EnvironmentIcon,
-  Computer as TechnologyIcon,
-  FilterAltOff as ClearFiltersIcon,
-  Favorite as FavoriteIcon
+  Restaurant as FoodIcon,
+  Church as ReligionIcon,
+  Favorite as HumanitarianIcon,
+  Home as HousingIcon,
+  Apps as OtherIcon,
+  FilterAltOff as ClearFiltersIcon
 } from '@mui/icons-material';
 
-
-
-// Helper object for category icons
+// Updated category icons with new categories
 const categoryIcons = {
-  'Education': <EducationIcon />,
+  'Food': <FoodIcon />,
   'Health': <HealthIcon />,
+  'Education': <EducationIcon />,
   'Environment': <EnvironmentIcon />,
-  'Technology': <TechnologyIcon />
+  'Religion': <ReligionIcon />,
+  'Humanitarian': <HumanitarianIcon />,
+  'Housing': <HousingIcon />,
+  'Other': <OtherIcon />
 };
 
 // Helper object for country flags (using country codes)
@@ -101,7 +102,6 @@ const FilterButton = ({ label, options, value, onChange, isCountry, isCategory }
     return option;
   };
 
-  // Convert empty string (no filter) to a more user-friendly display
   const displayValue = value || label;
 
   return (
@@ -160,7 +160,6 @@ const FilterButton = ({ label, options, value, onChange, isCountry, isCategory }
           <RadioGroup
             value={value || 'No Filter'}
             onChange={(e) => {
-              // Convert "No Filter" selection to empty string
               const selectedValue = e.target.value === 'No Filter' ? '' : e.target.value;
               onChange(selectedValue);
               handleClose();
@@ -183,160 +182,157 @@ const FilterButton = ({ label, options, value, onChange, isCountry, isCategory }
 
 // Main Search and Filter Component
 const SearchFilter = ({ onSearch, onFilter, hasResults = true, isDiscovery = false }) => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filters, setFilters] = useState({
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filters, setFilters] = useState({
+    country: '',
+    category: '',
+    goal: '',
+    status: ''
+  });
+
+  const filterOptions = {
+    country: ['Vietnam', 'USA', 'South Africa', 'Germany', 'Ukraine', 'Israel'],
+    category: ['Food', 'Health', 'Education', 'Environment', 'Religion', 'Humanitarian', 'Housing', 'Other'],
+    goal: ['Under $10,000', '$10,000-$50,000', 'Over $50,000'],
+    status: ['Available', 'In Progress', 'Completed']
+  };
+
+  const handleSearchChange = (event) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+    onSearch(value);
+  };
+
+  const handleFilterChange = (type, value) => {
+    const newFilters = { ...filters, [type]: value };
+    setFilters(newFilters);
+    onFilter(newFilters);
+  };
+
+  const handleClearAllFilters = () => {
+    const clearedFilters = {
       country: '',
       category: '',
       goal: '',
       status: ''
-    });
-  
-    const filterOptions = {
-      country: ['Vietnam', 'USA', 'South Africa', 'Germany', 'Ukraine', 'Israel'],
-      category: ['Education', 'Health', 'Environment', 'Technology'],
-      goal: ['Under $10,000', '$10,000-$50,000', 'Over $50,000'],
-      status: ['Available', 'In Progress', 'Completed']
     };
-  
-    const handleSearchChange = (event) => {
-      const value = event.target.value;
-      setSearchTerm(value);
-      onSearch(value);
-    };
-  
-    const handleFilterChange = (type, value) => {
-      const newFilters = { ...filters, [type]: value };
-      setFilters(newFilters);
-      onFilter(newFilters);
-    };
-  
-    const handleClearAllFilters = () => {
-      const clearedFilters = {
-        country: '',
-        category: '',
-        goal: '',
-        status: ''
-      };
-      setFilters(clearedFilters);
-      onFilter(clearedFilters);
-      setSearchTerm('');
-      onSearch('');
-    };
-  
-    const hasActiveFilters = Object.values(filters).some(filter => filter !== '');
-  
-    return (
-      <Box sx={{ mb: 4 }}>
-        {/* Search Bar */}
-        <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>  {/* New wrapper Box for search and favorite */}
-          <Paper
-            elevation={3}
-            sx={{
-              p: '2px 4px',
-              display: 'flex',
-              alignItems: 'center',
-              flex: 1,          // Changed from width: '100%' to flex: 1
-              borderRadius: '8px'
-            }}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="Search your Project name..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              startAdornment={
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: '#e91e63' }} />
-                </InputAdornment>
-              }
-            />
-          </Paper>
-          {isDiscovery && <SubscribeButton />}  
-        </Box>
-  
-        {/* Filters Section */}
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, alignItems: 'center', mb: 3 }}>
-          <FilterButton
-            label="Country"
-            options={filterOptions.country}
-            value={filters.country}
-            onChange={(value) => handleFilterChange('country', value)}
-            isCountry={true}
+    setFilters(clearedFilters);
+    onFilter(clearedFilters);
+    setSearchTerm('');
+    onSearch('');
+  };
+
+  const hasActiveFilters = Object.values(filters).some(filter => filter !== '');
+
+  return (
+    <Box sx={{ mb: 4 }}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+        <Paper
+          elevation={3}
+          sx={{
+            p: '2px 4px',
+            display: 'flex',
+            alignItems: 'center',
+            flex: 1,
+            borderRadius: '8px'
+          }}
+        >
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="Search your Project name..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            startAdornment={
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: '#e91e63' }} />
+              </InputAdornment>
+            }
           />
-          <FilterButton
-            label="Category"
-            options={filterOptions.category}
-            value={filters.category}
-            onChange={(value) => handleFilterChange('category', value)}
-            isCategory={true}
-          />
-          <FilterButton
-            label="Goal"
-            options={filterOptions.goal}
-            value={filters.goal}
-            onChange={(value) => handleFilterChange('goal', value)}
-          />
-          <FilterButton
-            label="Status"
-            options={filterOptions.status}
-            value={filters.status}
-            onChange={(value) => handleFilterChange('status', value)}
-          />
-          
-          {hasActiveFilters && (
-            <>
-              <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
-              <Button
-                onClick={handleClearAllFilters}
-                startIcon={<ClearFiltersIcon />}
-                sx={{
-                  color: 'text.secondary',
-                  '&:hover': {
-                    backgroundColor: 'rgba(0, 0, 0, 0.04)'
-                  }
-                }}
-              >
-                Clear All
-              </Button>
-            </>
-          )}
-        </Box>
-  
-        {/* No Results Message */}
-        {!hasResults && (
-          <Box 
-            sx={{ 
-              textAlign: 'center',
-              py: 4,
-              backgroundColor: 'rgba(0, 0, 0, 0.02)',
-              borderRadius: 2
-            }}
-          >
-            <Typography 
-              variant="h6" 
-              color="text.secondary"
-              sx={{ 
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 1
+        </Paper>
+        {isDiscovery && <SubscribeButton />}
+      </Box>
+
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, alignItems: 'center', mb: 3 }}>
+        <FilterButton
+          label="Country"
+          options={filterOptions.country}
+          value={filters.country}
+          onChange={(value) => handleFilterChange('country', value)}
+          isCountry={true}
+        />
+        <FilterButton
+          label="Category"
+          options={filterOptions.category}
+          value={filters.category}
+          onChange={(value) => handleFilterChange('category', value)}
+          isCategory={true}
+        />
+        <FilterButton
+          label="Goal"
+          options={filterOptions.goal}
+          value={filters.goal}
+          onChange={(value) => handleFilterChange('goal', value)}
+        />
+        <FilterButton
+          label="Status"
+          options={filterOptions.status}
+          value={filters.status}
+          onChange={(value) => handleFilterChange('status', value)}
+        />
+        
+        {hasActiveFilters && (
+          <>
+            <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
+            <Button
+              onClick={handleClearAllFilters}
+              startIcon={<ClearFiltersIcon />}
+              sx={{
+                color: 'text.secondary',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.04)'
+                }
               }}
             >
-              There is no project that matches these criteria 😔
-            </Typography>
-            {(hasActiveFilters || searchTerm) && (
-              <Button
-                onClick={handleClearAllFilters}
-                variant="text"
-                sx={{ mt: 2 }}
-              >
-                Clear all filters and try again
-              </Button>
-            )}
-          </Box>
+              Clear All
+            </Button>
+          </>
         )}
       </Box>
-    );
-  };
-  
-  export default SearchFilter;
+
+      {!hasResults && (
+        <Box 
+          sx={{ 
+            textAlign: 'center',
+            py: 4,
+            backgroundColor: 'rgba(0, 0, 0, 0.02)',
+            borderRadius: 2
+          }}
+        >
+          <Typography 
+            variant="h6" 
+            color="text.secondary"
+            sx={{ 
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 1
+            }}
+          >
+            There is no project that matches these criteria 😔
+          </Typography>
+          {(hasActiveFilters || searchTerm) && (
+            <Button
+              onClick={handleClearAllFilters}
+              variant="text"
+              sx={{ mt: 2 }}
+            >
+              Clear all filters and try again
+            </Button>
+          )}
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+export default SearchFilter;
