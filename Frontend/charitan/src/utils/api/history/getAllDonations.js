@@ -1,14 +1,14 @@
-const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/client-server/donation/donation-list/charity`;
-export const fetchDonationHistoryCharity = async (charityId) => {
+const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/client-server/donation`;
+export const fetchAllDonations = async () => {
   try {
     const response = await fetch(
-      `${BASE_URL}/${charityId}`,
+      `${BASE_URL}`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        // credentials: 'include',
+        credentials: 'include',
       }
     );
 
@@ -17,10 +17,10 @@ export const fetchDonationHistoryCharity = async (charityId) => {
     }
 
     const data = await response.json();
-    console.log("Charity total donations:", data.donationResponse);
+    console.log("Total donations:", data.donationResponse);
     return data.donationResponse;
   } catch (error) {
-    console.error('Error fetching charity donations:', error);
+    console.error('Error fetching donations:', error);
     throw error;
   }
 };
