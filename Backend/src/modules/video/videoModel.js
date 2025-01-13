@@ -8,7 +8,7 @@ dotenv.config();
 const clusterURI = process.env.MONGO_URI;
 
 // Connect to respective Database
-const db = connectDB('charitan', clusterURI);
+const db = connectDB('videoDB', clusterURI);
 const videoSchema = new mongoose.Schema(
     {
         video_id: { type: String, default: uuidv4, unique: true },

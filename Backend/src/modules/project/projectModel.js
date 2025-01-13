@@ -8,7 +8,7 @@ dotenv.config();
 const clusterURI = process.env.MONGO_URI;
 
 // Connect to respective Database
-const db = connectDB('charitan', clusterURI);
+const db = connectDB('projectDB', clusterURI);
 
 const ProjectCategory = ['Food', 'Health', 'Education', 'Environment', 'Religion', 'Humanitarian', 'Housing', 'Other'];
 const ProjectStatus = ['Active', 'Halted', 'Completed'];
