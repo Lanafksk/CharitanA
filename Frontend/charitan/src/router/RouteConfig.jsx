@@ -45,7 +45,6 @@ const RouteConfig = () => {
 
                 <Route path='/leaderboard' element={<LeaderboardPage/>} />
 
-
                 <Route path="/projects" element={<CharityProjectPage />} />
 
                 <Route path="/charity-profile" element={<CharityProfilePage />} />
@@ -54,15 +53,18 @@ const RouteConfig = () => {
 
                 <Route path="/charity-home" element={< CharityHomePage />} />
 
+                <Route path="/donor-home" element={< DonorHomePage />} />
+
+
                 {/* Protected Routes for Donors */}
-                <Route
+                {/* <Route
                 path="/donor-home"
                 element={
                     <ProtectedRoute roles={["Donor"]}>
                         <DonorHomePage />
                     </ProtectedRoute>
                 }
-                />
+                /> */}
 
             </Routes>
         </Suspense>

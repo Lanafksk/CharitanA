@@ -13,6 +13,7 @@ import forge from "node-forge";
 import { useNavigate } from 'react-router-dom';
 import { useAPI } from "../../utils/auth/APIContext";
 import { fetchUserData } from "../../utils/auth/getUserData";
+import { fetchDonorData } from "../../utils/auth/getDonorData";
 
 const SigninForm = () => {
   const theme = useTheme();
@@ -109,12 +110,14 @@ const SigninForm = () => {
 
           alert("Sign-in successful!");
 
-          // Fetch user data
-          const userData = await fetchUserData();
+          // Fetch donor data
           if (role === "Donor") {
+            const userData = await fetchDonorData();
             const donorId = userData.donor_id; // Assuming the donor ID is in the 'donor_id' field
             localStorage.setItem("donorId", donorId);
           } else if (role === "Charity") {
+            // Fetch user data - charity
+            const userData = await fetchUserData();
             const charityId = userData.data.charity_id; // Assuming the charity ID is in the 'charity_id' field
             console.log(userData);
             console.log("Charity ID:", charityId);
