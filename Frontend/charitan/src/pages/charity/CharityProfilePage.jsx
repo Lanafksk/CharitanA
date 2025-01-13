@@ -46,7 +46,7 @@ const CharityProfilePage = () => {
   
       const totalDonationData = await fetchTotalDonationCharity(charityId);  
 
-      const totalProjectsData = await fetchTotalProjectsCharity(charityId);
+      // const totalProjectsData = await fetchTotalProjectsCharity(charityId);
       // Transform the data with correct property mappings
       const transformedData = {
         charityName: charityData.name || "",
@@ -57,7 +57,7 @@ const CharityProfilePage = () => {
         type: charityData.type || "",
         taxCode: charityData.tax_code || "",
         totalAmount: totalDonationData != null ? totalDonationData : 6969,  
-        totalProjects: totalProjectsData != null ? totalDonationData : 6969, 
+        // totalProjects: totalProjectsData != null ? totalDonationData : 6969, 
       };
   
       setProfileData(transformedData);
