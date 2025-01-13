@@ -4,7 +4,7 @@ import NavigationBar from '../../components/navigationBar';
 import PageBanner from "../../components/pageBanner";
 import UserProfile from "../../components/user/userProfile";
 import { fetchDonorProfile } from '../../utils/profile/profileService';
-import { fetchTotalDonationCharity } from "../../utils/profile/getTotalDonationCharity";
+import { fetchTotalDonationDonor } from "../../utils/profile/getTotalDonationDonor";
 import { fetchTotalProjectsCharity } from "../../utils/profile/getTotalProjectsCharity";
 
 const DonorProfilePage = () => {
@@ -45,7 +45,8 @@ const DonorProfilePage = () => {
         : "";
   
       // Fetch total donation and total projects data TEAM A BE
-      // const totalDonationData = await fetchTotalDonationCharity(charityId);  
+      //  const totalDonationData = await fetchTotalDonationDonor(donorId);  
+      //  console.log("Total Donation Data:", totalDonationData);
       // const totalProjectsData = await fetchTotalProjectsCharity(charityId);
 
       // Transform the data with correct property mappings
@@ -57,8 +58,8 @@ const DonorProfilePage = () => {
         country: donorData.country || "",
         address: formattedAddress || "",
         img_url: donorData.img_url || "",
-        // totalAmount: 0,
-        // totalProjects: 0
+        totalAmount: 0,
+        totalProjects: 0
       };
       
   
