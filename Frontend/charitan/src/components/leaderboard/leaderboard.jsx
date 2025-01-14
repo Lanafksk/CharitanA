@@ -25,12 +25,11 @@ const Leaderboard = () => {
           const formattedData = await Promise.all(
             leaderboardData.map(async (item) => {
               try {
-                const profileData = await fetchDonorProfile(item.donor_id);
                 return {
                   ...item,
-                  name: profileData.data.first_name, // Replace donor_id with donor name
+                  name: item.name, // Replace donor_id with donor name
                   amount: Math.floor(item.totalAmount), // Remove decimals
-                  image: profileData.data.profileImage, // Use img_url directly
+                  image: item.profileImage, // Use img_url directly
                 };
               } catch (err) {
                 console.error(`Error fetching profile for donor ${item.donor_id}:`, err);
