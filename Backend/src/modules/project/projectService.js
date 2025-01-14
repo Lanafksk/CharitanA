@@ -687,3 +687,12 @@ exports.getCharityPaypalEmail = async (projectId) => {
         );
     }
 };
+
+// Set new current amount for a project upon donation completion
+exports.updateCurrentAmount = async (project_id, amount) => {
+    const project = await projectRepository.getProjectById(project_id);
+    const new_current_amount = project.current_amount + amount;
+    const project_data = { ...project, current_amount: new_current_amount };
+
+    return await projectRepository.updateProject(project_id, project_data);
+};
