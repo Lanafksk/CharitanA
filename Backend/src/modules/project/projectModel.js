@@ -28,7 +28,8 @@ const projectSchema = new mongoose.Schema(
         start_date: { type: Date, required: true },
         end_date: { type: Date, required: true },
         region: { type: String, required: true },
-        country: { type: String, required: true }
+        country: { type: String, required: true },
+        images: [{ type: String, ref: 'Image' }]
     },
     {
         timestamp: true

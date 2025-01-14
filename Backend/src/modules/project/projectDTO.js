@@ -12,6 +12,7 @@ class ProjectDTO {
         this.end_date = project.end_date;
         this.region = project.region;
         this.country = project.country;
+        this.images = project.images;
     }
 }
 
