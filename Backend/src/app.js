@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./database/connection');
+const routes = require('./routes/index'); // Centralized routes
 
 
 dotenv.config();
@@ -20,6 +21,9 @@ connectDB();
 app.get('/', (req, res) => {
     res.send('Backend is running');
 });
+
+//Centralized routes
+app.use('/api', routes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
