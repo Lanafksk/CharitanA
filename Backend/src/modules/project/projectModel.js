@@ -28,9 +28,7 @@ const projectSchema = new mongoose.Schema(
         start_date: { type: Date, required: true },
         end_date: { type: Date, required: true },
         region: { type: String, required: true },
-        country: { type: String, required: true },
-        image: { type: [String], required: true },
-        video: { type: [String], required: true }
+        country: { type: String, required: true }
     },
     {
         timestamp: true
