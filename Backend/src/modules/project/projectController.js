@@ -220,22 +220,3 @@ exports.getProjectsByCharityName = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 }
-
-// Get all project categories
-exports.getProjectCategories = async (req, res) => {
-    try {
-        res.status(200).json(await projectService.getProjectCategories());
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-    
-};
-
-// Get all project statuses
-exports.getProjectStatuses = async (req, res) => {
-    try {
-        res.status(200).json(await projectService.getProjectStatuses());
-    } catch {
-        res.status(500).json({ error: err.message });
-    }
-};
