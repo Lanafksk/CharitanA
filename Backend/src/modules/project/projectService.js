@@ -8,8 +8,8 @@ const projectRepository = require('./projectRepository');
 
 const API_GATEWAY = process.env.INTERNAL_API_GATEWAY;
 
-let cached_project_ids = [];
-let cached_project_count = 0;
+// let cached_project_ids = [];
+// let cached_project_count = 0;
 
 // Create a new project
 exports.createProject = async (project_data) => {
@@ -21,10 +21,10 @@ exports.createProject = async (project_data) => {
     }
 
     // Create the project
-    const result = await projectRepository.createProject(project_data);
-    cacheProject(result);
-    cached_project_ids.push(result.project_id);
-    cached_project_count++;
+    return await projectRepository.createProject(project_data);
+    // cacheProject(result);
+    // cached_project_ids.push(result.project_id);
+    // cached_project_count++;
 
     /* ATTEMPT TO SEND EMAIL NOTIFICATIONS TO DONORS */
     // console.log(result.category);
@@ -133,16 +133,16 @@ exports.getAllProjects = async () => {
 // Get a specific project by ID
 exports.getProjectById = async (project_id) => {
     // Check if the project is already cached
-    const cached_project = await cacheProject(project_id);
-    if (cached_project) {
-        return cached_project;
-    }
+    // const cached_project = await cacheProject(project_id);
+    // if (cached_project) {
+    //     return cached_project;
+    // }
 
     // Get the project from the database and cache
-    const project = await projectRepository.getProjectById(project_id);
-    cacheProject(project);
+    return await projectRepository.getProjectById(project_id);
+    // cacheProject(project);
 
-    return project;
+    // return project;
 };
 
 // Update a project
@@ -152,22 +152,22 @@ exports.updateProject = async (project_id, project_data) => {
 
     console.log('Project data:', project_data);
 
-    try {
-        validateProjectData(project_data);
-    } catch (err) {
-        throw new Error(err);
-    }
+    // try {
+    //     validateProjectData(project_data);
+    // } catch (err) {
+    //     throw new Error(err);
+    // }
 
-    const result_dto = await projectRepository.updateProject(project_id, project_data);
-    await cacheProject(result_dto);
+    return await projectRepository.updateProject(project_id, project_data);
+    // await cacheProject(result_dto);
 
-    return await returnCacheProject(result_dto.project_id);
+    // return await returnCacheProject(result_dto.project_id);
 };
 
 // Delete a project
 exports.deleteProject = async (project_id) => {
-    await deleteCacheProject(project_id);
-    cached_project_ids = cached_project_ids.filter(id => id !== project_id);
+    // await deleteCacheProject(project_id);
+    // cached_project_ids = cached_project_ids.filter(id => id !== project_id);
     return await projectRepository.deleteProject(project_id);
 };
 

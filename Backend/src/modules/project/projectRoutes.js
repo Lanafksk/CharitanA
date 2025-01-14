@@ -45,10 +45,4 @@ router.get('/current-amount/desc', projectController.sortProjectsByCurrentAmount
 router.get('/title/:title', projectController.getProjectsByTitle); // Search projects by title
 router.get('/charity-name/:name', projectController.getProjectsByCharityName); // Search projects by charity name
 
-// ==================================
-// SECTION: Retrieve static categories and statuses
-// ==================================
-router.get('/static/categories', projectController.getProjectCategories); // Get all project categories
-router.get('/static/statuses', projectController.getProjectStatuses); // Get all project statuses
-
 module.exports = router;

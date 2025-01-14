@@ -33,7 +33,7 @@ exports.getAllProjects = async () => {
 // Get a specific project by ID
 exports.getProjectById = async (projectId) => {
     const project = await Project.findOne({ project_id: projectId });
-    return await new ProjectDTO(project);
+    return await convertToDTO(project);
 };
 
 // Update a project
