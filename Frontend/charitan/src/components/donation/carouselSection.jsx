@@ -53,15 +53,22 @@ const CarouselSection = ({ images }) => {
   useEffect(() => {
     const loadImages = () => {
       imagess.forEach((src) => {
-        const img = new Image();
-        img.src = src;
-        img.onload = () => {
-          setLoadedImages((prev) => [...prev, src]);
-        };
+        if (!loadedImages.includes(src)) {
+          const img = new Image();
+          img.src = src;
+          img.onload = () => {
+            setLoadedImages((prev) => {
+              if (!prev.includes(src)) {
+                return [...prev, src];
+              }
+              return prev;
+            });
+          };
+        }
       });
     };
     loadImages();
-  }, []);
+  }, [imagess, loadedImages]);
 
   const settings = {
     dots: true,
