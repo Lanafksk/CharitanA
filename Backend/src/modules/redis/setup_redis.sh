@@ -41,6 +41,7 @@ fi
 REDIS_CONF="/etc/redis/redis.conf"
 echo "Configuring Redis..."
 if [ -f "$REDIS_CONF" ]; then
+    sudo sed -i "s/^port .*/port 6390/" "$REDIS_CONF"
     sudo sed -i 's/^bind 127.0.0.1 ::1/bind 0.0.0.0/' "$REDIS_CONF" # Allow connections from all interfaces
     sudo sed -i 's/^# requirepass .*/requirepass teamAredis/' "$REDIS_CONF" # Set a default password
     echo "Persistence settings: Enabling data save every 5 minutes or 100 changes..."

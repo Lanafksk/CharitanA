@@ -5,7 +5,7 @@ const cors = require('cors');
 const routes = require('./routes/index'); // Centralized routes
 const EXTERNAL_HOST = process.env.EXTERNAL_HOST || HOST; // Use EXTERNAL_HOST if defined, otherwise fall back to HOST
 
-const { redisInstance } = require('./modules/redis/redisConfig');
+// const { redisInstance } = require('./modules/redis/redisConfig');
 const { generateProjects } = require('./database/dataGeneration');
 
 const PORT = process.env.PORT || 4000;
@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 
 // Connect to Redis
-redisInstance.connect()
+// redisInstance.connect()
 
 // Middleware
 app.use(cors());
