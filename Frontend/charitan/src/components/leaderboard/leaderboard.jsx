@@ -7,7 +7,7 @@ import { fetchDonorProfile } from "../../utils/api/profile/profileService";
 
 const Leaderboard = () => {
   const [data, setData] = useState([]);
-  const [sortBy, setSortBy] = useState("CHARITY"); // Default sorting by donor
+  const [sortBy, setSortBy] = useState("DONOR"); // Default sorting by donor
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -30,6 +30,7 @@ const Leaderboard = () => {
                   ...item,
                   name: profileData.data.first_name, // Replace donor_id with donor name
                   amount: Math.floor(item.totalAmount), // Remove decimals
+                  image: profileData.data.profileImage, // Use img_url directly
                 };
               } catch (err) {
                 console.error(`Error fetching profile for donor ${item.donor_id}:`, err);

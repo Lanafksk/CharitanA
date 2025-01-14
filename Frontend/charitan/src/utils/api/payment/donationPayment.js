@@ -1,4 +1,6 @@
-const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/client-server/payment`;
+// const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/client-server/payment`;
+const BASE_URL = `http://localhost:4000/api/payments`;
+
 
 export const fetchPayment = async ({
   project_id,
