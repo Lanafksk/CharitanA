@@ -630,6 +630,8 @@ exports.getProjectStatuses = async () => {
     const statuses = await projectRepository.getProjectStatuses();
     return statuses;
 
+};
+
 /**
  * Get the PayPal email of the charity associated with a project.
  *
