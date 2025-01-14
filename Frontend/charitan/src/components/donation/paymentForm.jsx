@@ -17,10 +17,6 @@ const PaymentForm = ({ projectData }) => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handlePaymentChange = (event) => {
-    setPaymentMethod(event.target.value);
-  };
-
   const donorId = localStorage.getItem("donorId");
   if (!donorId) {
     donorId = "Unknown";
@@ -45,14 +41,11 @@ const PaymentForm = ({ projectData }) => {
 
     console.log(dataToSend);
 
-    if (paymentMethod ==  "creditCard") {
-      console.log("Credit Card Payment");
-    } else if (paymentMethod == "paypal") {
+    if (paymentMethod == "paypal") {
       setLoading(true); // Set loading to true during the API call
       try {
         // Call fetchPayment API
         await fetchPayment(dataToSend);
-
         alert("Payment initiated successfully!");
       } catch (error) {
         alert(`Error: ${error.message}`);
@@ -75,72 +68,7 @@ const PaymentForm = ({ projectData }) => {
       <Typography variant="h6" align="center" gutterBottom>
         Payment
       </Typography>
-      <FormControl component="fieldset">
-        <RadioGroup
-          value={paymentMethod}
-          onChange={handlePaymentChange}
-          style={{ marginBottom: "16px" }}
-        >
-          <FormControlLabel
-            value="creditCard"
-            control={<Radio />}
-            label="Credit Card"
-          />
-          <FormControlLabel value="paypal" control={<Radio />} label="PayPal" />
-        </RadioGroup>
-      </FormControl>
-
       {/* Conditional Rendering */}
-      {paymentMethod === "creditCard" && (
-        <Box>
-          <TextField
-            fullWidth
-            label="Card Number"
-            variant="outlined"
-            margin="normal"
-            required
-          />
-          <Box display="flex" justifyContent="space-between">
-            <TextField
-              label="Expiry Date"
-              placeholder="MM/YY"
-              variant="outlined"
-              margin="normal"
-              required
-              style={{ flex: 1, marginRight: "8px" }}
-            />
-            <TextField
-              label="Card Code (CVC)"
-              placeholder="CVC"
-              variant="outlined"
-              margin="normal"
-              required
-              style={{ flex: 1, marginLeft: "8px" }}
-            />
-          </Box>
-          <TextField
-            fullWidth
-            label="Amount"
-            variant="outlined"
-            margin="normal"
-            required
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            label="Message (Optional)"
-            variant="outlined"
-            margin="normal"
-            multiline
-            rows={3}
-            inputProps={{ maxLength: 250 }}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-        </Box>
-      )}
-
       {paymentMethod === "paypal" && (
         <Box>
           <TextField

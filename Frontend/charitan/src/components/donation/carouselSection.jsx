@@ -5,6 +5,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Icon } from "@iconify/react";
+import charityImage from "../../assets/charity.png";
+import projectImage from "../../assets/project.jpg";
+
+
 
 const CustomPrevArrow = ({ onClick }) => (
   <div
@@ -44,9 +48,11 @@ const CarouselSection = ({ images }) => {
   const [loadedImages, setLoadedImages] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  const imagess = [charityImage, projectImage];
+
   useEffect(() => {
     const loadImages = () => {
-      images.forEach((src) => {
+      imagess.forEach((src) => {
         const img = new Image();
         img.src = src;
         img.onload = () => {
