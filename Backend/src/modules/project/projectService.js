@@ -171,27 +171,34 @@ exports.getCharityPaypalEmail = async (projectId) => {
             throw new Error(`Charity ID not found for project with ID: ${projectId}`);
         }
 
-        // // Fetch the charity details from Team B's API
-        // // Correct the URL by adding "admin-server"
-        // const charityResponse = await axios.get(
-        //     `${API_GATEWAY}/charity/id/${charityId}`
-        // );
-        // console.log("Charity response:", charityResponse);
+        // Get the charity's PayPal email
+        // paypalEmail = "sb-vmtlt35454936@business.example.com"
+        const charityResponse = await axios.get(
+            `${API_GATEWAY}/charity/id/${charityId}`,
+            {
+                headers: {
+                    'internal-api': process.env.INTERNAL_API_KEY
+                }
+            }
+        );
 
-        // const charityData = charityResponse.data;
+        console.log("Charity response:", charityResponse);
 
-        // Testing purposes for this time
+        const charityData = charityResponse.data;
 
-        paypalEmail = "sb-vmtlt35454936@business.example.com"
+        // Ensure the response contains data
+        if (!charityData || !charityData.data) {
+            throw new Error(`Invalid response structure for charity with ID: ${charityId}`);
+        }
 
+        // Access the paypal_email property
+        const paypalEmail = charityData.data.paypal_email;
+        if (!paypalEmail) {
+            throw new Error(`PayPal email not found for charity with ID: ${charityId}`);
+        }
 
-        // // Access the paypal_email property
-        // const paypalEmail = charityData.data.paypal_email;
-        // if (!paypalEmail) {
-        //     throw new Error(
-        //         `PayPal email not found for charity with ID: ${charityId}`
-        //     );
-        // }
+        // Proceed with using paypalEmail
+        console.log("PayPal Email:", paypalEmail);
 
         return paypalEmail;
     } catch (error) {
@@ -201,6 +208,31 @@ exports.getCharityPaypalEmail = async (projectId) => {
         );
         throw new Error(
             `Failed to get charity PayPal email for project ID ${projectId}`
+        );
+    }
+};
+
+
+// Set new current amount for a project upon donation completion
+exports.updateProjectCurrentAmount = async (projectId, newAmount) => {
+    try {
+        const project = await projectRepository.getProjectById(projectId);
+
+        if (!project) {
+            throw new Error(`Project not found with ID: ${projectId}`);
+        }
+
+        project.current_amount = newAmount;
+        // Use $inc for atomicity if using MongoDB. 
+        // Otherwise, just update the field directly as shown below.
+        return await projectRepository.updateProject(projectId, { current_amount: newAmount });
+    } catch (error) {
+        console.error(
+            `Error updating project current_amount for project ID ${projectId}:`,
+            error
+        );
+        throw new Error(
+            `Error updating project current_amount: ${error.message}`
         );
     }
 };
