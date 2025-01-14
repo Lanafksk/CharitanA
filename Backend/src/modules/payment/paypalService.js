@@ -29,8 +29,8 @@ exports.createOrder = async (paymentData) => {
             },
         ],
         application_context: {
-            return_url: `${process.env.TEAM_A_BASE_URL}/api/payments/capture`,
-            cancel_url: `${process.env.TEAM_A_BASE_URL}/payment-cancelled`,
+            return_url: `${process.env.TEAM_A_BASE_URL_FRONTEND}/api/payments/capture`,
+            cancel_url: `${process.env.TEAM_A_BASE_URL_FRONTEND}/payment-cancelled`,
             brand_name: process.env.YOUR_CHARITY_NAME,
             locale: "en-US",
             landing_page: "BILLING",
