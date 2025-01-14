@@ -696,10 +696,25 @@ exports.getCharityPaypalEmail = async (projectId) => {
 };
 
 // Set new current amount for a project upon donation completion
-exports.updateCurrentAmount = async (project_id, amount) => {
-    const project = await projectRepository.getProjectById(project_id);
-    const new_current_amount = project.current_amount + amount;
-    const project_data = { ...project, current_amount: new_current_amount };
+exports.updateProjectCurrentAmount = async (projectId, newAmount) => {
+    try {
+        const project = await projectRepository.getProjectById(projectId);
 
-    return await projectRepository.updateProject(project_id, project_data);
+        if (!project) {
+            throw new Error(`Project not found with ID: ${projectId}`);
+        }
+
+        project.current_amount = newAmount;
+        // Use $inc for atomicity if using MongoDB. 
+        // Otherwise, just update the field directly as shown below.
+        return await projectRepository.updateProject(projectId, { current_amount: newAmount });
+    } catch (error) {
+        console.error(
+            `Error updating project current_amount for project ID ${projectId}:`,
+            error
+        );
+        throw new Error(
+            `Error updating project current_amount: ${error.message}`
+        );
+    }
 };
