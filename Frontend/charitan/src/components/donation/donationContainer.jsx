@@ -23,14 +23,11 @@ const DonationContainer = ({ projectData }) => {
     status: projectData.status,
     project_id: projectData.project_id,
     donationList: projectData.donations || [],
-    images: projectData.images?.length > 0 
-      ? projectData.images.map(img => img.url || img)
-      : ["https://via.placeholder.com/800x400?text=No+Image"]
   }; 
   
   return (
     <div style={{ padding: "50px 200px" }}>
-      <CarouselSection images={formattedProjectData.images} />
+      <CarouselSection/>
       <DonationHeader {...formattedProjectData} />
       <div style={{ display: "flex", marginTop: "20px", gap: "20px" }}>
         <div style={{ flex: 1 }}>

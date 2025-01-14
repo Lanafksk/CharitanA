@@ -61,7 +61,7 @@ const CarouselSection = ({ images }) => {
       });
     };
     loadImages();
-  }, [images]);
+  }, []);
 
   const settings = {
     dots: true,
