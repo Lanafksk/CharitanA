@@ -1,6 +1,6 @@
-const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/admin-server/charity/token`;
+const BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/admin-server/donor/token`;
 
-export const fetchUserData = async () => {
+export const fetchDonorData = async () => {
   try {
     const response = await fetch(
       BASE_URL,
@@ -9,7 +9,7 @@ export const fetchUserData = async () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // means cookies will be sent
+        credentials: 'include',
       }
     );
 
@@ -18,10 +18,10 @@ export const fetchUserData = async () => {
     }
 
     const data = await response.json();
-    console.log("Charity Token Data:", data);
+    console.log("Donor Token Data:", data);
     return data;
   } catch (error) {
-    console.error('Error fetching charity token:', error);
+    console.error('Error fetching donor token:', error);
     throw error;
   }
 };

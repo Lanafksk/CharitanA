@@ -11,14 +11,15 @@ import ForgetPage from '../pages/auth/ForgetPage';
 import RecoveryPage from '../pages/auth/RecoveryPage';
 import HomePage from '../pages/HomePage';
 import AboutUsPage from '../pages/AboutUsPage';
-import ProjectDiscoveryPage from '../pages/donor/ProjectDiscoveryPage';
 import LeaderboardPage from '../pages/LeaderboardPage';
-import DonationPage from '../pages/donor/DonationPage';
+
+import ProjectDiscoveryPage from '../pages/project/ProjectDiscoveryPage';
+import DonationPage from '../pages/project/DonationPage';
 
     // Route for donor only
 import DonorHomePage from '../pages/donor/DonorHomePage';
 import DonorHistoryPage from '../pages/donor/DonorHistoryPage';
-// donor profile page
+import DonorProfilePage from '../pages/donor/DonorProfilePage';
 
     // Route for charity only
 import CharityHomePage from '../pages/charity/CharityHomePage';
@@ -45,7 +46,6 @@ const RouteConfig = () => {
 
                 <Route path='/leaderboard' element={<LeaderboardPage/>} />
 
-
                 <Route path="/projects" element={<CharityProjectPage />} />
 
                 <Route path="/charity-profile" element={<CharityProfilePage />} />
@@ -54,15 +54,20 @@ const RouteConfig = () => {
 
                 <Route path="/charity-home" element={< CharityHomePage />} />
 
+                <Route path="/donor-home" element={< DonorHomePage />} />
+                <Route path="/donor-profile" element={<DonorProfilePage />} />
+
+
+
                 {/* Protected Routes for Donors */}
-                <Route
+                {/* <Route
                 path="/donor-home"
                 element={
                     <ProtectedRoute roles={["Donor"]}>
                         <DonorHomePage />
                     </ProtectedRoute>
                 }
-                />
+                /> */}
 
             </Routes>
         </Suspense>

@@ -5,8 +5,7 @@ import NavLink from './navLink';
 import WelcomeBox from './welcomeBox';
 import CustomButton from './button';
 import { useNavigate } from 'react-router-dom';
-import { fetchCharityProfile } from '../utils/api/profile/profileService';
-
+import { fetchCharityProfile, fetchDonorProfile} from '../utils/api/profile/profileService';
 
 const NavigationBar = ({ currentPage }) => {
     const navigate = useNavigate();
@@ -15,18 +14,32 @@ const NavigationBar = ({ currentPage }) => {
 
     useEffect(() => {
       const fetchUserProfile = async () => {
-        const charityId = localStorage.getItem('charityId');
-        if (charityId) {
-          try {
-            const profileData = await fetchCharityProfile(charityId);
-            setUserProfile(profileData);
-          } catch (error) {
-            console.error('Error fetching user profile:', error);
+        const role = localStorage.getItem('role');
+        if (role === 'Charity') {
+          const charityId = localStorage.getItem('charityId');
+          if (charityId) {
+            try {
+              const profileData = await fetchCharityProfile(charityId);
+              setUserProfile(profileData);
+            } catch (error) {
+              console.error('Error fetching user profile:', error);
+            }
           }
+        } else if (role === 'Donor') {
+          // Fetch donor profile
+          const donorId = localStorage.getItem('donorId');
+          if (donorId) {
+            try {
+              const profileData = await fetchDonorProfile(donorId);
+              setUserProfile(profileData);
+            } catch (error) {
+              console.error('Error fetching user profile:', error);
+            }
+          }
+        } else {
+          setUserProfile(null);
         }
       };
-      const role = localStorage.getItem('role');
-      setUserRole(role);
 
       fetchUserProfile();
     }, []);
@@ -38,6 +51,7 @@ const NavigationBar = ({ currentPage }) => {
     const handleSignUp = () => {
       navigate("/signup");
     };
+
     return (
       <AppBar
         position="static"
@@ -85,7 +99,14 @@ const NavigationBar = ({ currentPage }) => {
               </Grid>
               <Grid item>
                 {userProfile ? (
-                  <WelcomeBox userName={userProfile.data.name} imageUrl={userProfile.data.imageUrl} />
+                  <WelcomeBox
+                  userName={
+                    localStorage.getItem('role') === 'Charity'
+                      ? userProfile.data.name
+                      : userProfile.data.first_name
+                  }
+                  imageUrl={userProfile.data.imageUrl}
+                />
                 ) : (
                   <>
                     <CustomButton text="Sign In" backgroundColor="white" textColor="black" hoverColor="grey" disabledColor="#d3d3d3" onClick={handleSignIn} />

@@ -4,55 +4,54 @@ import axios from 'axios';
 import NavigationBar from "../../components/navigationBar";
 import PageBanner from '../../components/pageBanner';
 import HistoryTable from '../../components/history/historyTable';
+import { fetchDonationHistoryDonor } from '../../utils/api/history/donorHistoryService';
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    }).replace(/(\d+) ([A-Za-z]+) (\d+)/, '$1 - $2 - $3');
+  };
+  
+  const formatAmount = (amount) => {
+    return `$${Number(amount).toFixed(2)}`;
+  };
 
 const DonorHistoryPage = () => {
-    // const [projects, setProjects] = useState([]);
+    const [donations, setDonations] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-          // Example data
-          const rows = [
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON002", receiver: "CHA002", project: "PRO002", amount: "$400", date: "09 - Feb - 2024", status: "Success", message: "Another message..." },
-            { id: "DON003", receiver: "CHA003", project: "PRO003", amount: "$500", date: "10 - Feb - 2024", status: "Success", message: "Yet another message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON002", receiver: "CHA002", project: "PRO002", amount: "$400", date: "09 - Feb - 2024", status: "Success", message: "Another message..." },
-            { id: "DON003", receiver: "CHA003", project: "PRO003", amount: "$500", date: "10 - Feb - 2024", status: "Success", message: "Yet another message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-            { id: "DON001", receiver: "CHA001", project: "PRO001", amount: "$300", date: "08 - Feb - 2024", status: "Success", message: "Example message..." },
-        
-            // Add more rows as needed
-          ];
+    useEffect(() => {
+        const donorId = localStorage.getItem('donorId');
+        const loadDonations = async () => {
+          try {
+            const donationData = await fetchDonationHistoryDonor(donorId);
+            console.log("Donor total donations:", donationData);
 
-          // setProjects(rows);
-
-    // useEffect(() => {
-    //     const fetchProjects = async () => {
-    //         try {
-    //             const response = await axios.get('http://localhost:4000/api/projects');
-    //             setProjects(response.data);
-    //             setLoading(false);
-    //         } catch (error) {
-    //             console.error('Error fetching projects:', error);
-    //             setLoading(false);
-    //         }
-    //     };
-
-    //     fetchProjects();
-    // }, []);
+            const formattedDonations = donationData.map(donation => ({
+              id: donation.donor_id,
+              receiver: donation.payment_id,
+              project: donation.project_id,
+              amount: formatAmount(donation.amount),
+              date: formatDate(donation.createdAt),
+              status: donation.status,
+              message: donation.message || 'No message',
+            }));
+            setDonations(formattedDonations);
+          
+            } catch (err) {
+                setError(err.message);
+            } finally {
+            setLoading(false);
+          }
+        };
+    
+        loadDonations();
+      }, []);
+    
 
     if (loading) {
         return (
@@ -67,7 +66,7 @@ const DonorHistoryPage = () => {
             <NavigationBar />
             <PageBanner text="History" />
             <div style={{ padding: "20px" }}>
-                <HistoryTable rows={rows} userType="donor"/>
+                <HistoryTable rows={donations} userType="donor"/>
             </div>
         </div>
     );
