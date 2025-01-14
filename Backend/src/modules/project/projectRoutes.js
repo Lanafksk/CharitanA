@@ -16,7 +16,7 @@ router.delete('/:id', projectController.deleteProject); // Delete a project
 // ==================================
 // SECTION: Default filter options for projects
 // ==================================
-router.get('/category/:id', projectController.getProjectsByCategory); // Get all projects by category_id
+router.get('/category/:category', projectController.getProjectsByCategory); // Get all projects by category
 router.get('/charity/:id', projectController.getProjectsByCharityId); // Get all projects by charity_id
 router.get('/status/:status', projectController.getProjectsByStatus); // Get all projects by status
 router.get('/from/:startDate/to/:endDate', projectController.filterProjectsByDate); // Get all projects by date range
@@ -44,5 +44,11 @@ router.get('/current-amount/desc', projectController.sortProjectsByCurrentAmount
 // ==================================
 router.get('/title/:title', projectController.getProjectsByTitle); // Search projects by title
 router.get('/charity-name/:name', projectController.getProjectsByCharityName); // Search projects by charity name
+
+// ==================================
+// SECTION: Retrieve static categories and statuses
+// ==================================
+router.get('/static/categories', projectController.getProjectCategories); // Get all project categories
+router.get('/static/statuses', projectController.getProjectStatuses); // Get all project statuses
 
 module.exports = router;

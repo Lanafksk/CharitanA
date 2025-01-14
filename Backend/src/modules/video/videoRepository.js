@@ -28,5 +28,6 @@ exports.deleteVideo = async (videoId) => {
 
 // Get all videos by project ID
 exports.getVideosByProjectId = async (projectId) => {
-    return await Video.find({ project_id: projectId });
+    const videos = await Video.find({ project_id: projectId });
+    return videos.map(video => [video.url, video.title]);
 };

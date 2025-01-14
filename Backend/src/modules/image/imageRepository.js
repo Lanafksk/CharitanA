@@ -28,5 +28,8 @@ exports.deleteImage = async (imageId) => {
 
 // Get all images by project ID
 exports.getImagesByProjectId = async (projectId) => {
-    return await Image.find({ project_id: projectId });
+    const images = await Image.find({ project_id: projectId });
+    let imageUrls = images.map(image => image.url);
+    return imageUrls;
+
 };

@@ -1,4 +1,21 @@
-const Project = require('./projectModel');
+const { Project, ProjectCategory, ProjectStatus } = require('./projectModel');
+const ProjectDTO = require('./projectDTO');
+
+convertToDTO = (project) => {
+    const projectsDTO = [];
+
+    if(Array.isArray(project)) {
+        for (let aProject of project) {
+            aProject = new ProjectDTO(aProject);
+            projectsDTO.push(aProject);
+        }
+        return projectsDTO;
+    }
+    else {
+        project = new ProjectDTO(project);
+        return project;
+    }
+}
 
 // Create a new project
 exports.createProject = async (projectData) => {
@@ -8,17 +25,20 @@ exports.createProject = async (projectData) => {
 
 // Get all projects
 exports.getAllProjects = async () => {
-    return await Project.find();
+    const projects = await Project.find();
+    return await convertToDTO(projects);
 };
 
 // Get a specific project by ID
 exports.getProjectById = async (projectId) => {
-    return await Project.findOne({ project_id: projectId });
+    const project = await Project.findOne({ project_id: projectId });
+    return await convertToDTO(project);
 };
 
 // Update a project
 exports.updateProject = async (projectId, projectData) => {
-    return await Project.findOneAndUpdate({ project_id: projectId }, projectData, { new: true });
+    const project = await Project.findOneAndUpdate({ project_id: projectId }, projectData, { new: true });
+    return await convertToDTO(project);
 };
 
 // Delete a project
@@ -27,79 +47,105 @@ exports.deleteProject = async (projectId) => {
 };
 
 // Get all projects by category
-exports.getProjectsByCategory = async (categoryId) => {
-    return await Project.find({ category_id: categoryId });
+exports.getProjectsByCategory = async (category) => {
+    const projects = await Project.find({ category: category });
+    return await convertToDTO(projects);
 };
 
 // Get all projects by charity
 exports.getProjectsByCharityId = async (charityId) => {
-    return await Project.find({ charity_id: charityId });
+    const projects = await Project.find({ charity_id: charityId });
+    return await convertToDTO(projects);
 };
 
 // Get all projects by greater or equal to target amount 
 exports.getProjectsByTargetAmountGte = async (amount) => {
-    return await Project.find({ target_amount: { $gte: amount } });
+    const projects = await Project.find({ target_amount: { $gte: amount } });
+    return await convertToDTO(projects);
 };
 
 // Get all projects by lesser or equal to target amount
 exports.getProjectsByTargetAmountLte = async (amount) => {
-    return await Project.find({ target_amount: { $lte: amount } });
+    const projects = await Project.find({ target_amount: { $lte: amount } });
+    return await convertToDTO(projects);
 };
 
 // Sorts all projects by target amount in ascending order
 exports.sortProjectsByTargetAmountAsc = async () => {
-    return await Project.find().sort({ target_amount: 1 });
+    const projects = await Project.find().sort({ target_amount: 1 });
+    return await convertToDTO(projects);
 };
 
 // Sorts all projects by target amount in descending order
 exports.sortProjectsByTargetAmountDesc = async () => {
-    return await Project.find().sort({ target_amount: -1 });
+    const projects = await Project.find().sort({ target_amount: -1 });
+    return await convertToDTO(projects);
 };
 
 // Get all projects by greater or equal to current amount
 exports.getProjectsByCurrentAmountGte = async (amount) => {
-    return await Project.find({ current_amount: { $gte: amount } });
+    const projects = await Project.find({ current_amount: { $gte: amount } });
+    return await convertToDTO(projects);
 };
 
 // Get all projects by lesser or equal to current amount
 exports.getProjectsByCurrentAmountLte = async (amount) => {
-    return await Project.find({ current_amount: { $lte: amount } });
+    const projects = await Project.find({ current_amount: { $lte: amount } });
+    return await convertToDTO(projects);
 };
 
 // Sorts all projects by current amount in ascending order
 exports.sortProjectsByCurrentAmountAsc = async () => {
-    return await Project.find().sort({ current_amount: 1 });
+    const projects = await Project.find().sort({ current_amount: 1 });
+    return await convertToDTO(projects);
 };
 
 // Sorts all projects by current amount in descending order
 exports.sortProjectsByCurrentAmountDesc = async () => {
-    return await Project.find().sort({ current_amount: -1 });
+    const projects = await Project.find().sort({ current_amount: -1 });
+    return await convertToDTO(projects);
 };
 
 // Get all projects by status
 exports.getProjectsByStatus = async (status) => {
-    return await Project.find({ status: status });
+    const projects = await Project.find({ status: status });
+    return await convertToDTO(projects);
 }
 
 // Filter by start_date and end_date
 exports.filterProjectsByDate = async (startDate, endDate) => {
-    return await Project.find({ start_date: { $gte: startDate }, end_date: { $lte: endDate } });
+    const projects = await Project.find({ start_date: { $gte: startDate }, end_date: { $lte: endDate } });
+    return await convertToDTO(projects);
 };
 
 // Get projects by country
 exports.getProjectsByCountry = async (country) => {
-    return await Project.find({ country: country });
+    const projects = await Project.find({ country: country });
+    return await convertToDTO(projects);
 }
 
 // Get projects by region
 exports.getProjectsByRegion = async (region) => {
-    return await Project.find({ region: region });
+    const projects = await Project.find({ region: region });
+    return await convertToDTO(projects);
 }
 
 // Get projects by charity name
 exports.getProjectsByTitle = async (title) => {
-    return await Project.find({ title: { $regex: title, $options: 'i' } });
+
+    const projects = await Project.find({ title: { $regex: title, $options: 'i' } });
+    return await convertToDTO(projects);
 }
+
+// Get static possible project categories
+exports.getProjectCategories = async () => {
+    return ProjectCategory;
+};
+
+// Get static possible project statuses
+exports.getProjectStatuses = async () => {
+    return ProjectStatus;
+};
 
 // Helper function to get project IDs by charity ID
 exports.getProjectIdsByCharityId = async (charityId) => {
