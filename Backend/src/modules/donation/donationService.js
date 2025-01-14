@@ -1,5 +1,6 @@
 const donationRepository = require("./donationRepository");
 const projectRepository = require('../project/projectRepository');
+const projectService = require('../project/projectService');
 
 // Get donation history for a specific donor
 exports.getDonationHistoryByDonor = async (donorId) => {
@@ -134,11 +135,24 @@ exports.getDonationById = async (donationId) => {
 exports.createDonation = async (donationData) => {
     try {
         // Set the status to "completed" if it's not provided
+        // (Assuming you want to update the project amount only for completed donations)
         if (!donationData.status) {
             donationData.status = "completed";
         }
 
         const donation = await donationRepository.createDonation(donationData);
+
+        // *** Update project's current_amount ***
+        if (donation.status === "completed") {
+            const totalAmount = await donationRepository.getTotalDonationsForProject(
+                donation.project_id
+            );
+            await projectService.updateProjectCurrentAmount(
+                donation.project_id,
+                totalAmount
+            );
+        }
+
         return donation;
     } catch (error) {
         console.error("Error creating donation:", error);

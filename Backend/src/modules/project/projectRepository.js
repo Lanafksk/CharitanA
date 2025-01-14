@@ -1,9 +1,10 @@
 const { Project } = require('./projectModel');
 const ProjectDTO = require('./projectDTO');
 
-convertToDTO = (project) => {
+const convertToDTO = async (project) => {
     const projectsDTO = [];
 
+    // If project is an array, convert each project to DTO
     if(Array.isArray(project)) {
         for (let aProject of project) {
             aProject = new ProjectDTO(aProject);
@@ -11,16 +12,16 @@ convertToDTO = (project) => {
         }
         return projectsDTO;
     }
-    else {
-        project = new ProjectDTO(project);
-        return project;
-    }
+    
+    // Else convert the single project to DTO
+    const result = new ProjectDTO(project);
+    return result;
 }
 
 // Create a new project
 exports.createProject = async (projectData) => {
     const project = new Project(projectData);
-    return await project.save();
+    return await convertToDTO(await project.save());
 };
 
 // Get all projects

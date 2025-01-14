@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const routes = require('./routes/index'); // Centralized routes
-const redis = require('redis');
+const EXTERNAL_HOST = process.env.EXTERNAL_HOST || HOST; // Use EXTERNAL_HOST if defined, otherwise fall back to HOST
+
+// const { redisInstance } = require('./modules/redis/redisConfig');
+const { generateProjects } = require('./database/dataGeneration');
 
 const PORT = process.env.PORT || 4000;
 const HOST = process.env.HOST || 'localhost';
@@ -11,10 +14,9 @@ const HOST = process.env.HOST || 'localhost';
 dotenv.config();
 
 const app = express();
-const redisClient = redis.createClient({
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT
-});
+
+// Connect to Redis
+// redisInstance.connect()
 
 // Middleware
 app.use(cors());
@@ -32,4 +34,8 @@ app.use('/api', routes);
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Sever running in http://${HOST}:${PORT}`);
+    console.log(`Sever running in http://${EXTERNAL_HOST}:${PORT}`);
 });
+
+// Generate Projects
+// generateProjects();

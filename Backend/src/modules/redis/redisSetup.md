@@ -1,5 +1,9 @@
 # How to Use the Script
 
+## Install Ubuntu and Redis using your CMD Terminal
+1. Run command
+`wsl --install`
+
 ## Open your terminal in Ubuntu WSL or a Linux environment.
 1. Create a new script file:
 `nano setup_redis.sh`

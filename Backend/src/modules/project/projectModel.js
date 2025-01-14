@@ -11,7 +11,7 @@ const clusterURI = process.env.MONGO_URI;
 const db = connectDB('projectDB', clusterURI);
 
 const ProjectCategory = ['Food', 'Health', 'Education', 'Environment', 'Religion', 'Humanitarian', 'Housing', 'Other'];
-const ProjectStatus = ['Active', 'Halted', 'Completed'];
+const ProjectStatus = ['Running', 'Pending', 'Halted', 'Completed'];
 
 const projectSchema = new mongoose.Schema(
     {
