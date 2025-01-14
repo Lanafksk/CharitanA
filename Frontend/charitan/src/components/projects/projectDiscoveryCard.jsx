@@ -52,18 +52,10 @@ const calculateDaysLeft = (endDate) => {
   return diffDays > 0 ? diffDays : 0;
 };
 
-// Helper function to get the first available image or return a placeholder
-const getProjectImage = (images) => {
-  if (images && images.length > 0 && images[0].url) {
-    return images[0].url;
-  }
-  return 'https://via.placeholder.com/350x160';
-};
-
 const ProjectDiscoveryCard = ({ project }) => {
   const {
     title,
-    charity_id,
+    project_id,
     status,
     description,
     category,
@@ -72,14 +64,11 @@ const ProjectDiscoveryCard = ({ project }) => {
     country,
     region,
     end_date,
-    images,
   } = project;
 
   const progress = (current_amount / target_amount) * 100;
   const daysLeft = calculateDaysLeft(end_date);
   const location = `${country}, ${region}`;
-  const image = getProjectImage(images);
-  const imageUrl = images.length > 0 ? images[0] : projectImage;
 
   // Get status colors from our mapping, defaulting to grey if status is unknown
   const statusColors = STATUS_COLORS[status] || { border: '#808080', text: '#808080' };
@@ -115,7 +104,7 @@ const ProjectDiscoveryCard = ({ project }) => {
       <CardMedia
         component="img"
         height="160"
-        image={images.length > 0 ? image : projectImage}
+        image={projectImage}
         alt={title}
       />
       <CardContent sx={{ height: 290, position: 'relative' }}>
@@ -153,7 +142,7 @@ const ProjectDiscoveryCard = ({ project }) => {
             </Tooltip>
             
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Tooltip title={charity_id}>
+              <Tooltip title={project_id}>
                 <Typography 
                   variant="body2" 
                   color="black" 
@@ -165,7 +154,7 @@ const ProjectDiscoveryCard = ({ project }) => {
                     maxWidth: '150px'
                   }}
                 >
-                  {truncateText(charity_id, TEXT_LIMITS.charityName)}
+                  {truncateText(project_id, TEXT_LIMITS.charityName)}
                 </Typography>
               </Tooltip>
               <Chip
