@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const imageController = require('./imageController');
+const upload = require('../../database/multerConfig');
 
 // Create a new image
-router.post('/', imageController.createImage);
+router.post('/upload', upload.single('image'), imageController.createImage);
 
 // Get all images
 router.get('/', imageController.getAllImages);

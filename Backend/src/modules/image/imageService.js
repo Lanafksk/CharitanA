@@ -1,11 +1,4 @@
 const imageRepository = require('./imageRepository');
-const projectRepository = require('../project/projectRepository');
-
-// Validate if the project exists
-exports.validateProject = async (projectId) => {
-    const project = await projectRepository.getProjectById(projectId);
-    return !!project; // Return true if project exists, false otherwise
-};
 
 // Create a new image
 exports.createImage = async (imageData) => {
