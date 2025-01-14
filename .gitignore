@@ -4,3 +4,5 @@
 
 # React Component Preview
 previewConfig.json
+=======
+*.log

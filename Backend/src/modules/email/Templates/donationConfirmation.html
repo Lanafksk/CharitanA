@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donation Receipt</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border: 1px solid #eaeaea;
+      }
+      .header {
+        background-color: #fb1465;
+        color: #fff;
+        text-align: center;
+        padding: 30px 20px;
+      }
+      .header img {
+        width: 80px;
+        margin-bottom: 10px;
+        border-radius: 50%;
+      }
+      .header h1 {
+        font-size: 26px;
+        margin: 0;
+        font-weight: bold;
+      }
+      .content {
+        padding: 25px 20px;
+        color: #333;
+      }
+      .content h2 {
+        font-size: 22px;
+        color: #fb1465;
+        margin-bottom: 15px;
+      }
+      .content p {
+        margin: 10px 0;
+        line-height: 1.6;
+      }
+      .details {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
+      .details p {
+        margin: 5px 0;
+      }
+      .button {
+        display: block;
+        width: fit-content;
+        margin: 20px auto;
+        text-align: center;
+        background-color: #fb1465;
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 25px;
+        font-size: 16px;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+      .divider {
+        margin: 30px auto;
+        border-bottom: 1px solid #eaeaea;
+        width: 80%;
+      }
+      .footer {
+        text-align: center;
+        background-color: #f9f9f9;
+        padding: 15px 20px;
+        font-size: 14px;
+        color: #666;
+      }
+      .footer a {
+        color: #fb1465;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <!-- Header Section -->
+      <div class="header">
+        <a href="https://charitan.com/"
+          ><img
+            src="https://i.ibb.co/4dVpd0T/Thi-t-k-ch-a-c-t-n-13.png"
+            alt="Charitan Logo"
+            border="0"
+        /></a>
+        <h1>Thank You for Your Donation!</h1>
+      </div>
+      <!-- Content Section -->
+      <div class="content">
+        <h2>Hello {{name}},</h2>
+        <p>
+          We have received your generous donation of
+          <strong>{{formatCurrency donationAmount}}</strong> to the project
+          <em>{{projectTitle}}</em>.
+        </p>
+        <div class="details">
+          <p>
+            <strong>Donation Amount:</strong> {{formatCurrency donationAmount}}
+          </p>
+          <p><strong>Project Title:</strong> {{projectTitle}}</p>
+          <p><strong>Date:</strong> {{donationDate}}</p>
+        </div>
+        <p>Your support is making a difference in the lives of many.</p>
+        <a href="{{platformLink}}" class="button">View Your Impact</a>
+        <div class="divider"></div>
+        <p>
+          Need assistance? Reach out to us at
+          <a href="mailto:support@charitan.tiger">support@charitan.tiger</a>.
+        </p>
+      </div>
+      <!-- Footer Section -->
+      <div class="footer">
+        <p>&copy; 2025 Charitan. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>

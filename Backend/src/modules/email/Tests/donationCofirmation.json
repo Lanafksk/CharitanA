@@ -1,0 +1,13 @@
+{
+  "to": {
+    "email": "vinhhuu02@gmail.com",
+    "name": "John Doe"
+  },
+  "donationData": {
+    "donationAmount": 100,
+    "projectTitle": "Clean Water Initiative",
+    "donationDate": "2024-12-19",
+    "region": "Sub-Saharan Africa",
+    "country": "Kenya"
+  }
+}

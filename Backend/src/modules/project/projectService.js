@@ -1,0 +1,148 @@
+const axios = require('axios');
+const projectRepository = require('./projectRepository');
+const categoryRepository = require('../category/categoryRepository');
+const videoRepository = require('../video/videoRepository');
+const imageRepository = require('../image/imageRepository');
+
+const API_GATEWAY = 'http://localhost:5000/admin-server';
+
+// Validate if the category exists
+exports.validateCategory = async (categoryId) => {
+    const category = await categoryRepository.getCategoryById(categoryId);
+    return !!category; // Return true if category exists, false otherwise
+};
+
+// Populate videos and images
+populateVideosAndImages = async (projects) => {
+    for (let project of projects) {
+        project.videos = await videoRepository.getVideosByProjectId(project.project_id);
+        project.images = await imageRepository.getImagesByProjectId(project.project_id);
+    }
+
+    return projects;
+};
+
+// Create a new project
+exports.createProject = async (projectData) => {
+    return await projectRepository.createProject(projectData);
+};
+
+// Get all projects
+exports.getAllProjects = async () => {
+    const projects = await projectRepository.getAllProjects();
+
+    // Populate videos and images
+    return await populateVideosAndImages(projects);
+
+};
+
+// Get a specific project by ID
+exports.getProjectById = async (projectId) => {
+    const project = await projectRepository.getProjectById(projectId);
+
+    // Populate videos and images
+    return await populateVideosAndImages([project]);
+};
+
+// Update a project
+exports.updateProject = async (projectId, projectData) => {
+    return await projectRepository.updateProject(projectId, projectData);
+};
+
+// Delete a project
+exports.deleteProject = async (projectId) => {
+    return await projectRepository.deleteProject(projectId);
+};
+
+// Get all projects by category
+exports.getProjectsByCategory = async (categoryId) => {
+    return await projectRepository.getProjectsByCategory(categoryId);
+};
+
+// Get all projects by charity
+exports.getProjectsByCharityId = async (charityId) => {
+    return await projectRepository.getProjectsByCharityId(charityId);
+};
+
+// Get all projects by greater or equal to target amount
+exports.getProjectsByTargetAmountGte = async (amount) => {
+    return await projectRepository.getProjectsByTargetAmountGte(amount);
+};
+
+// Get all projects by lesser or equal to target amount
+exports.getProjectsByTargetAmountLte = async (amount) => {
+    return await projectRepository.getProjectsByTargetAmountLte(amount);
+};
+
+// Sorts all projects by target amount in ascending order
+exports.sortProjectsByTargetAmountAsc = async () => {
+    return await projectRepository.sortProjectsByTargetAmountAsc();
+};
+
+// Sorts all projects by target amount in descending order
+exports.sortProjectsByTargetAmountDesc = async () => {
+    return await projectRepository.sortProjectsByTargetAmountDesc();
+};
+
+// Get all projects by greater or equal to current amount
+exports.getProjectsByCurrentAmountGte = async (amount) => {
+    return await projectRepository.getProjectsByCurrentAmountGte(amount);
+};
+
+// Get all projects by lesser or equal to current amount
+exports.getProjectsByCurrentAmountLte = async (amount) => {
+    return await projectRepository.getProjectsByCurrentAmountLte(amount);
+};
+
+// Sorts all projects by current amount in ascending order
+exports.sortProjectsByCurrentAmountAsc = async () => {
+    return await projectRepository.sortProjectsByCurrentAmountAsc();
+};
+
+// Sorts all projects by current amount in descending order
+exports.sortProjectsByCurrentAmountDesc = async () => {
+    return await projectRepository.sortProjectsByCurrentAmountDesc();
+};
+
+// Get all projects by status
+exports.getProjectsByStatus = async (status) => {
+    return await projectRepository.getProjectsByStatus(status);
+};
+
+// Filter by start_date and end_date
+exports.filterProjectsByDate = async (startDate, endDate) => {
+    return await projectRepository.filterProjectsByDate(startDate, endDate);
+};
+
+// Get all projects by country
+exports.getProjectsByCountry = async (country) => {
+    return await projectRepository.getProjectsByCountry(country);
+};
+
+// Get all projects by region
+exports.getProjectsByRegion = async (region) => {
+    return await projectRepository.getProjectsByRegion(region);
+};
+
+// Get all projects by keyword
+exports.getProjectsByTitle = async (title) => {
+    return await projectRepository.getProjectsByTitle(title);
+};
+
+// Get all projects by charity name
+exports.getProjectsByCharityName = async (name) => {
+    try {
+        const response = await axios.get(`${API_GATEWAY}/charities`);
+        const charityData = response.data;
+
+        for (let charity of charityData.charityResponse.data) {
+            if (charity.name.includes(name)) {
+                return await projectRepository.getProjectsByCharityId(charity.charity_id);
+            }
+        }
+        return [];
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
