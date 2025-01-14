@@ -54,7 +54,12 @@ const NavigationBar = ({ currentPage }) => {
               </Grid>
               <Grid item sx={{ flexGrow: 4 }}>
                   <Box sx={{ display: 'flex', flexDirection: 'row', gap: 4, ml: 4 }}>
-                      <NavLink href="/home" color="black" size="1rem" highlight={currentPage === '/home'}>
+                      <NavLink 
+                          href={userRole === 'Charity' ? '/charity-home' : userRole === 'Donor' ? '/donor-home' : '/home'} 
+                          color="black" 
+                          size="1rem" 
+                          highlight={currentPage === '/home' || currentPage === '/charity-home' || currentPage === '/donor-home'}
+                      >
                           Home
                       </NavLink>
                       <NavLink href="/discovery" color="black" size="1rem" highlight={currentPage === '/discovery'}>

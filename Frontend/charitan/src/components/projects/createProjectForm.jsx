@@ -13,20 +13,37 @@ import {
   Button,
   Paper,
   Typography,
+  Alert,
 } from '@mui/material';
 import PublicIcon from '@mui/icons-material/Public';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { createProjects } from '../../utils/api/projects/createProject';
+
+// Define categories as a constant to maintain consistency and make updates easier
+const PROJECT_CATEGORIES = [
+  'Food',
+  'Health',
+  'Education',
+  'Environment',
+  'Religion',
+  'Humanitarian',
+  'Housing',
+  'Other'
+];
 
 const CreateProjectForm = () => {
   const [formData, setFormData] = useState({
     projectTitle: '',
-    category: '',
+    category: '', // Initialize as empty string for controlled Select component
     country: 'Global',
     fundingGoal: '',
     monthlyDonation: false,
     description: '',
     projectFile: null,
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -34,6 +51,27 @@ const CreateProjectForm = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleFileUpload = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/upload`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+      const data = await response.json();
+      return data.secure_url;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      throw error;
+    }
   };
 
   const handleFileChange = (event) => {
@@ -44,30 +82,86 @@ const CreateProjectForm = () => {
         projectFile: file,
       }));
     } else {
-      alert('File size should be less than 200MB');
+      setError('File size should be less than 200MB');
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add your form submission logic here
+    
+    // Validate category selection
+    if (!formData.category) {
+      setError('Please select a project category');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      let mediaUrl = null;
+      if (formData.projectFile) {
+        mediaUrl = await handleFileUpload(formData.projectFile);
+      }
+
+      const projectData = {
+        title: formData.projectTitle,
+        category: formData.category,
+        country: formData.country,
+        target_amount: parseFloat(formData.fundingGoal),
+        description: formData.description,
+        status: 'Running',
+        start_date: new Date().toISOString(),
+        end_date: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+        region: formData.country === 'Global' ? 'Global' : 'Specific',
+        images: mediaUrl ? [mediaUrl] : [],
+        videos: [],
+      };
+
+      const response = await createProjects(projectData);
+      console.log('Project created successfully:', response);
+      setSuccess(true);
+      
+      // Reset form
+      setFormData({
+        projectTitle: '',
+        category: '',
+        country: 'Global',
+        fundingGoal: '',
+        monthlyDonation: false,
+        description: '',
+        projectFile: null,
+      });
+    } catch (err) {
+      setError(err.message || 'Failed to create project');
+      console.error('Error creating project:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // The main container now uses Paper component for the white background
   return (
     <Paper 
-      elevation={0} // Removes the default shadow
+      elevation={0}
       sx={{
         maxWidth: 600,
-        mx: 'auto', // Centers the form horizontally
-        backgroundColor: 'white', // Explicit white background
-        borderRadius: 2, // Slightly rounded corners
-        p: 3, // Padding around the form
+        mx: 'auto',
+        backgroundColor: 'white',
+        borderRadius: 2,
+        p: 3,
       }}
     >
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
+      )}
+      {success && (
+        <Alert severity="success" sx={{ mb: 2 }}>Project created successfully!</Alert>
+      )}
+
       <Box component="form" onSubmit={handleSubmit}>
         <TextField
+          required
           fullWidth
           label="Project Title"
           name="projectTitle"
@@ -77,17 +171,24 @@ const CreateProjectForm = () => {
           variant="outlined"
         />
 
-        <TextField
-          fullWidth
-          label="Category"
-          name="category"
-          value={formData.category}
-          onChange={handleInputChange}
-          margin="normal"
-          variant="outlined"
-        />
+        {/* Updated Category field to use Select component */}
+        <FormControl fullWidth margin="normal" required>
+          <InputLabel>Category</InputLabel>
+          <Select
+            value={formData.category}
+            name="category"
+            label="Category"
+            onChange={handleInputChange}
+          >
+            {PROJECT_CATEGORIES.map((category) => (
+              <MenuItem key={category} value={category}>
+                {category}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-        <FormControl fullWidth margin="normal">
+        <FormControl fullWidth margin="normal" required>
           <InputLabel>Country</InputLabel>
           <Select
             value={formData.country}
@@ -100,14 +201,18 @@ const CreateProjectForm = () => {
             }
           >
             <MenuItem value="Global">Global</MenuItem>
+            <MenuItem value="Israel">Israel</MenuItem>
+            <MenuItem value="Palestine">Palestine</MenuItem>
             {/* Add more countries as needed */}
           </Select>
         </FormControl>
 
         <TextField
+          required
           fullWidth
           label="Funding Goal"
           name="fundingGoal"
+          type="number"
           value={formData.fundingGoal}
           onChange={handleInputChange}
           margin="normal"
@@ -136,6 +241,7 @@ const CreateProjectForm = () => {
         </FormControl>
 
         <TextField
+          required
           fullWidth
           label="Description"
           name="description"
@@ -155,7 +261,7 @@ const CreateProjectForm = () => {
             textAlign: 'center',
             border: '2px dashed #ccc',
             cursor: 'pointer',
-            bgcolor: 'white', // Ensures the upload area maintains white background
+            bgcolor: 'white',
           }}
           onClick={() => document.getElementById('project-file-input').click()}
         >
@@ -168,7 +274,7 @@ const CreateProjectForm = () => {
           />
           <CloudUploadIcon sx={{ fontSize: 48, color: 'primary.main', mb: 1 }} />
           <Typography>
-            Upload a file or drag and drop PNG, JPG, MP3 up to 200MB
+            {formData.projectFile ? formData.projectFile.name : 'Upload a file or drag and drop PNG, JPG, MP4 up to 200MB'}
           </Typography>
         </Paper>
 
@@ -177,6 +283,7 @@ const CreateProjectForm = () => {
           variant="contained"
           color="primary"
           type="submit"
+          disabled={loading}
           sx={{ 
             mt: 3,
             py: 1.5,
@@ -188,7 +295,7 @@ const CreateProjectForm = () => {
             }
           }}
         >
-          Create Project
+          {loading ? 'Creating Project...' : 'Create Project'}
         </Button>
       </Box>
     </Paper>
