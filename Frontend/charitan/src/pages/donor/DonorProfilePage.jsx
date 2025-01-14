@@ -5,7 +5,7 @@ import PageBanner from "../../components/pageBanner";
 import UserProfile from "../../components/user/userProfile";
 import { fetchDonorProfile } from "../../utils/api/profile/profileService";
 import { fetchTotalDonationDonor } from "../../utils/api/profile/getTotalDonationDonor";
-import { fetchTotalProjectsCharity } from "../../utils/api/profile/getTotalProjectsCharity";
+import { fetchTotalProjectsCharity } from "../../utils/api/profile/getTotalProjectsDonor";
 
 const DonorProfilePage = () => {
   // State for profile data
@@ -44,10 +44,11 @@ const DonorProfilePage = () => {
         ? `${donorData.address.street}, ${donorData.address.city}, ${donorData.address.state} ${donorData.address.zip}`
         : "";
   
+      console.log("Donor :", donorId);
       // Fetch total donation and total projects data TEAM A BE
-      //  const totalDonationData = await fetchTotalDonationDonor(donorId);  
+      const totalDonationData = await fetchTotalDonationDonor(donorId);  
       //  console.log("Total Donation Data:", totalDonationData);
-      // const totalProjectsData = await fetchTotalProjectsCharity(charityId);
+      const totalProjectsData = await fetchTotalProjectsCharity(donorId);
 
       // Transform the data with correct property mappings
       const transformedData = {
@@ -58,8 +59,8 @@ const DonorProfilePage = () => {
         country: donorData.country || "",
         address: formattedAddress || "",
         img_url: donorData.img_url || "",
-        totalAmount: 0,
-        totalProjects: 0
+        totalAmount: totalDonationData != null ? totalDonationData : 6969,  
+        totalProjects: totalProjectsData != null ? totalProjectsData : 6969, 
       };
       
   

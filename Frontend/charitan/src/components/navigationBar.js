@@ -5,7 +5,7 @@ import NavLink from './navLink';
 import WelcomeBox from './welcomeBox';
 import CustomButton from './button';
 import { useNavigate } from 'react-router-dom';
-import { fetchCharityProfile, fetchDonorProfile } from '../utils/api/profile/profileService';
+import { fetchCharityProfile, fetchDonorProfile} from '../utils/api/profile/profileService';
 
 const NavigationBar = ({ currentPage }) => {
     const navigate = useNavigate();
