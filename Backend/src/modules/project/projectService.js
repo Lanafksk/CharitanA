@@ -654,27 +654,34 @@ exports.getCharityPaypalEmail = async (projectId) => {
             throw new Error(`Charity ID not found for project with ID: ${projectId}`);
         }
 
-        // // Fetch the charity details from Team B's API
-        // // Correct the URL by adding "admin-server"
-        // const charityResponse = await axios.get(
-        //     `${API_GATEWAY}/charity/id/${charityId}`
-        // );
-        // console.log("Charity response:", charityResponse);
+        // Get the charity's PayPal email
+        // paypalEmail = "sb-vmtlt35454936@business.example.com"
+        const charityResponse = await axios.get(
+            `${API_GATEWAY}/charity/id/${charityId}`,
+            {
+                headers: {
+                    'internal-api': process.env.INTERNAL_API_KEY
+                }
+            }
+        );
 
-        // const charityData = charityResponse.data;
+        console.log("Charity response:", charityResponse);
 
-        // Testing purposes for this time
+        const charityData = charityResponse.data;
 
-        paypalEmail = "sb-vmtlt35454936@business.example.com"
+        // Ensure the response contains data
+        if (!charityData || !charityData.data) {
+            throw new Error(`Invalid response structure for charity with ID: ${charityId}`);
+        }
 
+        // Access the paypal_email property
+        const paypalEmail = charityData.data.paypal_email;
+        if (!paypalEmail) {
+            throw new Error(`PayPal email not found for charity with ID: ${charityId}`);
+        }
 
-        // // Access the paypal_email property
-        // const paypalEmail = charityData.data.paypal_email;
-        // if (!paypalEmail) {
-        //     throw new Error(
-        //         `PayPal email not found for charity with ID: ${charityId}`
-        //     );
-        // }
+        // Proceed with using paypalEmail
+        console.log("PayPal Email:", paypalEmail);
 
         return paypalEmail;
     } catch (error) {
