@@ -101,31 +101,31 @@ exports.createProject = async (project_data) => {
 // Get all projects
 exports.getAllProjects = async () => {
     // Check if the projects are already cached
-    if (cached_project_count > 0) {
-        for (let project_id of cached_project_ids) {
-            const cached_project = await returnCacheProject(project_id);
-            if (!cached_project) {
-                break;
-            }
-        }
-    }
+    // if (cached_project_count > 0) {
+    //     for (let project_id of cached_project_ids) {
+    //         const cached_project = await returnCacheProject(project_id);
+    //         if (!cached_project) {
+    //             break;
+    //         }
+    //     }
+    // }
 
     // Get all projects from the database
     const projects = await projectRepository.getAllProjects();
-    cached_project_count = projects.length;
+    // cached_project_count = projects.length;
 
-    console.log('Project count:', cached_project_count);
+    // console.log('Project count:', cached_project_count);
 
     // Cache all projects (if not already cached)
-    for (let project of projects) {
-        console.log('Project:', project.project_id);
-        const cached_project = await returnCacheProject(project.project_id);
-        if (cached_project == null) {
-            console.log('Caching project:', project.project_id);
-            cacheProject(project);
-            cached_project_ids.push(project.project_id);
-        }
-    }
+    // for (let project of projects) {
+    //     console.log('Project:', project.project_id);
+    //     const cached_project = await returnCacheProject(project.project_id);
+    //     if (cached_project == null) {
+    //         console.log('Caching project:', project.project_id);
+    //         cacheProject(project);
+    //         cached_project_ids.push(project.project_id);
+    //     }
+    // }
 
     return projects;
 };
