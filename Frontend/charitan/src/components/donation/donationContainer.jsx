@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CarouselSection from "./carouselSection";
 import ProjectDescription from "./projectDescription";
 import ContactInfo from "./contactInfo";
@@ -21,12 +21,13 @@ const DonationContainer = ({ projectData }) => {
     raised: projectData.current_amount,
     goal: projectData.target_amount,
     status: projectData.status,
+    project_id: projectData.project_id,
     donationList: projectData.donations || [],
     images: projectData.images?.length > 0 
       ? projectData.images.map(img => img.url || img)
       : ["https://via.placeholder.com/800x400?text=No+Image"]
-  };
-
+  }; 
+  
   return (
     <div style={{ padding: "50px 200px" }}>
       <CarouselSection images={formattedProjectData.images} />
@@ -39,7 +40,6 @@ const DonationContainer = ({ projectData }) => {
         </div>
         <div style={{ flex: 1 }}>
           <PaymentForm projectData={formattedProjectData} />
-          <MessageBox />
         </div>
       </div>
     </div>

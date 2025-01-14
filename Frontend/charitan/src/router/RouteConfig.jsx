@@ -11,9 +11,10 @@ import ForgetPage from '../pages/auth/ForgetPage';
 import RecoveryPage from '../pages/auth/RecoveryPage';
 import HomePage from '../pages/HomePage';
 import AboutUsPage from '../pages/AboutUsPage';
-import ProjectDiscoveryPage from '../pages/donor/ProjectDiscoveryPage';
 import LeaderboardPage from '../pages/LeaderboardPage';
-import DonationPage from '../pages/donor/DonationPage';
+
+import ProjectDiscoveryPage from '../pages/project/ProjectDiscoveryPage';
+import DonationPage from '../pages/project/DonationPage';
 
     // Route for donor only
 import DonorHomePage from '../pages/donor/DonorHomePage';

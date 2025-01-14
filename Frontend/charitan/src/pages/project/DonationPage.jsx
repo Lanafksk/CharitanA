@@ -10,7 +10,6 @@ const DonationPage = () => {
     const location = useLocation();
     const projectData = location.state?.projectData;
 
-
     return (
         <Box>
             <NavigationBar currentPage={location.pathname} />
