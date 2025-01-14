@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Donation Page</title>
+    <style>
+        /* Basic styling (optional) */
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .donation-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        .card-fields {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 3px;
+        }
+
+        .card-fields div {
+            margin-bottom: 10px;
+        }
+
+        .card-fields div:last-child {
+            margin-bottom: 0;
+        }
+
+        #card-number,
+        #card-cvv,
+        #card-expiration-date {
+            /* Add specific styles for your card fields if needed */
+        }
+
+        .payment-options label {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        button {
+            background-color: #0070ba;
+            /* PayPal blue */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005ea6;
+        }
+
+        #paypal-button-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="donation-form">
+        <h2>Donate to [Project Name]</h2>
+        <label for="projectId">Project ID:</label>
+        <input type="text" id="projectId" value="project123" required>
+
+        <label for="donorId">Donor ID (optional):</label>
+        <input type="text" id="donorId" placeholder="Enter your donor ID">
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" value="10" min="1" required>
+
+        <div class="payment-options">
+            <label>
+                <input type="radio" name="payment-type" value="one-time" checked> One-time
+            </label>
+            <label>
+                <input type="radio" name="payment-type" value="monthly"> Monthly
+            </label>
+        </div>
+
+        <label for="message">Message (optional):</label>
+        <textarea id="message" placeholder="Enter a message"></textarea>
+
+        <!-- Card fields will be rendered here -->
+        <div class="form-group card-fields">
+            <div id="card-number"></div>
+            <div id="card-cvv"></div>
+            <div id="card-expiration-date"></div>
+        </div>
+
+        <button type="button" id="card-button">Pay with Card</button>
+        <div id="paypal-button-container"></div>
+        <div id="paymentStatus" style="margin-top: 15px;"></div>
+    </div>
+
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=YOUR_ADVANCED_CLIENT_ID&components=buttons,hosted-fields,billing&vault=true"></script>
+    <script>
+        const donateButton = document.getElementById("donateButton");
+        const cardButton = document.getElementById("card-button");
+        const projectIdInput = document.getElementById("projectId");
+        const donorIdInput = document.getElementById("donorId");
+        const amountInput = document.getElementById("amount");
+        const messageInput = document.getElementById("message");
+        const paymentStatus = document.getElementById("paymentStatus");
+        const paymentType = document.getElementsByName("payment-type");
+
+        // Function to get the selected payment type
+        function getPaymentType() {
+            for (const radio of paymentType) {
+                if (radio.checked) {
+                    return radio.value;
+                }
+            }
+            return null; // Should not happen if one is always checked
+        }
+
+        // Render the PayPal standard button
+        paypal.Buttons({
+            createOrder: function (data, actions) {
+                const projectId = projectIdInput.value;
+                const donorId = donorIdInput.value;
+                const amount = parseFloat(amountInput.value);
+                const message = messageInput.value;
+                const isRecurring = getPaymentType() === "monthly";
+
+                const paymentData = {
+                    project_id: projectId,
+                    donor_id: donorId,
+                    amount: amount,
+                    message: message,
+                    currency: "USD",
+                    is_recurring: isRecurring,
+                    payment_method: "paypal"
+                };
+
+                return createOrderOnServer(paymentData);
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                    // You might want to update the payment status on your server here
+                });
+            }
+        }).render('#paypal-button-container');
+
+        // Render the PayPal Advanced Card fields
+        if (paypal.HostedFields.isEligible()) {
+            paypal.HostedFields.render({
+                createOrder: function () {
+                    const projectId = projectIdInput.value;
+                    const donorId = donorIdInput.value;
+                    const amount = parseFloat(amountInput.value);
+                    const message = messageInput.value;
+                    const isRecurring = getPaymentType() === "monthly";
+
+                    const paymentData = {
+                        project_id: projectId,
+                        donor_id: donorId,
+                        amount: amount,
+                        message: message,
+                        currency: "USD",
+                        is_recurring: isRecurring,
+                        payment_method: "card"
+                    };
+
+                    return createOrderOnServer(paymentData);
+                },
+                styles: {
+                    'input': {
+                        'font-size': '16px',
+                        'font-family': 'Arial, sans-serif',
+                        'color': '#2c3e50'
+                    },
+                    ':focus': {
+                        'border': '1px solid #0070ba',
+                        'box-shadow': '0 0 5px #0070ba'
+                    },
+                    '.invalid': {
+                        'color': '#c0392b'
+                    }
+                },
+                fields: {
+                    number: {
+                        selector: '#card-number',
+                        placeholder: 'Card Number'
+                    },
+                    cvv: {
+                        selector: '#card-cvv',
+                        placeholder: 'CVV'
+                    },
+                    expirationDate: {
+                        selector: '#card-expiration-date',
+                        placeholder: 'MM/YY'
+                    }
+                }
+            }).then(function (hostedFields) {
+                cardButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    hostedFields.submit({
+                        // Optionally, you can trigger validation before calling submit
+                        trigger: 'submit'
+                    }).then(function (payload) {
+                        const projectId = projectIdInput.value;
+                        const donorId = donorIdInput.value;
+                        const amount = parseFloat(amountInput.value);
+                        const message = messageInput.value;
+                        const isRecurring = getPaymentType() === "monthly";
+
+                        const paymentData = {
+                            project_id: projectId,
+                            donor_id: donorId,
+                            amount: amount,
+                            message: message,
+                            currency: "USD",
+                            is_recurring: isRecurring,
+                            payment_method: "card"
+                        };
+
+                        console.log('Payment payload:', payload);
+                        // Send the nonce to your server
+                        processPaymentOnServer(payload.nonce, paymentData);
+                    }).catch(function (err) {
+                        // Handle validation errors or other issues
+                        console.error('Error submitting form:', err);
+                        paymentStatus.textContent = 'Error submitting form: ' + err.message;
+                    });
+                });
+            });
+        } else {
+            console.error('PayPal Advanced Card Processing is not eligible.');
+            // Handle the case where Advanced Card Processing is not eligible. You might want to show an alternative payment method or an error message.
+        }
+
+        function createOrderOnServer(paymentData) {
+            // Create Order on your backend
+            return fetch('/api/payments', { // Assuming you have an endpoint that creates a payment in database with status pending
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(paymentData)
+            }).then(res => {
+                if (!res.ok) {
+                    return res.json().then(data => {
+                        throw new Error(data.error || 'Failed to create order');
+                    });
+                }
+                return res.json();
+            }).then(data => {
+                console.log("data from create order on server", data);
+                return data.approvalUrl.split('token=')[1]; // Extract and return the order ID from the approval URL
+            }).catch(err => {
+                console.error("Error creating order: ", err);
+                paymentStatus.textContent = "Error creating order: " + err.message;
+            });
+        }
+
+        function processPaymentOnServer(nonce, paymentData) {
+            // Send payment to your backend
+            fetch('/api/payments/card', { // Your new endpoint for processing card payments
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nonce: nonce,
+                    ...paymentData
+                })
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        return res.json().then(data => {
+                            throw new Error(data.error || 'Failed to process payment');
+                        });
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    paymentStatus.textContent = data.message;
+                })
+                .catch(err => {
+                    console.error("Error processing payment: ", err);
+                    paymentStatus.textContent = "Error processing payment: " + err.message;
+                });
+        }
+    </script>
+</body>
+
+</html>

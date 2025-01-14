@@ -2,9 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const connectDB = require('./database/connection');
 const routes = require('./routes/index'); // Centralized routes
 
+const PORT = process.env.PORT || 4000;
+const HOST = process.env.HOST || 'localhost';
 
 dotenv.config();
 
@@ -13,9 +14,6 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-// Database connection
-connectDB();
 
 // Routes
 app.get('/', (req, res) => {
@@ -26,5 +24,6 @@ app.get('/', (req, res) => {
 app.use('/api', routes);
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Sever running in http://${HOST}:${PORT}`);
+});

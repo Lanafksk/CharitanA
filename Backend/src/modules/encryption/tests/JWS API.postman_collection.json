@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "b5460cd4-e60b-45c2-9f71-6417483b1147",
+		"name": "JWS API",
+		"description": "API tests for encrypting and decrypting JWS tokens",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31375522"
+	},
+	"item": [
+		{
+			"name": "Encrypt JWS",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"jws\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\",\n  \"entityId\": \"player2\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/jws/encrypt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"jws",
+						"encrypt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Decrypt JWE",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"encryptedToken\": \"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiYWxnIjoiUlNBLU9BRVAiLCJraWQiOiIwUUtURFdGSzF5d01JRllmcVBjV1JQanlRQkI2ajc3U3U4QWVxMUlwUzNrIn0.knZZxEoyrSyRltzy9oli9tvf8ZTY0ot8p6_d0KLT67ePDX1NJzMDtj74QA0H3QK3hvdDmy3SnO11akJFwjR-gQMfg3W7znChypW1ZMOcR1K41pjQvfzpMhuyRxEhqt39FJ4bdk11r2fvc5-Zqxm2ZNAtp3lThPLf0TYvEscgEmt-JyTIIj7lHdda0psR4XBoEaRdocSKRbtF5zlTAgmVsfB6ZLk1slSohGXigv9ZANL_F3pmPQFGwx0slZxS0j7j9bi6Gqf8D0P9elBUV6q3Vt9WW1KXty2qDI3pnzMaXUiCmyHZdp11ACpIIdLLcbG8uWmg4CpHtosBPmgR4PveEA.EjEX1zXVrKtGUcRZTv7U3A._UFGduju5H1xfh2KrYoTuXA3Nj2sfzJV4o4jQfRrXaNprust2e6PD1ZpZa9dLEtUl-f6wwIUm0FNCpR0IQELXl1lqNjJ1jhFbPFiQLOoP9KW2uLOPTKQ730isuHo2tB6-Gl8WdbYsbne6lC_RKR6XTH4kGLahjAb-_X0z4N0YJv8IoiV5fB8v6fUQN3VWM35Hx2gmOjSRkzOLxlYiw9YUw.MP-YFI2pyJNmtOOJxx4tcw\",\n    \"entityId\": \"player2\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/jws/decrypt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"jws",
+						"decrypt"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

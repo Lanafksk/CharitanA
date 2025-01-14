@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon src/app.js",
     "dev": "nodemon src/app.js",
+    "generate-data": "node src/generateData/generateDonationData.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^9.3.0",
+    "@paypal/checkout-server-sdk": "^1.0.3",
     "axios": "^1.7.8",
     "backend": "file:",
     "body-parser": "^1.20.3",
@@ -23,11 +26,16 @@
     "mailersend": "^2.3.0",
     "moment": "^2.30.1",
     "mongoose": "^8.8.4",
+    "node-jose": "^2.2.0",
     "sanitize-html": "^2.13.1",
     "uuid": "^11.0.3",
     "winston": "^3.17.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "jest": "^29.7.0",
+    "mock-require": "^3.0.3",
+    "nodemon": "^3.1.7",
+    "sinon": "^19.0.2",
+    "supertest": "^7.0.0"
   }
 }

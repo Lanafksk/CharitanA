@@ -172,6 +172,58 @@ class MailerSendService {
             data
         );
     }
+
+    /**
+     * Sends a Project Notification email to a User subscribed to a field.
+     * @param {object} to - Recipient's email and name.
+     * @param {object} data - Charity-related data.
+     * @returns {object} - Result of the email sending operation.
+     */
+    async sendProjectNotification(projectData, user) {
+        try {
+            const templateName = "projectNotification.html";
+            const templateData = {
+                project: projectData,
+                userName: user.name, // Now you have the user's name for personalization
+            };
+
+            // Compile the email template
+            const htmlContent = this.readAndCompileTemplate(
+                templateName,
+                templateData
+            );
+
+            // Prepare email parameters
+            const sentFrom = new Sender(
+                process.env.EMAIL_FROM,
+                process.env.EMAIL_FROM_NAME
+            );
+            const recipients = [new Recipient(user.email, user.name)]; // Send to one user at a time
+            const emailParams = new EmailParams()
+                .setFrom(sentFrom)
+                .setTo(recipients)
+                .setSubject("New Project Notification")
+                .setHtml(htmlContent);
+
+            // Send the email
+            const response = await this.mailersend.email.send(emailParams);
+
+            logger.info(
+                `Project notification email sent to ${user.email}`,
+                {
+                    messageId: response.headers["x-message-id"],
+                }
+            );
+
+            return { success: true };
+        } catch (error) {
+            logger.error(
+                `Error sending project notification email: ${error.message}`,
+                { error }
+            );
+            return { success: false, error: error.message };
+        }
+    }
 }
 
 module.exports = new MailerSendService();

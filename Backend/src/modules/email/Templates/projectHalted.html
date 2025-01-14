@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Halted</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border: 1px solid #eaeaea;
+      }
+      .header {
+        background-color: #fb1465;
+        color: #fff;
+        text-align: center;
+        padding: 30px 20px;
+      }
+      .header img {
+        width: 80px;
+        margin-bottom: 10px;
+      }
+      .header h1 {
+        font-size: 26px;
+        margin: 0;
+        font-weight: bold;
+      }
+      .content {
+        padding: 25px 20px;
+        color: #333;
+      }
+      .content h2 {
+        font-size: 22px;
+        color: #fb1465;
+        margin-bottom: 15px;
+      }
+      .content p {
+        margin: 10px 0;
+        line-height: 1.6;
+      }
+      .divider {
+        margin: 30px auto;
+        border-bottom: 1px solid #eaeaea;
+        width: 80%;
+      }
+      .footer {
+        text-align: center;
+        background-color: #f9f9f9;
+        padding: 15px 20px;
+        font-size: 14px;
+        color: #666;
+      }
+      .footer a {
+        color: #fb1465;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <!-- Header Section -->
+      <div class="header">
+        <a href="https://charitan.com/">
+          <img
+            src="https://i.ibb.co/4dVpd0T/Thi-t-k-ch-a-c-t-n-13.png"
+            alt="Charitan Logo"
+            border="0"
+        /></a>
+        <h1>Project Update</h1>
+      </div>
+
+      <!-- Content Section -->
+      <div class="content">
+        <h2>Dear {{donorName}},</h2>
+        <p>
+          We regret to inform you that the project
+          <strong>{{projectName}}</strong>, to which you generously contributed,
+          has been halted.
+        </p>
+        <p>Reason for halting: {{reason}}</p>
+        <p>
+          We understand this may be disappointing, and we sincerely apologize
+          for any inconvenience this may cause. Your support is invaluable to
+          us, and we are committed to keeping you informed about the projects
+          you care about.
+        </p>
+        <div class="divider"></div>
+        <p>
+          If you have any questions or need further assistance, please don't
+          hesitate to contact us at
+          <a href="mailto:support@charitan.org">support@charitan.org</a>.
+        </p>
+      </div>
+
+      <!-- Footer Section -->
+      <div class="footer">
+        <p>© {{year}} Charitan. All rights reserved.</p>
+        <p><a href="{{unsubscribeLink}}">Unsubscribe</a></p>
+      </div>
+    </div>
+  </body>
+</html>
