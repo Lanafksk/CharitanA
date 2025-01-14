@@ -16,7 +16,7 @@ router.delete('/:id', projectController.deleteProject); // Delete a project
 // ==================================
 // SECTION: Default filter options for projects
 // ==================================
-router.get('/category/:id', projectController.getProjectsByCategory); // Get all projects by category_id
+router.get('/category/:category', projectController.getProjectsByCategory); // Get all projects by category
 router.get('/charity/:id', projectController.getProjectsByCharityId); // Get all projects by charity_id
 router.get('/status/:status', projectController.getProjectsByStatus); // Get all projects by status
 router.get('/from/:startDate/to/:endDate', projectController.filterProjectsByDate); // Get all projects by date range

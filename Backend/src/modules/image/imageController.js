@@ -1,16 +1,25 @@
+const axios = require('axios');
 const imageService = require('./imageService');
-const projectService = require('../project/projectService');
 
 // Create a new image
 exports.createImage = async (req, res) => {
     try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded!' });
+        }
+
         const { project_id } = req.body;
 
         // Validate if the project exists
-        const projectExists = await projectService.getProjectById(project_id);
-        if (!projectExists) {
+        const projectExists = await axios.get(`http://localhost:4000/api/projects/${project_id}`);
+        const projectRepsonse = projectExists.data;    
+        if (projectRepsonse == null) {
             return res.status(400).json({ error: 'Invalid project_id. Project does not exist.' });
         }
+
+        // Upload image to cloudinary
+        req.body.url = req.file.path;
+        req.body.format = req.file.mimetype;
 
         const image = await imageService.createImage(req.body);
         res.status(201).json(image);
@@ -65,9 +74,13 @@ exports.deleteImage = async (req, res) => {
 // Get all images by project ID
 exports.getImagesByProjectId = async (req, res) => {
     try {
+        const project_id = req.params.id;
+
         // Validate if the project exists
-        const projectExists = await imageService.validateProject(req.params.id);
-        if (!projectExists) {
+        const projectExists = await axios.get(`http://localhost:4000/api/projects/${project_id}`);
+        const projectRepsonse = projectExists.data;
+        
+        if (projectRepsonse == null) {
             return res.status(400).json({ error: 'Invalid project_id. Project does not exist.' });
         }
 

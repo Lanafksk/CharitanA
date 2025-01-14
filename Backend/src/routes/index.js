@@ -4,7 +4,6 @@ const router = express.Router();
 // Import module routes
 // Project Module
 const projectRoutes = require('../modules/project/projectRoutes');
-const categoryRoutes = require('../modules/category/categoryRoutes');
 const imageRoutes = require('../modules/image/imageRoutes');
 const videoRoutes = require('../modules/video/videoRoutes');
 
@@ -30,7 +29,6 @@ const jwsRoutes = require('../modules/encryption/routes/jweRoutes');
 
 //Project Module
 router.use('/projects', projectRoutes); // Routes for the Project module
-router.use('/categories', categoryRoutes); // Routes for the Category module
 router.use('/images', imageRoutes); // Routes for the Image module
 router.use('/videos', videoRoutes); // Routes for the Video module
 //Project Module

@@ -5,6 +5,8 @@ const cors = require('cors');
 const routes = require('./routes/index'); // Centralized routes
 const EXTERNAL_HOST = process.env.HOST; // Use EXTERNAL_HOST if defined, otherwise fall back to HOST
 
+// const { redisInstance } = require('./modules/redis/redisConfig');
+const { generateProjects } = require('./database/dataGeneration');
 
 const PORT = process.env.PORT || 4000;
 const HOST = process.env.HOST || 'localhost';
@@ -13,9 +15,13 @@ dotenv.config();
 
 const app = express();
 
+// Connect to Redis
+// redisInstance.connect()
+
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.get('/', (req, res) => {
@@ -30,3 +36,6 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`Sever running in http://${HOST}:${PORT}`);
     console.log(`Sever running in http://${EXTERNAL_HOST}:${PORT}`);
 });
+
+// Generate Projects
+// generateProjects();
